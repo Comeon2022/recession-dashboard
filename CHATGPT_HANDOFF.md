@@ -145,8 +145,8 @@ Implemented the approved context-only valuation expansion. Publication was reque
 Methodology validation: `public_equity_market_millions / 1000 / nominal_gdp_billions * 100`; the live Z.1/GDP result is 288.1473%, displayed as 288.1%. Historical percentiles use the available aligned history for the Z.1 ratio and the parsed/retained CAPE history. Percentile labels are descriptive, not crash-timing signals. Both new indicators have `scored: false`, `score: null`, and `risk_score: null`; the global score remains `10 / 28` and normalized risk remains `36 / 100`.
 
 Pipeline: PASS with one expected official-Yale fallback warning: the downloaded workbook did not produce a valid current CAPE row under the defensive parser checks, so the documented sample value was retained. Frontend build: PASS (`npm run build`). Published files: `scripts/valuation.py`, `scripts/build_dashboard_data.py`, `data/sample_raw.json`, `data/current.json`, `frontend/src/data/current.json`, `frontend/src/types/dashboard.ts`, `frontend/src/App.tsx`, `README.md`, `requirements.txt`, and this handoff. No S&P concentration scraping, S&P Price/Sales automation, Bubble composite, Yahoo Finance, or TradingView was added.
-- Commit: to be recorded after staging.
-- Push status: pending.
+- Commit: `1fb6e80` — `Add valuation and bubble risk context indicators`.
+- Push status: PASS — pushed to `origin/main` after the follow-up handoff update.
 
 ## Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
