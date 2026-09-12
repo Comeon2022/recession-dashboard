@@ -54,6 +54,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         try:
             loader()
         except (OSError, ValueError, requests.RequestException) as error:
+            by_id[indicator_id]["source_status"] = "fallback"
             warnings.append(f"{indicator_id}: {source_name} unavailable; sample value retained ({error})")
 
     if not api_key:
@@ -140,6 +141,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         update("shiller-cape", latest["value"], f"{latest['value']:.1f} | {percentile:.0f}th percentile | median {median:.1f}", latest["date"], "monthly")
         by_id["shiller-cape"].update({
             "source": "Robert Shiller / Yale",
+            "source_status": "live",
             "methodology": "Cyclically adjusted price/earnings ratio from the official Yale Shiller data workbook",
             "reference_month": cape_reference_month(latest["date"]), "historical_percentile": percentile,
             "percentile_label": percentile_label(percentile), "long_run_median": median,

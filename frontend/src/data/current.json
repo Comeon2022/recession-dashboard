@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T11:39:56Z",
+  "generated_at": "2026-09-12T12:03:19Z",
   "country": "United States",
   "total_score": 10,
   "max_score": 28,
@@ -85,10 +85,8 @@
       "regime": "Context"
     }
   ],
-  "data_status": "partial",
-  "warnings": [
-    "shiller-cape: official Yale unavailable; sample value retained (official Yale CAPE unavailable: ValueError)"
-  ],
+  "data_status": "ok",
+  "warnings": [],
   "indicators": [
     {
       "id": "payrolls",
@@ -444,18 +442,19 @@
       "id": "shiller-cape",
       "name": "Shiller CAPE",
       "category": "Valuation / Bubble Risk",
-      "value": 30.0,
-      "display_value": "30.0 | 90th percentile | median 16.8",
+      "value": 40.575838200376445,
+      "display_value": "40.6 | 99th percentile | median 16.6",
       "unit": "ratio",
       "explanation": "Long-run valuation context from Robert Shiller / Yale; not an imminent-crash signal",
-      "source": "Manual / Robert Shiller, Yale",
-      "observation_date": "2026-06-01",
+      "source": "Robert Shiller / Yale",
+      "source_status": "live",
+      "observation_date": "2026-09-01",
       "scored": false,
       "methodology": "Cyclically adjusted price/earnings ratio from the official Yale Shiller data workbook",
-      "reference_month": "June 2026",
-      "historical_percentile": 90.0,
-      "percentile_label": "Extreme",
-      "long_run_median": 16.8,
+      "reference_month": "September 2026",
+      "historical_percentile": 98.9,
+      "percentile_label": "Historically Extreme",
+      "long_run_median": 16.6,
       "score": null,
       "risk_score": null
     }

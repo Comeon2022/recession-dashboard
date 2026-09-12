@@ -10,6 +10,7 @@ import pandas as pd
 import requests
 
 YALE_URLS = (
+    "https://img1.wsimg.com/blobby/go/e5e77e0b-59d1-44d9-ab25-4763ac982e53/downloads/70fec4f5-727f-4e53-b5f1-179af109c5fa/ie_data.xls?ver=1788371540009",
     "https://www.econ.yale.edu/~shiller/data/ie_data.xls",
     "http://www.econ.yale.edu/~shiller/data/ie_data.xls",
 )
@@ -69,7 +70,14 @@ def parse_yale_cape(content: bytes) -> list[dict]:
                 try:
                     value = float(str(raw_value).replace(",", ""))
                     if isinstance(raw_date, (int, float)):
-                        parsed = pd.Timestamp("1899-12-30") + pd.to_timedelta(float(raw_date), unit="D")
+                        # Yale's workbook stores dates as YYYY.MM (for example 2025.08),
+                        # not as Excel serial dates.
+                        year = int(raw_date)
+                        month = round((float(raw_date) - year) * 100)
+                        if 1 <= month <= 12 and year >= 1800:
+                            parsed = pd.Timestamp(year=year, month=month, day=1)
+                        else:
+                            parsed = pd.Timestamp("1899-12-30") + pd.to_timedelta(float(raw_date), unit="D")
                     else:
                         parsed = pd.to_datetime(raw_date)
                     if 1 < value < 200 and not pd.isna(parsed) and parsed.year >= 1871:
