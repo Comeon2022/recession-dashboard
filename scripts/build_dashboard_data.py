@@ -12,6 +12,7 @@ from calculate_scores import SCORERS, get_regime_from_risk_score
 from fetch_fred import fetch_fred_series, latest_change, latest_observation, latest_yoy, validate_observation_date
 from fetch_finra import fetch_margin_debt
 from market_fragility import build_yield_curve_regime
+from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
 
 try:
     from dotenv import load_dotenv
@@ -49,11 +50,11 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         by_id[indicator_id].update({"value": value, "display_value": display_value, "source": "FRED", "observation_date": date})
         live.append(indicator_id)
 
-    def attempt(indicator_id: str, loader) -> None:
+    def attempt(indicator_id: str, loader, source_name: str = "FRED") -> None:
         try:
             loader()
         except (OSError, ValueError, requests.RequestException) as error:
-            warnings.append(f"{indicator_id}: FRED unavailable; sample value retained ({error})")
+            warnings.append(f"{indicator_id}: {source_name} unavailable; sample value retained ({error})")
 
     if not api_key:
         return raw, [], ["FRED_API_KEY is not configured; sample values retained for all indicators."]
@@ -113,6 +114,37 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         update("margin-debt-gdp", ratio, f"{ratio:.2f}% of GDP | ${finra['debit_balance_millions']:,.0f}M margin debt", gdp["date"], "quarterly")
         by_id["margin-debt-gdp"].update({"source": "FINRA + FRED", "source_reference_month": finra["reference_month"], "gdp_observation_date": gdp["date"]})
 
+    def public_equity_gdp():
+        equity = fetch_fred_series("BOGZ1FL883164115Q", api_key)
+        gdp = fetch_fred_series("GDP", api_key)
+        validate_observation_date(equity[0]["date"], "quarterly")
+        validate_observation_date(gdp[0]["date"], "quarterly")
+        history = build_public_equity_gdp_history(equity, gdp)
+        if not history:
+            raise ValueError("Z.1 public equities and GDP have no aligned observations")
+        latest = history[0]
+        percentile = historical_percentile(latest["value"], [item["value"] for item in history])
+        update("public-equity-gdp", latest["value"], f"{latest['value']:.1f}% of GDP | {percentile:.0f}th percentile", latest["date"], "quarterly")
+        by_id["public-equity-gdp"].update({
+            "source": "Federal Reserve Z.1 + FRED GDP",
+            "methodology": "BOGZ1FL883164115Q public corporate equities in millions divided by nominal GDP in billions after converting equities to billions",
+            "equity_observation_date": latest["date"], "gdp_observation_date": latest["date"],
+            "historical_percentile": percentile, "percentile_label": percentile_label(percentile),
+        })
+
+    def shiller_cape():
+        history = fetch_yale_cape()
+        latest = history[0]
+        percentile = historical_percentile(latest["value"], [item["value"] for item in history])
+        median = round(sorted(item["value"] for item in history)[len(history) // 2], 1)
+        update("shiller-cape", latest["value"], f"{latest['value']:.1f} | {percentile:.0f}th percentile | median {median:.1f}", latest["date"], "monthly")
+        by_id["shiller-cape"].update({
+            "source": "Robert Shiller / Yale",
+            "methodology": "Cyclically adjusted price/earnings ratio from the official Yale Shiller data workbook",
+            "reference_month": cape_reference_month(latest["date"]), "historical_percentile": percentile,
+            "percentile_label": percentile_label(percentile), "long_run_median": median,
+        })
+
     attempt("payrolls", payrolls)
     attempt("sahm-rule", sahm)
     attempt("initial-claims", lambda: simple("initial-claims", "ICSA", lambda value: f"{value:,.0f}", "weekly"))
@@ -133,6 +165,8 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     attempt("financial-stress", lambda: stress_window("financial-stress", "STLFSI4", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
     attempt("credit-conditions", lambda: stress_window("credit-conditions", "NFCICREDIT", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
     attempt("margin-debt-gdp", margin_ratio)
+    attempt("public-equity-gdp", public_equity_gdp)
+    attempt("shiller-cape", shiller_cape, "official Yale")
     # LEI intentionally remains manual/sample. USSLIND is not used.
     return raw, live, warnings
 

@@ -10,6 +10,7 @@ const laborIds = ['payrolls', 'sahm-rule', 'initial-claims', 'jolts-hires', 'jol
 const housingIds = ['housing-starts', 'building-permits', 'new-home-sales', 'months-supply', 'fhfa-home-prices', 'mortgage-rate-30y', 'mortgage-delinquency', 'mortgage-debt-service'];
 const ratesIds = ['yield-curve'];
 const fragilityIds = ['vix', 'financial-stress', 'credit-conditions', 'margin-debt-gdp'];
+const valuationIds = ['public-equity-gdp', 'shiller-cape'];
 function pick(indicators: Indicator[], ids: string[]) { return indicators.filter((indicator) => ids.includes(indicator.id)); }
 function find(indicators: Indicator[], id: string) { return indicators.find((indicator) => indicator.id === id); }
 function scoreCounts(indicators: Indicator[]) { return indicators.reduce((counts, indicator) => { if (indicator.score !== null) counts[indicator.score] += 1; return counts; }, [0, 0, 0]); }
@@ -23,7 +24,8 @@ function Group({ title, subtitle, indicators, icon }: { title: string; subtitle:
 
 export default function App() {
   const data = current as DashboardData;
-  const labor = pick(data.indicators, laborIds), housing = pick(data.indicators, housingIds), rates = pick(data.indicators, ratesIds), fragility = pick(data.indicators, fragilityIds);
+  const labor = pick(data.indicators, laborIds), housing = pick(data.indicators, housingIds), rates = pick(data.indicators, ratesIds), fragility = pick(data.indicators, fragilityIds), valuation = pick(data.indicators, valuationIds);
+  const marginDebt = find(data.indicators, 'margin-debt-gdp');
   const consumerInputs = ['sahm-rule', 'initial-claims', 'wage-growth', 'mortgage-delinquency', 'mortgage-debt-service'].map((id) => find(data.indicators, id)).filter(Boolean) as Indicator[];
   const counts = scoreCounts(data.indicators);
   const updated = new Date(data.generated_at).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -38,5 +40,6 @@ export default function App() {
     <section className="fragility-section"><div className="topic-heading"><div className="topic-title"><span className="topic-icon">◌</span><div><h2>Market Fragility / Stress</h2><p>Public volatility, financial stress, credit conditions, and leverage context.</p></div></div><span className="topic-score">Context only</span></div><IndicatorGrid indicators={fragility} /></section>
     <section className="consumer-section"><div className="topic-heading"><div className="topic-title"><span className="topic-icon">◌</span><div><h2>Consumer Condition</h2><p>A derived reading of employment, income, and household credit pressure.</p></div></div><span className="topic-score">Interpretation</span></div><div className="consumer-grid">{consumerInputs.map((indicator) => <div className="consumer-signal" key={indicator.id}><b>{indicator.name}</b><span>{indicator.display_value}</span></div>)}<p>The consumer is weakening at the margin, but broad stress remains limited. This panel summarizes existing indicators and does not add points to the main score.</p></div></section>
     <footer className="site-footer">{data.data_status === 'ok' ? 'Live FRED + manual sample data' : 'Sample data mode'} · Deterministic, rule-based scores.<br />Data obtained through the FRED API / Federal Reserve Bank of St. Louis data service. This dashboard is not affiliated with, endorsed by, or sponsored by the Federal Reserve Bank of St. Louis.</footer>
+    <section className="valuation-section"><div className="topic-heading"><div className="topic-title"><span className="topic-icon">$</span><div><h2>Valuation / Bubble Risk</h2><p>Historically grounded market valuation and leverage context; no composite score or crash timer.</p></div></div><span className="topic-score">Context only</span></div><IndicatorGrid indicators={valuation} />{marginDebt && <div className="valuation-reference"><b>Leverage reference</b><span>{marginDebt.name}: {marginDebt.display_value}</span><small>Referenced from Market Fragility / Stress; counted once in the dashboard data.</small></div>}</section>
   </main>;
 }

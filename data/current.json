@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T11:23:24Z",
+  "generated_at": "2026-09-12T11:39:56Z",
   "country": "United States",
   "total_score": 10,
   "max_score": 28,
@@ -75,10 +75,20 @@
       "max_score": 0,
       "risk_score": null,
       "regime": "Context"
+    },
+    {
+      "id": "valuation-bubble-risk",
+      "name": "Valuation / Bubble Risk",
+      "score": 0,
+      "max_score": 0,
+      "risk_score": null,
+      "regime": "Context"
     }
   ],
-  "data_status": "ok",
-  "warnings": [],
+  "data_status": "partial",
+  "warnings": [
+    "shiller-cape: official Yale unavailable; sample value retained (official Yale CAPE unavailable: ValueError)"
+  ],
   "indicators": [
     {
       "id": "payrolls",
@@ -408,6 +418,44 @@
       "scored": false,
       "source_reference_month": "Jul-26",
       "gdp_observation_date": "2026-04-01",
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "public-equity-gdp",
+      "name": "Public Equity Market / GDP",
+      "category": "Valuation / Bubble Risk",
+      "value": 288.1473090647541,
+      "display_value": "288.1% of GDP | 100th percentile",
+      "unit": "percent of GDP",
+      "explanation": "Buffett-style valuation ratio using Federal Reserve Z.1 public equities; descriptive context, not a crash timer",
+      "source": "Federal Reserve Z.1 + FRED GDP",
+      "observation_date": "2026-04-01",
+      "scored": false,
+      "methodology": "BOGZ1FL883164115Q public corporate equities in millions divided by nominal GDP in billions after converting equities to billions",
+      "equity_observation_date": "2026-04-01",
+      "gdp_observation_date": "2026-04-01",
+      "historical_percentile": 100.0,
+      "percentile_label": "Historically Extreme",
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "shiller-cape",
+      "name": "Shiller CAPE",
+      "category": "Valuation / Bubble Risk",
+      "value": 30.0,
+      "display_value": "30.0 | 90th percentile | median 16.8",
+      "unit": "ratio",
+      "explanation": "Long-run valuation context from Robert Shiller / Yale; not an imminent-crash signal",
+      "source": "Manual / Robert Shiller, Yale",
+      "observation_date": "2026-06-01",
+      "scored": false,
+      "methodology": "Cyclically adjusted price/earnings ratio from the official Yale Shiller data workbook",
+      "reference_month": "June 2026",
+      "historical_percentile": 90.0,
+      "percentile_label": "Extreme",
+      "long_run_median": 16.8,
       "score": null,
       "risk_score": null
     }

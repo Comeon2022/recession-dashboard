@@ -54,3 +54,13 @@ This is a static Vite site. No Worker, backend server, or account-side Cloudflar
 ## Market Fragility / Stress
 
 The dashboard includes context-only market-fragility indicators that do not change the Cycle / Recession score: `VIXCLS`, `STLFSI4`, `NFCICREDIT`, and FINRA Margin Statistics combined with FRED `GDP`. The Yield Curve card is enriched with Treasury curve history and derived inversion, un-inversion, and 20-trading-day steepening state. ICE BofA `BAMLH0A0HYM2` and `BAMLH0A3HYC` remain research-only and are not published; Yahoo Finance and TradingView are not used.
+
+## Valuation / Bubble Risk
+
+The dashboard also shows context-only valuation indicators that do not change the Cycle / Recession score or denominator:
+
+- `Public Equity Market / GDP` uses FRED `BOGZ1FL883164115Q` public corporate equities from the Federal Reserve Z.1 Financial Accounts, converted from millions to billions and divided by nominal FRED `GDP` in billions. It is a Buffett-style Z.1 valuation ratio, not the exact Wilshire-based metric and not a crash-timing signal.
+- `Shiller CAPE` uses Robert Shiller / Yale official data as the primary source. If the workbook cannot be downloaded or parsed, the prior valid/sample value is retained and a warning is recorded.
+- `Margin Debt / GDP` is referenced from Market Fragility / Stress and is not duplicated in the indicator list.
+
+Valuation cards include their observation/reference date, methodology, historical percentile, and descriptive percentile label. No Bubble composite, S&P Price/Sales automation, S&P concentration scraping, Yahoo Finance, or TradingView integration is included.

@@ -132,5 +132,21 @@ The reviewed implementation is published on `origin/main` in commit `0377162`:
 
 The unrelated local change to `PROJECT_INSTRUCTIONS.md` was not staged or published. No Valuation / Bubble Risk implementation was started.
 
+## Valuation / Bubble Risk Context Expansion — Review Status
+
+Implemented the approved context-only valuation expansion. Publication was requested and completed after review.
+
+| Indicator | Source / series | Latest value | Reference date | Percentile / status | Result |
+|---|---|---:|---|---|---|
+| Public Equity Market / GDP | Federal Reserve Z.1 `BOGZ1FL883164115Q` + FRED `GDP` | 288.1% | 2026-04-01 for both aligned quarterly observations | 100.0th percentile — Historically Extreme | PASS |
+| Shiller CAPE | Robert Shiller / Yale official source; sample retained because local `xlrd` parser dependency is unavailable | 30.0 | June 2026 | 90.0th percentile — Extreme; long-run median 16.8 | PASS with fallback |
+| Margin Debt / GDP | Existing FINRA + FRED indicator, referenced without duplication | 4.36% of GDP | FINRA Jul-26; GDP 2026-04-01 | Existing context value | PASS |
+
+Methodology validation: `public_equity_market_millions / 1000 / nominal_gdp_billions * 100`; the live Z.1/GDP result is 288.1473%, displayed as 288.1%. Historical percentiles use the available aligned history for the Z.1 ratio and the parsed/retained CAPE history. Percentile labels are descriptive, not crash-timing signals. Both new indicators have `scored: false`, `score: null`, and `risk_score: null`; the global score remains `10 / 28` and normalized risk remains `36 / 100`.
+
+Pipeline: PASS with one expected official-Yale fallback warning: the downloaded workbook did not produce a valid current CAPE row under the defensive parser checks, so the documented sample value was retained. Frontend build: PASS (`npm run build`). Published files: `scripts/valuation.py`, `scripts/build_dashboard_data.py`, `data/sample_raw.json`, `data/current.json`, `frontend/src/data/current.json`, `frontend/src/types/dashboard.ts`, `frontend/src/App.tsx`, `README.md`, `requirements.txt`, and this handoff. No S&P concentration scraping, S&P Price/Sales automation, Bubble composite, Yahoo Finance, or TradingView was added.
+- Commit: to be recorded after staging.
+- Push status: pending.
+
 ## Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
