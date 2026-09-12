@@ -68,3 +68,7 @@ Valuation cards include their observation/reference date, methodology, historica
 ## Current Stress / Break Confirmation
 
 Current Stress v1 is a separate, context-only confirmation engine. It reuses VIX (`VIXCLS`), Financial Stress (`STLFSI4`), Credit Conditions (`NFCICREDIT`), Initial Claims, `SAHMREALTIME`, `UNRATE`, and the existing Yield Curve Regime. It reports six provisional signal states and an active confirmation count with labels such as `Calm / No Break`, `Early Stress`, `Break Risk Rising`, and `Break Confirmation`. A Break Confirmation requires at least one active market/financial signal; labor-only deterioration is labeled `Economic Deterioration`. It does not create a 0–100 score or change the Cycle / Recession denominator.
+
+## Positioning / Sentiment
+
+The initial positioning panel is context-only `Berkshire Capital Allocation`, sourced from Berkshire Hathaway’s official quarterly report. The project-defined liquidity proxy adds Insurance and Other cash, short-term U.S. Treasury Bills, and Railroad / Utilities / Energy cash, then divides by total assets. It also reports year-to-date equity-security purchases, sales, and net flow. The official PDF parser uses `pypdf`, validates report period and plausible values, exposes `source_status`, and retains the reviewed fallback with a warning if parsing fails. No positioning composite score, SEC-wide insider aggregation, retail participation, Nasdaq technical data, Yahoo Finance, TradingView, or Elliott Wave logic is included.

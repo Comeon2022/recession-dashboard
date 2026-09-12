@@ -1,5 +1,6 @@
 {
   "country": "United States",
+  "berkshire_positioning": {"source":"Manual / Berkshire Hathaway official Q2 2026 report","source_url":"https://www.berkshirehathaway.com/qtrly/2ndqtr26.pdf","source_status":"fallback","report_period":"Q2 2026","report_date":"2026-06-30","insurance_cash_millions":35096.0,"treasury_bills_millions":324905.0,"railroad_cash_millions":5513.0,"total_assets_millions":1263071.0,"liquidity_millions":365514.0,"liquidity_to_assets_pct":28.9385,"equity_purchases_ytd_millions":39405.0,"equity_sales_ytd_millions":27780.0,"net_equity_flow_ytd_millions":11625.0,"liquidity_label":"Very High","equity_flow_label":"Net Buyer"},
   "indicators": [
     {"id":"payrolls","name":"Payrolls","category":"Labor","value":162000,"display_value":"August +162K | 12M avg +31K","unit":"jobs","explanation":"Weak beneath the headline number","source":"BLS","observation_date":"2026-08-01","scored":true},
     {"id":"sahm-rule","name":"Unemployment / Sahm Rule","category":"Labor","value":-0.07,"display_value":"Unemployment 4.1% | Sahm = -0.07","unit":"percent","explanation":"Still far from the +0.50 recession trigger","source":"BLS","observation_date":"2026-08-01","scored":true},

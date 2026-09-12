@@ -11,6 +11,7 @@ import requests
 from calculate_scores import SCORERS, get_regime_from_risk_score
 from fetch_fred import fetch_fred_series, latest_change, latest_observation, latest_yoy, validate_observation_date
 from fetch_finra import fetch_margin_debt
+from fetch_berkshire import fetch_berkshire_report
 from market_fragility import build_yield_curve_regime
 from current_stress import build_current_stress
 from derived_metrics import derive_vix_metrics
@@ -58,6 +59,8 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         except (OSError, ValueError, requests.RequestException) as error:
             if indicator_id in by_id:
                 by_id[indicator_id]["source_status"] = "fallback"
+            if indicator_id == "berkshire-positioning":
+                raw.setdefault("berkshire_positioning", {})["source_status"] = "fallback"
             warnings.append(f"{indicator_id}: {source_name} unavailable; sample value retained ({error})")
 
     if not api_key:
@@ -135,6 +138,9 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
             raise ValueError("yield curve regime unavailable for Current Stress")
         raw["_current_stress"] = build_current_stress(vix, financial, credit, claims, sahm, unemployment, curve, raw.get("_vix_metrics"))
 
+    def berkshire_loader():
+        raw["_berkshire_positioning"] = fetch_berkshire_report()
+
     def public_equity_gdp():
         equity = fetch_fred_series("BOGZ1FL883164115Q", api_key)
         gdp = fetch_fred_series("GDP", api_key)
@@ -190,6 +196,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     attempt("public-equity-gdp", public_equity_gdp)
     attempt("shiller-cape", shiller_cape, "official Yale")
     attempt("current-stress", current_stress_loader)
+    attempt("berkshire-positioning", berkshire_loader, "Berkshire official filing")
     # LEI intentionally remains manual/sample. USSLIND is not used.
     return raw, live, warnings
 
@@ -237,6 +244,7 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
         "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
         "yield_curve_regime": raw.get("_yield_curve_regime"),
         "current_stress": raw.get("_current_stress"),
+        "berkshire_positioning": raw.get("_berkshire_positioning", raw.get("berkshire_positioning")),
         "categories": build_categories(indicators), "data_status": data_status, "warnings": warnings, "indicators": indicators,
     }
 
