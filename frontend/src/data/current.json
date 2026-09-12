@@ -1,11 +1,32 @@
 {
-  "generated_at": "2026-09-12T09:48:49Z",
+  "generated_at": "2026-09-12T11:06:35Z",
   "country": "United States",
   "total_score": 10,
   "max_score": 28,
   "risk_score": 36,
   "regime": "Slowdown",
-  "summary": "Labor-market weakness is visible, while housing and credit indicators add context to the cycle.",
+  "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
+  "yield_curve_regime": {
+    "spread_2s10s_bp": 39.0,
+    "spread_3m10y_bp": 89.0,
+    "deepest_2s10s_inversion_bp": -241.0,
+    "deepest_3m10y_inversion_bp": -189.0,
+    "inversion_start_date": "2022-07-06",
+    "uninversion_date": "2024-09-06",
+    "months_since_uninversion": 24,
+    "curve_phase": "positive_no_recent_inversion",
+    "steepening_type": "neutral_or_mixed",
+    "delta_2y_20d_bp": 36.0,
+    "delta_10y_20d_bp": 27.0,
+    "spread_change_20d_bp": -9.0,
+    "treasury_yields": {
+      "DGS1": 4.28,
+      "DGS2": 4.56,
+      "DGS5": 4.75,
+      "DGS10": 4.95,
+      "DGS30": 5.37
+    }
+  },
   "categories": [
     {
       "id": "labor",
@@ -46,6 +67,14 @@
       "max_score": 2,
       "risk_score": 0,
       "regime": "Healthy"
+    },
+    {
+      "id": "market-fragility-stress",
+      "name": "Market Fragility / Stress",
+      "score": 0,
+      "max_score": 0,
+      "risk_score": null,
+      "regime": "Context"
     }
   ],
   "data_status": "ok",
@@ -182,12 +211,33 @@
       "name": "Yield Curve 2s10s",
       "category": "Rates",
       "value": 33.0,
-      "display_value": "+33 bp",
+      "display_value": "+33 bp · positive_no_recent_inversion / neutral_or_mixed",
       "unit": "basis points",
       "explanation": "Curve is positive, but partly because long yields remain elevated",
       "source": "FRED",
       "observation_date": "2026-09-11",
       "scored": true,
+      "yield_curve_regime": {
+        "spread_2s10s_bp": 39.0,
+        "spread_3m10y_bp": 89.0,
+        "deepest_2s10s_inversion_bp": -241.0,
+        "deepest_3m10y_inversion_bp": -189.0,
+        "inversion_start_date": "2022-07-06",
+        "uninversion_date": "2024-09-06",
+        "months_since_uninversion": 24,
+        "curve_phase": "positive_no_recent_inversion",
+        "steepening_type": "neutral_or_mixed",
+        "delta_2y_20d_bp": 36.0,
+        "delta_10y_20d_bp": 27.0,
+        "spread_change_20d_bp": -9.0,
+        "treasury_yields": {
+          "DGS1": 4.28,
+          "DGS2": 4.56,
+          "DGS5": 4.75,
+          "DGS10": 4.95,
+          "DGS30": 5.37
+        }
+      },
       "score": 1,
       "risk_score": 50
     },
@@ -300,6 +350,64 @@
       "source": "FRED",
       "observation_date": "2026-01-01",
       "scored": false,
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "vix",
+      "name": "VIX",
+      "category": "Market Fragility / Stress",
+      "value": 17.84,
+      "display_value": "17.84 close | 20D avg 16.33 | 20D change +2.63",
+      "unit": "index",
+      "explanation": "Market-volatility context",
+      "source": "FRED",
+      "observation_date": "2026-09-10",
+      "scored": false,
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "financial-stress",
+      "name": "Financial Stress Index",
+      "category": "Market Fragility / Stress",
+      "value": -0.7884,
+      "display_value": "-0.79 | 4W avg -0.82 | 12W change +0.16",
+      "unit": "index",
+      "explanation": "Below-average broad financial stress",
+      "source": "FRED",
+      "observation_date": "2026-09-04",
+      "scored": false,
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "credit-conditions",
+      "name": "Credit Conditions",
+      "category": "Market Fragility / Stress",
+      "value": -0.06,
+      "display_value": "-0.06 | 4W avg -0.06 | 12W change -0.03",
+      "unit": "index",
+      "explanation": "Credit conditions are not showing broad stress",
+      "source": "FRED",
+      "observation_date": "2026-09-04",
+      "scored": false,
+      "score": null,
+      "risk_score": null
+    },
+    {
+      "id": "margin-debt-gdp",
+      "name": "Margin Debt / GDP",
+      "category": "Market Fragility / Stress",
+      "value": 4.362562706115292,
+      "display_value": "4.36% of GDP | $1,417,225M margin debt",
+      "unit": "percent",
+      "explanation": "Leverage context; FINRA value retained when available",
+      "source": "FINRA + FRED",
+      "observation_date": "2026-04-01",
+      "scored": false,
+      "source_reference_month": "Jul-26",
+      "gdp_observation_date": "2026-04-01",
       "score": null,
       "risk_score": null
     }

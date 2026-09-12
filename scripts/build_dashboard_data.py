@@ -9,7 +9,9 @@ from pathlib import Path
 import requests
 
 from calculate_scores import SCORERS, get_regime_from_risk_score
-from fetch_fred import latest_change, latest_observation, latest_yoy, validate_observation_date
+from fetch_fred import fetch_fred_series, latest_change, latest_observation, latest_yoy, validate_observation_date
+from fetch_finra import fetch_margin_debt
+from market_fragility import build_yield_curve_regime
 
 try:
     from dotenv import load_dotenv
@@ -78,6 +80,39 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         item = latest_observation(series_id, api_key)
         update(indicator_id, item["value"], f"{item['value']:.1f}%", item["date"], "monthly")
 
+    def window_stats(indicator_id, series_id, formatter, frequency, window=20):
+        observations = fetch_fred_series(series_id, api_key)
+        validate_observation_date(observations[0]["date"], frequency)
+        values = [item["value"] for item in observations[:window]]
+        average = sum(values) / len(values)
+        change = values[0] - values[-1] if len(values) > 1 else 0
+        update(indicator_id, values[0], formatter(values[0], average, change), observations[0]["date"], frequency)
+
+    def stress_window(indicator_id, series_id, formatter):
+        observations = fetch_fred_series(series_id, api_key)
+        validate_observation_date(observations[0]["date"], "weekly")
+        values = [item["value"] for item in observations[:12]]
+        average = sum(values[:4]) / min(4, len(values))
+        change = values[0] - values[-1] if len(values) > 1 else 0
+        update(indicator_id, values[0], formatter(values[0], average, change), observations[0]["date"], "weekly")
+
+    def curve_loader():
+        curve_series = {series: fetch_fred_series(series, api_key) for series in ("DGS1", "DGS2", "DGS5", "DGS10", "DGS30", "T10Y2Y", "T10Y3M")}
+        for observations in curve_series.values():
+            validate_observation_date(observations[0]["date"], "daily")
+        raw["_yield_curve_regime"] = build_yield_curve_regime(curve_series)
+        curve = by_id["yield-curve"]
+        curve["yield_curve_regime"] = raw["_yield_curve_regime"]
+        curve["display_value"] = f"{curve['display_value']} · {raw['_yield_curve_regime']['curve_phase']} / {raw['_yield_curve_regime']['steepening_type']}"
+
+    def margin_ratio():
+        finra = fetch_margin_debt()
+        gdp = latest_observation("GDP", api_key)
+        margin_billions = finra["debit_balance_millions"] / 1000
+        ratio = margin_billions / gdp["value"] * 100
+        update("margin-debt-gdp", ratio, f"{ratio:.2f}% of GDP | ${finra['debit_balance_millions']:,.0f}M margin debt", gdp["date"], "quarterly")
+        by_id["margin-debt-gdp"].update({"source": "FINRA + FRED", "source_reference_month": finra["reference_month"], "gdp_observation_date": gdp["date"]})
+
     attempt("payrolls", payrolls)
     attempt("sahm-rule", sahm)
     attempt("initial-claims", lambda: simple("initial-claims", "ICSA", lambda value: f"{value:,.0f}", "weekly"))
@@ -85,6 +120,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     attempt("jolts-quits", lambda: jolts("jolts-quits", "JTSQUR"))
     attempt("wage-growth", lambda: yoy("wage-growth", "CES0500000003", lambda value: f"{value:+.1f}% YoY"))
     attempt("yield-curve", lambda: simple("yield-curve", "T10Y2Y", lambda value: f"{value:+.0f} bp", "daily", multiplier=100))
+    attempt("yield-curve-regime", curve_loader)
     attempt("housing-starts", lambda: simple("housing-starts", "HOUST", lambda value: f"{value:.2f}M annualized", "monthly", multiplier=1 / 1000))
     attempt("building-permits", lambda: simple("building-permits", "PERMIT", lambda value: f"{value:.2f}M annualized", "monthly", multiplier=1 / 1000))
     attempt("new-home-sales", lambda: simple("new-home-sales", "HSN1F", lambda value: f"{value:.2f}M annualized", "monthly", multiplier=1 / 1000))
@@ -93,6 +129,10 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     attempt("mortgage-rate-30y", lambda: simple("mortgage-rate-30y", "MORTGAGE30US", lambda value: f"{value:.2f}%", "weekly"))
     attempt("mortgage-delinquency", lambda: simple("mortgage-delinquency", "DRSFRMACBS", lambda value: f"{value:.2f}%", "quarterly"))
     attempt("mortgage-debt-service", lambda: simple("mortgage-debt-service", "MDSP", lambda value: f"{value:.2f}% of disposable income", "quarterly"))
+    attempt("vix", lambda: stress_window("vix", "VIXCLS", lambda value, average, change: f"{value:.2f} close | 20D avg {average:.2f} | 20D change {change:+.2f}"))
+    attempt("financial-stress", lambda: stress_window("financial-stress", "STLFSI4", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
+    attempt("credit-conditions", lambda: stress_window("credit-conditions", "NFCICREDIT", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
+    attempt("margin-debt-gdp", margin_ratio)
     # LEI intentionally remains manual/sample. USSLIND is not used.
     return raw, live, warnings
 
@@ -115,6 +155,8 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
     indicators = []
     for raw_indicator in raw["indicators"]:
         indicator = dict(raw_indicator)
+        if indicator["id"] == "yield-curve" and "_yield_curve_regime" in raw:
+            indicator["yield_curve_regime"] = raw["_yield_curve_regime"]
         indicator.setdefault("scored", True)
         if indicator["scored"]:
             try:
@@ -135,7 +177,8 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "country": raw["country"], "total_score": total_score, "max_score": max_score,
         "risk_score": risk_score, "regime": get_regime_from_risk_score(risk_score),
-        "summary": "Labor-market weakness is visible, while housing and credit indicators add context to the cycle.",
+        "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
+        "yield_curve_regime": raw.get("_yield_curve_regime"),
         "categories": build_categories(indicators), "data_status": data_status, "warnings": warnings, "indicators": indicators,
     }
 

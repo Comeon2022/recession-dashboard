@@ -50,3 +50,7 @@ Configure the Cloudflare Pages project with these exact values:
 - Output directory: `dist`
 
 This is a static Vite site. No Worker, backend server, or account-side Cloudflare configuration is included in the repository; complete the Pages setup manually in the Cloudflare dashboard.
+
+## Market Fragility / Stress
+
+The dashboard includes context-only market-fragility indicators that do not change the Cycle / Recession score: `VIXCLS`, `STLFSI4`, `NFCICREDIT`, and FINRA Margin Statistics combined with FRED `GDP`. The Yield Curve card is enriched with Treasury curve history and derived inversion, un-inversion, and 20-trading-day steepening state. ICE BofA `BAMLH0A0HYM2` and `BAMLH0A3HYC` remain research-only and are not published; Yahoo Finance and TradingView are not used.

@@ -24,12 +24,15 @@ def fetch_fred_series(series_id: str, api_key: str, timeout: int = 15) -> list[d
     if not api_key:
         raise ValueError("FRED_API_KEY is not configured")
 
-    response = requests.get(
-        FRED_URL,
-        params={"series_id": series_id, "api_key": api_key, "file_type": "json", "sort_order": "desc"},
-        timeout=timeout,
-    )
-    response.raise_for_status()
+    try:
+        response = requests.get(
+            FRED_URL,
+            params={"series_id": series_id, "api_key": api_key, "file_type": "json", "sort_order": "desc"},
+            timeout=timeout,
+        )
+        response.raise_for_status()
+    except requests.RequestException as error:
+        raise requests.RequestException(f"FRED request failed for {series_id}: {error.__class__.__name__}") from error
     payload = response.json()
     if payload.get("error_code") or "observations" not in payload:
         raise ValueError(payload.get("error_message", "FRED returned an invalid response"))
