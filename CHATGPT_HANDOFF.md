@@ -139,14 +139,20 @@ Implemented the approved context-only valuation expansion. Publication was reque
 | Indicator | Source / series | Latest value | Reference date | Percentile / status | Result |
 |---|---|---:|---|---|---|
 | Public Equity Market / GDP | Federal Reserve Z.1 `BOGZ1FL883164115Q` + FRED `GDP` | 288.1% | 2026-04-01 for both aligned quarterly observations | 100.0th percentile — Historically Extreme | PASS |
-| Shiller CAPE | Robert Shiller / Yale official source; sample retained because local `xlrd` parser dependency is unavailable | 30.0 | June 2026 | 90.0th percentile — Extreme; long-run median 16.8 | PASS with fallback |
+| Shiller CAPE | Robert Shiller / Yale official workbook, current Shiller Data download | 40.5758 (displayed 40.6) | September 2026 (`2026-09-01`) | 98.9th percentile — Historically Extreme; long-run median 16.6 | PASS — live |
 | Margin Debt / GDP | Existing FINRA + FRED indicator, referenced without duplication | 4.36% of GDP | FINRA Jul-26; GDP 2026-04-01 | Existing context value | PASS |
 
 Methodology validation: `public_equity_market_millions / 1000 / nominal_gdp_billions * 100`; the live Z.1/GDP result is 288.1473%, displayed as 288.1%. Historical percentiles use the available aligned history for the Z.1 ratio and the parsed/retained CAPE history. Percentile labels are descriptive, not crash-timing signals. Both new indicators have `scored: false`, `score: null`, and `risk_score: null`; the global score remains `10 / 28` and normalized risk remains `36 / 100`.
 
-Pipeline: PASS with one expected official-Yale fallback warning: the downloaded workbook did not produce a valid current CAPE row under the defensive parser checks, so the documented sample value was retained. Frontend build: PASS (`npm run build`). Published files: `scripts/valuation.py`, `scripts/build_dashboard_data.py`, `data/sample_raw.json`, `data/current.json`, `frontend/src/data/current.json`, `frontend/src/types/dashboard.ts`, `frontend/src/App.tsx`, `README.md`, `requirements.txt`, and this handoff. No S&P concentration scraping, S&P Price/Sales automation, Bubble composite, Yahoo Finance, or TradingView was added.
-- Commit: `1fb6e80` — `Add valuation and bubble risk context indicators`.
-- Push status: PASS — pushed to `origin/main` after the follow-up handoff update.
+Pipeline: PASS — official Yale/Shiller CAPE source is live, `source_status: live`, and no CAPE fallback warning remains. Frontend build: PASS (`npm run build`). Parser/dependency changes: added the current official Shiller Data workbook URL, parsed Yale `YYYY.MM` dates correctly, validated current date/value bounds, preserved legacy URL fallback, and ensured `xlrd>=2.0.1` is present and installed locally. This CAPE-only remediation is intentionally uncommitted and unpushed for review. No S&P concentration scraping, S&P Price/Sales automation, Bubble composite, Yahoo Finance, or TradingView was added.
+- Cycle / Recession score: PASS — `10 / 28`; normalized risk `36 / 100` unchanged.
+- CAPE source status: PASS — live, not fallback; pipeline warnings: none.
+- Commit: `14d9ffd` — `Add valuation and Shiller CAPE context indicators`.
+- Push status: PASS — pushed to `origin/main` after this handoff update.
+
+## Publication Note
+
+The reviewed CAPE remediation is published in `14d9ffd`; the live-source verification and push status above supersede earlier pre-publication wording in this handoff.
 
 ## Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
