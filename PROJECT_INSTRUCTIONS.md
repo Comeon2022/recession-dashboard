@@ -11,18 +11,20 @@ The site should eventually be deployable for free on Cloudflare Pages.
 
 The dashboard should:
 - Show a large recession-risk gauge at the top.
-- Calculate a deterministic recession-risk score from 10 indicators.
-- Display 10 indicator cards.
+- Calculate a deterministic recession-risk score from macro indicators.
+- Display indicator cards grouped by category.
 - Show current values, score per indicator, and a short explanation.
-- Store a small historical series so we can later chart how the total score changes over time.
+- Store historical score data so we can chart how risk changes over time.
 - Pull public macroeconomic data automatically where possible.
 - Keep the scoring logic separate from the UI.
 - Avoid using an LLM to determine scores.
 - Later, optionally use OpenAI only for a short natural-language interpretation of already calculated data.
 
+The project is coordinated with ChatGPT outside the IDE. This file is the source of truth for architecture and project rules.
+
 ---
 
-## 2. Important development rules
+## 2. Mandatory operating rules
 
 These rules are mandatory.
 
@@ -40,20 +42,28 @@ These rules are mandatory.
    - name
    - category
    - latest value
+   - display value
    - unit
    - score
+   - scored / context-only flag
    - explanation
    - source
    - timestamp / observation date
 11. All UI components should read from JSON data instead of hardcoded values where practical.
 12. Keep a clear separation between:
    - data collection
+   - normalization
    - scoring
    - generated JSON
    - frontend presentation
 13. Do not over-engineer the project.
 14. Prefer static hosting and scheduled data generation over a permanent backend server.
-15. The initial version should work even if no external API keys are configured, by using local sample data.
+15. The app should keep working if a live source temporarily fails by retaining previous valid data when possible.
+16. Do not introduce paid infrastructure services unless explicitly requested.
+17. Do not change scoring thresholds silently.
+18. Do not start later phases unless explicitly requested.
+19. For every major task, Codex must read this file first before making changes.
+20. After every meaningful task, Codex must update `CHATGPT_HANDOFF.md`.
 
 ---
 
@@ -63,7 +73,7 @@ These rules are mandatory.
 - React
 - Vite
 - TypeScript
-- CSS Modules or plain CSS
+- Plain CSS / CSS Modules
 - Recharts for charts
 
 ### Data / Automation
@@ -81,21 +91,57 @@ These rules are mandatory.
 - Cloudflare Pages
 
 ### Data sources
-Prefer:
+Prefer official/public sources:
 - FRED
 - BLS
 - U.S. Treasury
 - Federal Reserve
-- Conference Board only if legally/publicly accessible without scraping restrictions
-- ISM only if public official data can be retrieved reliably
+- other official agencies when required
 
-If a series is not freely available from an official API, keep it as a manual/simulated data source in the first version and clearly mark it.
+For ISM / Conference Board / other sources:
+- use official public data only if retrieval is reliable and allowed
+- otherwise keep as manual/sample data
+- do not scrape random websites when an official source exists
 
 ---
 
-## 4. Initial project structure
+## 4. Architecture
 
-Create this structure:
+Target architecture:
+
+```text
+Official macro data / sample data
+            ↓
+      Python collectors
+            ↓
+       Normalization
+            ↓
+   Deterministic scoring
+            ↓
+ current.json + history.json
+            ↓
+   React/Vite dashboard
+            ↓
+   Cloudflare Pages
+```
+
+Later, optional LLM flow:
+
+```text
+Scored macro data
+      ↓
+OpenAI summary generation
+      ↓
+summary saved into JSON
+      ↓
+static site
+```
+
+OpenAI must never be in the scoring path.
+
+---
+
+## 5. Project structure
 
 ```text
 recession-dashboard/
@@ -106,6 +152,7 @@ recession-dashboard/
 │   │   │   ├── RecessionGauge.tsx
 │   │   │   ├── IndicatorCard.tsx
 │   │   │   ├── IndicatorGrid.tsx
+│   │   │   ├── CategoryPanel.tsx
 │   │   │   ├── SummaryPanel.tsx
 │   │   │   └── ScoreLegend.tsx
 │   │   │
@@ -148,172 +195,150 @@ recession-dashboard/
 ├── .gitignore
 ├── requirements.txt
 ├── README.md
-└── PROJECT_INSTRUCTIONS.md
+├── PROJECT_INSTRUCTIONS.md
+└── CHATGPT_HANDOFF.md
 ```
 
 ---
 
-## 5. Initial indicators
+## 6. Indicator model
 
-Use exactly these 10 indicators in version 1.
+The dashboard now supports two types of indicators:
 
-### 1. Payrolls
-Display name:
-`Payrolls`
+### Scored indicators
+These affect the recession-risk score.
 
-Initial sample:
-`162K+ in August, 12-month average: 31K+`
+### Context indicators
+These are displayed and analyzed, but do not affect the main score.
 
-Initial score:
-`1`
+Every indicator must have a field such as:
 
-Initial explanation:
-`Weak beneath the headline number`
+```json
+"scored": true
+```
 
-### 2. Unemployment / Sahm Rule
-Display name:
-`Unemployment / Sahm Rule`
+or:
 
-Initial sample:
-`Unemployment 4.1% | Sahm = -0.07`
+```json
+"scored": false
+```
 
-Initial score:
-`0`
-
-Initial explanation:
-`Still far from the +0.50 recession trigger`
-
-### 3. Initial Claims
-Display name:
-`Initial Claims`
-
-Initial sample:
-`206K`
-
-Initial score:
-`0`
-
-Initial explanation:
-`No broad layoff wave yet`
-
-### 4. JOLTS Hires
-Display name:
-`JOLTS Hires`
-
-Initial sample:
-`3.2%`
-
-Initial score:
-`1`
-
-Initial explanation:
-`Hiring is weak`
-
-### 5. JOLTS Quits
-Display name:
-`JOLTS Quits`
-
-Initial sample:
-`1.9%`
-
-Initial score:
-`1`
-
-Initial explanation:
-`Workers are less confident about changing jobs`
-
-### 6. Wage Growth
-Display name:
-`Wage Growth`
-
-Initial sample:
-`+3.1% YoY`
-
-Initial score:
-`1`
-
-Initial explanation:
-`No unusual wage pressure despite constrained labor supply`
-
-### 7. ISM Employment
-Display name:
-`ISM Employment`
-
-Initial sample:
-`Services 47.8 | Manufacturing 51.2`
-
-Initial score:
-`1`
-
-Initial explanation:
-`Weakness in services, but not broad-based`
-
-### 8. ISM Activity / Orders
-Display name:
-`ISM Activity / Orders`
-
-Initial sample:
-`Services 55.4 | Manufacturing 54.6`
-
-Initial score:
-`0`
-
-Initial explanation:
-`Business activity is still expanding`
-
-### 9. Yield Curve 2s10s
-Display name:
-`Yield Curve 2s10s`
-
-Initial sample:
-`~+33 bp`
-
-Initial score:
-`1`
-
-Initial explanation:
-`Curve is positive, but partly because long yields remain elevated`
-
-### 10. LEI
-Display name:
-`LEI`
-
-Initial sample:
-`July +0.2% | 6 months +0.2%`
-
-Initial score:
-`0`
-
-Initial explanation:
-`Not currently signaling a fresh downturn`
+This distinction must be explicit in generated JSON.
 
 ---
 
-## 6. Scoring system
+## 7. Initial macro indicators
 
-Use:
+### Labor
+
+1. Payrolls
+2. Unemployment / Sahm Rule
+3. Initial Claims
+4. JOLTS Hires
+5. JOLTS Quits
+6. Wage Growth
+
+### Business
+
+7. ISM Employment
+8. ISM Activity / Orders
+9. LEI
+
+### Rates
+
+10. Yield Curve 2s10s
+
+The original Phase 1 / Phase 2 dashboard used these 10 indicators.
+
+---
+
+## 8. Housing and Mortgage expansion
+
+Add two additional categories:
+
+### Housing
+
+#### Scored
+1. Housing Starts
+2. Building Permits
+3. New Home Sales
+
+#### Context-only
+4. Months Supply
+5. Case-Shiller Home Prices
+
+### Mortgage / Household Credit
+
+#### Scored
+6. Mortgage Delinquency Rate
+
+#### Context-only
+7. 30Y Mortgage Rate
+8. Mortgage Debt Service Ratio
+
+Important:
+- do not allow highly correlated housing indicators to over-dominate the overall score
+- do not score every available housing series just because it exists
+- context indicators should remain visible but should not inflate the recession score
+
+The housing and mortgage categories should eventually have their own category-level status / score.
+
+---
+
+## 9. Why some housing indicators are context-only
+
+Do not use a simplistic rule such as:
+
+```text
+Mortgage rate > X% = recession
+```
+
+A high mortgage rate alone is not sufficient evidence of recession.
+
+Context indicators such as:
+- 30Y Mortgage Rate
+- Case-Shiller Home Prices
+- Months Supply
+- Mortgage Debt Service Ratio
+
+should help explain:
+- affordability
+- financing stress
+- housing-market cooling
+- household pressure
+
+but should not automatically add recession points unless a validated scoring rule is explicitly approved.
+
+---
+
+## 10. Future affordability metric
+
+Prepare the architecture so we can later add:
+
+```text
+Housing Affordability Stress
+```
+
+Potential inputs:
+- mortgage rate
+- median home price
+- median household income
+
+This metric is NOT yet part of the official scoring engine.
+
+Do not implement or score it without a separate task.
+
+---
+
+## 11. Scoring system
+
+For individual scored indicators:
+
 - `0 = Healthy`
 - `1 = Warning`
 - `2 = Recessionary`
 
-Maximum total:
-`20`
-
-Initial total:
-`7 / 20`
-
-Initial regime:
-`Slowdown`
-
-Do not infer scores from visual styling.
-
-Scores must be calculated in Python from explicit threshold functions.
-
-Each scoring function must have:
-- input
-- thresholds
-- returned score
-- comments explaining why
+All score functions live in Python.
 
 Example:
 
@@ -337,53 +362,147 @@ def score_sahm(value: float) -> int:
     return 2
 ```
 
-For indicators where thresholds are not yet finalized:
-- use provisional rules
-- clearly mark them with comments
-- do not hide uncertainty
+Thresholds must:
+- be explicit
+- be commented
+- be reviewable
+- be marked provisional when not finalized
+
+Never hide uncertainty.
 
 ---
 
-## 7. Total score regime
+## 12. Main risk score normalization
 
-Use this first-pass regime mapping:
+The project originally used a raw score such as:
 
 ```text
-0-5   = Healthy
-6-10  = Slowdown
-11-14 = Elevated Risk
-15-20 = Recessionary
+7 / 20
 ```
 
-Store this in code, not only in the UI.
+As the project grows, the primary dashboard score should migrate to a normalized 0–100 scale.
+
+Formula:
+
+```python
+risk_score = round(
+    total_score / max_possible_score * 100
+)
+```
+
+Store BOTH:
+- raw total score
+- max possible score
+- normalized risk score
+
+Example:
+
+```json
+{
+  "total_score": 11,
+  "max_score": 28,
+  "risk_score": 39
+}
+```
+
+The gauge should eventually use the normalized `risk_score`.
+
+Do not delete the raw score because it is useful for transparency and debugging.
+
+---
+
+## 13. Risk regime mapping
+
+First-pass normalized mapping:
+
+```text
+0–25   = Healthy
+26–50  = Slowdown
+51–70  = Elevated Risk
+71–100 = Recessionary
+```
+
+Store this mapping in code.
 
 Example:
 
 ```python
-def get_regime(total_score: int) -> str:
-    if total_score <= 5:
+def get_regime_from_risk_score(risk_score: int) -> str:
+    if risk_score <= 25:
         return "Healthy"
-    elif total_score <= 10:
+    elif risk_score <= 50:
         return "Slowdown"
-    elif total_score <= 14:
+    elif risk_score <= 70:
         return "Elevated Risk"
     return "Recessionary"
 ```
 
+This mapping is provisional and may be refined after historical backtesting.
+
+Do not change it silently.
+
 ---
 
-## 8. JSON schema
+## 14. Category-level scores
 
-Create `data/current.json` with a structure similar to:
+The architecture should support category-level summaries.
+
+Example:
+
+```text
+Labor
+Business
+Rates
+Housing
+Mortgage Stress
+```
+
+Each category may eventually expose:
+- raw score
+- max score
+- normalized category risk
+- regime / label
+
+Example:
+
+```json
+{
+  "name": "Housing",
+  "score": 4,
+  "max_score": 6,
+  "risk_score": 67,
+  "regime": "Elevated Risk"
+}
+```
+
+Only scored indicators count toward category scores.
+
+Context indicators do not.
+
+---
+
+## 15. JSON schema
+
+`data/current.json` should evolve toward:
 
 ```json
 {
   "generated_at": "2026-09-12T09:00:00Z",
   "country": "United States",
-  "total_score": 7,
-  "max_score": 20,
+  "total_score": 11,
+  "max_score": 28,
+  "risk_score": 39,
   "regime": "Slowdown",
   "summary": "Labor-market weakness is visible, but the economy is not yet in a full recession regime.",
+  "categories": [
+    {
+      "id": "labor",
+      "name": "Labor",
+      "score": 7,
+      "max_score": 12,
+      "risk_score": 58
+    }
+  ],
   "indicators": [
     {
       "id": "payrolls",
@@ -393,6 +512,7 @@ Create `data/current.json` with a structure similar to:
       "display_value": "August +162K | 12M avg +31K",
       "unit": "jobs",
       "score": 1,
+      "scored": true,
       "explanation": "Weak beneath the headline number",
       "source": "BLS",
       "observation_date": "2026-08-01"
@@ -401,39 +521,55 @@ Create `data/current.json` with a structure similar to:
 }
 ```
 
-The frontend must consume this JSON.
+Context-only indicator example:
 
-Do not make the frontend calculate macro scores.
+```json
+{
+  "id": "mortgage_rate_30y",
+  "name": "30Y Mortgage Rate",
+  "category": "Mortgage",
+  "value": 6.5,
+  "display_value": "6.5%",
+  "unit": "percent",
+  "score": null,
+  "scored": false,
+  "explanation": "Financing-cost context",
+  "source": "FRED",
+  "observation_date": "2026-09-01"
+}
+```
 
 ---
 
-## 9. History file
+## 16. History file
 
-Create `data/history.json`.
-
-Each entry should contain:
+`data/history.json` should contain:
 
 ```json
 {
   "date": "2026-09-12",
-  "total_score": 7,
+  "total_score": 11,
+  "max_score": 28,
+  "risk_score": 39,
   "regime": "Slowdown"
 }
 ```
 
-When the update script runs:
-- read existing history
-- append a new record only when the date is new
-- avoid duplicate dates
-- keep history sorted by date
+Rules:
+- one record per date
+- replace same-date entry
+- sort by date
+- keep normalized risk score for historical comparison even if total number of indicators changes
+
+This is an important reason for using 0–100 normalization.
 
 ---
 
-## 10. Frontend design direction
+## 17. Frontend visual direction
 
-The site should visually resemble a clean Google Cloud architecture diagram mixed with a financial dashboard.
+Use a visual style inspired by clean Google Cloud architecture diagrams.
 
-### Main visual direction
+### Main direction
 - light gray / white background
 - dark navy typography
 - Google-style blue as primary accent
@@ -443,59 +579,55 @@ The site should visually resemble a clean Google Cloud architecture diagram mixe
 - rounded white cards
 - thin gray borders
 - subtle shadows
-- clean vector-style icons
+- clean vector icons
 - responsive layout
 
 ### Gauge
-At the top:
+Top of dashboard:
 - large semicircular gauge
-- green left section
-- yellow middle section
-- red right section
-- needle position calculated from `total_score / max_score`
-- animate the needle smoothly on page load
-- show total score prominently
-- show regime beneath the score
+- green left
+- yellow middle
+- red right
+- needle uses normalized risk score
+- smooth page-load animation
+- raw score can be shown underneath
+- regime clearly displayed
 
 Gauge labels:
 - Healthy
 - Slowdown
 - Recession
 
-### Main score
-Example:
-`7 / 20`
-
-### Cards
-Two columns on desktop.
-One column on mobile.
-
-Each card should show:
+### Indicator cards
+Each card:
 - icon
 - indicator title
 - current display value
-- score badge
 - short explanation
-- small source label
+- source
+- observation date
+- score badge if scored
+- `Context` badge if context-only
 
-Score badge:
-- green for 0
-- yellow for 1
-- red for 2
+Desktop:
+- two-column layout
+
+Mobile:
+- one-column layout
 
 ---
 
-## 11. Hebrew support
+## 18. Hebrew support
 
-The first UI version may be English internally, but the site must be easy to localize.
+The UI must remain easy to localize.
 
-Prepare for:
+Support:
 - English
 - Hebrew
 
-Do not hardcode layout assumptions that break RTL.
+Do not hardcode layouts that break RTL.
 
-Use CSS support for:
+Use:
 
 ```css
 direction: rtl;
@@ -503,81 +635,87 @@ direction: rtl;
 
 where appropriate.
 
-The final Hebrew dashboard should be able to use text such as:
+Example Hebrew labels:
 
 ```text
 מדד קרבה למיתון
-ארה״ב | ספטמבר 2026
-ציון כולל
+ציון סיכון
 מצב נוכחי
 בריא
 האטה
+סיכון מוגבר
 מיתון
+דיור
+שוק המשכנתאות
 תמונה כוללת
 ```
 
 ---
 
-## 12. Phase 1 — local static dashboard
+## 19. Completed phase — Phase 1
 
-First task:
+Phase 1:
+- React + Vite + TypeScript frontend
+- gauge
+- summary
+- legend
+- 10 indicator cards
+- sample JSON
+- responsive layout
 
-Build the entire frontend using sample JSON only.
+Phase 1 was completed and verified.
 
-Do not connect to FRED or BLS yet.
+Do not rebuild it from scratch.
+
+---
+
+## 20. Completed phase — Phase 2
+
+Phase 2:
+- Python sample scoring engine
+- deterministic scoring
+- `sample_raw.json`
+- generated `current.json`
+- generated `history.json`
+- frontend synchronization
+- build verification
+
+Phase 2 was completed and verified.
+
+Do not replace the scoring pipeline with frontend logic.
+
+---
+
+## 21. Phase 2.5 — Housing / Mortgage schema expansion
+
+Before Phase 3 live APIs, extend the existing schema and frontend support for:
+- Housing category
+- Mortgage / Household Credit category
+- scored vs context-only indicators
+- category-level scoring support
+- raw + normalized 0–100 score fields
+
+Use sample/manual values only during this phase.
+
+Do not connect FRED/BLS yet unless explicitly requested in the task.
 
 Success criteria:
-- `npm run dev` starts the site
-- gauge renders
-- score is 7/20
-- 10 cards render
-- responsive layout works
-- cards read from JSON
-- no values are manually duplicated in React components
-- no API keys are needed
+- existing 10 indicators still work
+- new housing/mortgage indicators render
+- scored/context distinction works
+- raw score and normalized score both exist
+- history supports normalized score
+- Python pipeline succeeds
+- frontend build succeeds
+- `CHATGPT_HANDOFF.md` updated
 
 ---
 
-## 13. Phase 2 — Python scoring engine
+## 22. Phase 3 — FRED integration
 
-After the frontend is stable:
+After schema expansion is stable:
 
-Create Python scripts that:
-1. load sample raw data
-2. calculate score per indicator
-3. calculate total score
-4. calculate regime
-5. generate `data/current.json`
-6. update `data/history.json`
-7. copy generated JSON to:
-   `frontend/src/data/current.json`
-   and
-   `frontend/src/data/history.json`
-
-Command:
-
-```powershell
-python scripts/build_dashboard_data.py
-```
-
-The script must print a clear summary:
-
-```text
-Payrolls: 1
-Sahm: 0
-Initial Claims: 0
-...
-Total Score: 7 / 20
-Regime: Slowdown
-current.json updated
-history.json updated
-```
-
----
-
-## 14. Phase 3 — FRED integration
-
-Add FRED after local sample mode works.
+Add FRED integration.
 
 Environment variable:
 
@@ -589,31 +727,46 @@ Add to `.env.example`.
 
 Do not commit `.env`.
 
-Use FRED first for any series available there.
-
-Implement a reusable helper:
+Implement:
 
 ```python
 def fetch_fred_series(series_id: str, api_key: str):
     ...
 ```
 
-The function should:
+Requirements:
 - request latest observations
-- handle timeouts
-- validate response
-- raise a readable error
-- return normalized Python data
+- timeout handling
+- readable errors
+- normalize response
+- keep previous valid value if fetch fails
+- do not blank dashboard on source failure
 
-If FRED fails:
-- preserve the last valid data file
-- do not replace the dashboard with empty/null data
+FRED should be used for any reliable series available there.
+
+Examples likely to be sourced from FRED:
+- unemployment
+- Sahm Rule
+- initial claims
+- payroll-related series
+- wage growth series
+- Treasury yields
+- yield curve
+- housing starts
+- building permits
+- new home sales
+- months supply
+- Case-Shiller
+- 30Y mortgage rate
+- selected household/mortgage stress series
+
+Exact series IDs must be reviewed before finalizing.
 
 ---
 
-## 15. Phase 4 — BLS integration
+## 23. Phase 4 — BLS direct integration
 
-Use BLS only for series that are more reliable/direct there.
+Use BLS direct API only where it is more appropriate/reliable than FRED.
 
 Implement:
 
@@ -626,32 +779,34 @@ Normalize all external data into the same internal structure before scoring.
 
 ---
 
-## 16. Data-source policy
+## 24. Data-source policy
 
-Every indicator must include a visible source.
+Every indicator must visibly expose its source.
 
 Examples:
 - BLS
 - FRED
 - Federal Reserve
 - U.S. Treasury
+- Manual
 
-Never scrape random financial websites for official macro data if an official public source exists.
+Never silently mix sources.
 
-If a source is manual, mark:
-`source = "Manual"`
+If live data is unavailable:
+- preserve previous valid data when possible
+- mark data status
+- show a warning
 
 ---
 
-## 17. Error handling
-
-The site must never break because one indicator failed to update.
+## 25. Error handling
 
 Python should:
 - catch HTTP failures
 - log failed series
 - retain previous valid values if possible
-- produce a `data_status` field
+- produce `data_status`
+- include warnings
 
 Example:
 
@@ -664,16 +819,14 @@ Example:
 }
 ```
 
-Frontend should show a small warning banner if:
-`data_status != "ok"`
+Frontend:
+- show a small warning banner if `data_status != "ok"`
 
 ---
 
-## 18. Git setup
+## 26. Git setup
 
-Initialize Git in the project root.
-
-Create `.gitignore` containing at least:
+`.gitignore` should include:
 
 ```text
 node_modules/
@@ -689,12 +842,14 @@ Do not ignore:
 - `.env.example`
 - generated sample JSON
 - GitHub workflow files
+- `PROJECT_INSTRUCTIONS.md`
+- `CHATGPT_HANDOFF.md`
 
 ---
 
-## 19. Python virtual environment
+## 27. Python virtual environment
 
-From project root in PowerShell:
+From project root:
 
 ```powershell
 python -m venv .venv
@@ -702,7 +857,7 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-Initial `requirements.txt`:
+Initial requirements:
 
 ```text
 requests
@@ -712,86 +867,72 @@ python-dotenv
 
 ---
 
-## 20. Frontend setup
+## 28. Frontend commands
 
 From project root:
 
 ```powershell
-npm create vite@latest frontend -- --template react-ts
 cd frontend
 npm install
-npm install recharts
+npm run build
 npm run dev
 ```
 
-Do not add large UI frameworks in version 1.
+Do not add large UI frameworks unless explicitly approved.
 
-Avoid:
+Avoid by default:
 - Material UI
 - Bootstrap
 - Tailwind
 
-Use plain CSS for the first version.
-
 ---
 
-## 21. README requirements
+## 29. README requirements
 
-Create a short README with:
+README should explain:
 
 1. Project purpose
 2. Architecture
 3. Requirements
-4. How to run locally
-5. How to rebuild data
+4. Local setup
+5. Data rebuild
 6. Environment variables
-7. How scoring works
-8. Deployment plan
-
-Local run section should look like:
-
-```powershell
-# terminal 1
-.\.venv\Scripts\Activate.ps1
-python scripts/build_dashboard_data.py
-
-# terminal 2
-cd frontend
-npm install
-npm run dev
-```
+7. Scoring model
+8. Category model
+9. Scored vs context indicators
+10. Deployment plan
 
 ---
 
-## 22. GitHub Actions — later phase
+## 30. GitHub Actions — future phase
 
-Create a workflow file:
+Future workflow:
 
 `.github/workflows/update-data.yml`
 
-The future workflow should:
-- run on schedule
-- run Python data update
-- commit changed JSON
-- push changes
-- let Cloudflare Pages redeploy automatically
+Expected behavior:
+- scheduled run
+- Python data update
+- generated JSON changes
+- commit/push
+- Cloudflare Pages redeploy
 
-Do not enable this until local and GitHub manual runs are stable.
-
-Target schedule later:
+Initial target:
 
 ```yaml
 schedule:
   - cron: "0 6 * * *"
 ```
 
-One daily update is enough initially.
+One daily update is sufficient initially.
+
+Do not enable automation before live data pipeline is stable.
 
 ---
 
-## 23. Cloudflare Pages deployment — later phase
+## 31. Cloudflare Pages — future deployment
 
-Deployment target:
+Target:
 Cloudflare Pages
 
 Build settings:
@@ -802,148 +943,65 @@ Build command: npm run build
 Output directory: dist
 ```
 
-The site should be compatible with static hosting.
+Production site should remain static.
 
-Do not require a Node server in production.
-
----
-
-## 24. OpenAI / LLM policy
-
-Do not add OpenAI integration in phase 1.
-
-Later, OpenAI may be used only to generate a short written market interpretation from already computed data.
-
-Important:
-- LLM output must not control scores
-- LLM output must not modify thresholds
-- OpenAI API key must never exist in frontend code
-- OpenAI API calls should happen in a Python script or GitHub Action
-- generated text should be saved into JSON
-
-Desired future flow:
-
-```text
-Official macro data
-        ↓
-Rule-based scoring engine
-        ↓
-current.json
-        ↓
-optional OpenAI summary generation
-        ↓
-summary text saved into JSON
-        ↓
-static site deploy
-```
-
-Do not call OpenAI on every page load.
+No permanent Node server should be required.
 
 ---
 
-## 25. IDE / Codex behavior
+## 32. OpenAI / LLM policy
 
-The project is being built in VS Code using the official OpenAI Codex extension.
+Do not add OpenAI integration until explicitly requested.
 
-When working on this repository:
+When later added:
+- LLM summarizes already-scored data
+- LLM never changes score
+- LLM never changes thresholds
+- API key never goes into frontend
+- OpenAI call happens in Python or GitHub Action
+- generated summary saved into JSON
+- do not call OpenAI on every page load
 
-- Read this file before making structural changes.
-- Prefer creating complete working files over partial snippets.
-- After changes, run the appropriate test/build command.
-- Explain any failure clearly.
-- Do not silently change scoring thresholds.
-- Do not install unnecessary dependencies.
-- Do not introduce paid services.
-- Do not introduce a backend unless strictly necessary.
-- Keep Windows PowerShell compatibility.
-- Keep code easy to understand for a technical user who wants to maintain the project locally.
+ChatGPT subscription and OpenAI API are separate; the project must assume API billing is separate if/when enabled.
 
 ---
 
-## 26. First Codex task
+## 33. Codex task protocol
 
-When Codex reads this file, the first task should be:
+This project is built in VS Code using the official OpenAI Codex extension.
 
-> Build Phase 1 only. Create a local React + Vite + TypeScript recession-risk dashboard using sample JSON. Implement the gauge, score legend, summary panel, and all 10 indicator cards. Use the Google Cloud diagram-inspired visual style described above. Do not connect to external APIs yet. Do not add OpenAI API integration yet. Ensure `npm run dev` works.
+For every MAJOR task:
 
-After completing Phase 1:
-- stop
-- summarize what was created
-- list files changed
-- provide the exact command to run locally
-- do not start Phase 2 until requested
+1. Read `PROJECT_INSTRUCTIONS.md` first.
+2. Treat it as the project source of truth.
+3. Execute only the requested task.
+4. Do not start future phases.
+5. Do not change unrelated architecture.
+6. Do not silently change scoring thresholds.
+7. Do not add unnecessary dependencies.
+8. Keep Windows PowerShell compatibility.
+9. Run appropriate verification.
+10. Update `CHATGPT_HANDOFF.md` before reporting completion.
 
----
-
-## 27. Visual target
-
-The target experience should feel like:
-
-- Google Cloud architecture diagram clarity
-- macro-financial dashboard functionality
-- simple, clean, professional
-- fast
-- mobile-friendly
-- data-first
-- visually close to the previously designed recession infographic
-
-The main screen should communicate within 5 seconds:
-
-1. How close are we to recession?
-2. What is the current total score?
-3. Which indicators are causing the warning?
-4. Which indicators are still healthy?
+For tiny cosmetic changes, reading the full file is optional, but all architectural/project rules still apply.
 
 ---
 
-## 28. Final project philosophy
+## 34. CHATGPT_HANDOFF.md
 
-This is not a prediction engine.
-
-It is a transparent macro monitoring dashboard.
-
-The user should always be able to see:
-- the raw indicator value
-- the score
-- the source
-- the threshold logic
-- the historical direction
-
-The system should favor transparency and reproducibility over complexity.
-
-
----
-
-## 29. ChatGPT handoff file
-
-This project is being coordinated with ChatGPT outside the IDE.
-
-After every meaningful work session, Codex must create or update a separate file in the project root named:
+After every meaningful work session, Codex must create or update:
 
 ```text
 CHATGPT_HANDOFF.md
 ```
 
-The purpose of this file is to let the user send a compact, accurate project status back to ChatGPT without copying the full repository or long terminal output.
+It must never contain:
+- API keys
+- tokens
+- passwords
+- `.env` secret values
 
-### Mandatory behavior
-
-At the end of each requested phase or meaningful coding task:
-
-1. Create `CHATGPT_HANDOFF.md` if it does not exist.
-2. Replace its contents with the current project status.
-3. Keep it concise but technically useful.
-4. Do not include secrets, API keys, tokens, passwords, or `.env` values.
-5. Do not paste entire source files into it.
-6. Mention exact file paths when useful.
-7. Mention unresolved problems and important decisions.
-8. Include the exact next recommended task.
-9. Include the exact local commands ChatGPT or the user may need to know.
-10. If something failed, include the relevant error message or a short exact excerpt.
-
-### Required format for `CHATGPT_HANDOFF.md`
-
-Use this structure:
+Required structure:
 
 ```markdown
 # ChatGPT Project Handoff
@@ -952,104 +1010,95 @@ Use this structure:
 US Recession Risk Dashboard
 
 ## Current Phase
-Example: Phase 1 — Local Static Dashboard
+...
 
 ## Status
-Example: Completed / In Progress / Blocked
+Completed / In Progress / Blocked
 
 ## What Was Done
 - ...
-- ...
-- ...
 
 ## Files Created or Changed
-- `frontend/src/App.tsx` — ...
-- `frontend/src/components/RecessionGauge.tsx` — ...
 - ...
 
 ## Current Architecture
-Briefly describe the current implementation and data flow.
+...
 
 ## Current Data / Score State
 - Total score: ...
+- Max score: ...
+- Normalized risk score: ...
 - Regime: ...
-- Number of indicators implemented: ...
-- Data source mode: sample / live / mixed
+- Indicators implemented: ...
+- Live indicators: ...
+- Manual/sample indicators: ...
 
 ## Commands to Run Locally
 
 ```powershell
-# Example
-cd frontend
-npm install
-npm run dev
+...
 ```
 
 ## Verification Performed
-- `npm run build`: PASS / FAIL
-- `npm run dev`: PASS / NOT TESTED
-- Python data build: PASS / NOT IMPLEMENTED
-- Other checks: ...
+- Python pipeline: PASS / FAIL
+- npm build: PASS / FAIL
+- dev server: PASS / NOT TESTED
 
 ## Issues / Warnings
-- ...
 - ...
 
 ## Important Decisions
 - ...
-- ...
 
 ## Next Recommended Step
-Describe exactly one recommended next step.
+One exact next step.
 
 ## Suggested Prompt for ChatGPT
-Provide a short prompt the user can paste to ChatGPT together with this file.
-
-Example:
-"Here is the latest CHATGPT_HANDOFF.md from Codex. Review the current state and tell me the next step."
+A short prompt the user can paste to ChatGPT with this file.
 ```
 
-### Update policy
-
-`CHATGPT_HANDOFF.md` is a living handoff file.
-
-Codex must update it:
+Update the handoff:
 - after completing a phase
-- after a significant refactor
-- after adding a new data source
-- after changing scoring logic
-- after fixing an important bug
-- after a failed task that requires outside guidance
-- before telling the user that a requested task is complete
+- after major refactor
+- after new source integration
+- after scoring changes
+- after important bug fix
+- after a failed task needing outside guidance
+- before telling the user a meaningful task is complete
 
-Do not create multiple timestamped handoff files unless explicitly requested.
-
-Always keep the latest state in:
-
-```text
-CHATGPT_HANDOFF.md
-```
-
-### Interaction with ChatGPT
-
-Assume the user will periodically send `CHATGPT_HANDOFF.md` to ChatGPT.
-
-Therefore:
-- explain changes in a way that another technical assistant can quickly understand
-- include enough context to continue work without re-reading the entire repository
-- distinguish clearly between completed work and planned work
-- clearly identify provisional scoring thresholds or mocked data
-- explicitly mention any manual steps the user performed outside the repository
+Keep only the latest state in the main handoff file.
 
 ---
 
-## 30. First-task completion requirement
+## 35. Current next task
 
-For the first Codex task defined in section 26, completion is not finished until:
+The next intended task is Phase 2.5:
 
-1. Phase 1 has been implemented.
-2. The relevant build/run verification has been performed.
-3. `CHATGPT_HANDOFF.md` has been created in the project root.
-4. The handoff file contains the actual current status.
-5. Codex tells the user to send `CHATGPT_HANDOFF.md` back to ChatGPT for review.
+> Read `PROJECT_INSTRUCTIONS.md` first and follow it as the source of truth. Extend the data model and frontend to support Housing and Mortgage / Household Credit categories. Add Housing Starts, Building Permits, New Home Sales, Months Supply, Case-Shiller Home Prices, 30Y Mortgage Rate, Mortgage Delinquency Rate, and Mortgage Debt Service Ratio. Only Housing Starts, Building Permits, New Home Sales, and Mortgage Delinquency should affect the recession score initially; the others are context-only. Add category-level score support and migrate the main dashboard model to include both raw score and normalized 0–100 risk score. Keep all new indicators on sample/manual data for now. Do not connect FRED, BLS, OpenAI, or external APIs yet. Preserve existing behavior, run the Python pipeline, run `npm run build`, and update `CHATGPT_HANDOFF.md`.
 
+---
+
+## 36. Project philosophy
+
+This is not a prediction engine.
+
+It is a transparent macro monitoring dashboard.
+
+The user should always be able to see:
+- the raw indicator value
+- whether the indicator is scored or context-only
+- the score
+- the source
+- the threshold logic
+- the observation date
+- the historical direction
+
+The system should favor:
+- transparency
+- reproducibility
+- simplicity
+- traceability
+- official data
+- deterministic logic
+
+over complexity.
