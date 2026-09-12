@@ -64,3 +64,7 @@ The dashboard also shows context-only valuation indicators that do not change th
 - `Margin Debt / GDP` is referenced from Market Fragility / Stress and is not duplicated in the indicator list.
 
 Valuation cards include their observation/reference date, methodology, historical percentile, and descriptive percentile label. No Bubble composite, S&P Price/Sales automation, S&P concentration scraping, Yahoo Finance, or TradingView integration is included.
+
+## Current Stress / Break Confirmation
+
+Current Stress v1 is a separate, context-only confirmation engine. It reuses VIX (`VIXCLS`), Financial Stress (`STLFSI4`), Credit Conditions (`NFCICREDIT`), Initial Claims, `SAHMREALTIME`, `UNRATE`, and the existing Yield Curve Regime. It reports six provisional signal states and an active confirmation count with labels such as `Calm / No Break`, `Early Stress`, `Break Risk Rising`, and `Break Confirmation`. A Break Confirmation requires at least one active market/financial signal; labor-only deterioration is labeled `Economic Deterioration`. It does not create a 0–100 score or change the Cycle / Recession denominator.

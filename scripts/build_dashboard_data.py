@@ -12,6 +12,8 @@ from calculate_scores import SCORERS, get_regime_from_risk_score
 from fetch_fred import fetch_fred_series, latest_change, latest_observation, latest_yoy, validate_observation_date
 from fetch_finra import fetch_margin_debt
 from market_fragility import build_yield_curve_regime
+from current_stress import build_current_stress
+from derived_metrics import derive_vix_metrics
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
 
 try:
@@ -54,7 +56,8 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         try:
             loader()
         except (OSError, ValueError, requests.RequestException) as error:
-            by_id[indicator_id]["source_status"] = "fallback"
+            if indicator_id in by_id:
+                by_id[indicator_id]["source_status"] = "fallback"
             warnings.append(f"{indicator_id}: {source_name} unavailable; sample value retained ({error})")
 
     if not api_key:
@@ -98,6 +101,11 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         change = values[0] - values[-1] if len(values) > 1 else 0
         update(indicator_id, values[0], formatter(values[0], average, change), observations[0]["date"], "weekly")
 
+    def vix_window():
+        metrics = derive_vix_metrics(fetch_fred_series("VIXCLS", api_key))
+        update("vix", metrics["current"], f"{metrics['current']:.2f} close | 20D avg {metrics['average20']:.2f} | 20D change {metrics['change20']:+.2f}", metrics["observation_date"], "daily")
+        raw["_vix_metrics"] = metrics
+
     def curve_loader():
         curve_series = {series: fetch_fred_series(series, api_key) for series in ("DGS1", "DGS2", "DGS5", "DGS10", "DGS30", "T10Y2Y", "T10Y3M")}
         for observations in curve_series.values():
@@ -114,6 +122,18 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         ratio = margin_billions / gdp["value"] * 100
         update("margin-debt-gdp", ratio, f"{ratio:.2f}% of GDP | ${finra['debit_balance_millions']:,.0f}M margin debt", gdp["date"], "quarterly")
         by_id["margin-debt-gdp"].update({"source": "FINRA + FRED", "source_reference_month": finra["reference_month"], "gdp_observation_date": gdp["date"]})
+
+    def current_stress_loader():
+        vix = fetch_fred_series("VIXCLS", api_key)
+        financial = fetch_fred_series("STLFSI4", api_key)
+        credit = fetch_fred_series("NFCICREDIT", api_key)
+        claims = fetch_fred_series("ICSA", api_key)
+        sahm = latest_observation("SAHMREALTIME", api_key)
+        unemployment = latest_observation("UNRATE", api_key)
+        curve = raw.get("_yield_curve_regime")
+        if not curve:
+            raise ValueError("yield curve regime unavailable for Current Stress")
+        raw["_current_stress"] = build_current_stress(vix, financial, credit, claims, sahm, unemployment, curve, raw.get("_vix_metrics"))
 
     def public_equity_gdp():
         equity = fetch_fred_series("BOGZ1FL883164115Q", api_key)
@@ -163,12 +183,13 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     attempt("mortgage-rate-30y", lambda: simple("mortgage-rate-30y", "MORTGAGE30US", lambda value: f"{value:.2f}%", "weekly"))
     attempt("mortgage-delinquency", lambda: simple("mortgage-delinquency", "DRSFRMACBS", lambda value: f"{value:.2f}%", "quarterly"))
     attempt("mortgage-debt-service", lambda: simple("mortgage-debt-service", "MDSP", lambda value: f"{value:.2f}% of disposable income", "quarterly"))
-    attempt("vix", lambda: stress_window("vix", "VIXCLS", lambda value, average, change: f"{value:.2f} close | 20D avg {average:.2f} | 20D change {change:+.2f}"))
+    attempt("vix", vix_window)
     attempt("financial-stress", lambda: stress_window("financial-stress", "STLFSI4", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
     attempt("credit-conditions", lambda: stress_window("credit-conditions", "NFCICREDIT", lambda value, average, change: f"{value:+.2f} | 4W avg {average:+.2f} | 12W change {change:+.2f}"))
     attempt("margin-debt-gdp", margin_ratio)
     attempt("public-equity-gdp", public_equity_gdp)
     attempt("shiller-cape", shiller_cape, "official Yale")
+    attempt("current-stress", current_stress_loader)
     # LEI intentionally remains manual/sample. USSLIND is not used.
     return raw, live, warnings
 
@@ -215,6 +236,7 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
         "risk_score": risk_score, "regime": get_regime_from_risk_score(risk_score),
         "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
         "yield_curve_regime": raw.get("_yield_curve_regime"),
+        "current_stress": raw.get("_current_stress"),
         "categories": build_categories(indicators), "data_status": data_status, "warnings": warnings, "indicators": indicators,
     }
 

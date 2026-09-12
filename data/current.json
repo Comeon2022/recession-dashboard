@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T12:03:19Z",
+  "generated_at": "2026-09-12T12:45:50Z",
   "country": "United States",
   "total_score": 10,
   "max_score": 28,
@@ -26,6 +26,80 @@
       "DGS10": 4.95,
       "DGS30": 5.37
     }
+  },
+  "current_stress": {
+    "version": "v1",
+    "state": "Calm / No Break",
+    "active_confirmations": 0,
+    "active_signal_ids": [],
+    "market_confirmation_active": false,
+    "signals": [
+      {
+        "id": "volatility-release",
+        "name": "Volatility Release",
+        "state": "watch",
+        "value": 17.84,
+        "display_value": "17.84 | 20D avg 15.37 | 20D change +3.21",
+        "explanation": "VIX release relative to its level and 20-day baseline.",
+        "observation_date": "2026-09-10",
+        "market_confirmation": true,
+        "average20": 15.369499999999997,
+        "change20": 3.209999999999999
+      },
+      {
+        "id": "financial-stress-confirmation",
+        "name": "Financial Stress",
+        "state": "calm",
+        "value": -0.7884,
+        "display_value": "-0.7884 | 4W avg -0.8194 | 12W change +0.1624",
+        "explanation": "STLFSI4 crossing or rising toward broad financial stress.",
+        "observation_date": "2026-09-04",
+        "market_confirmation": true
+      },
+      {
+        "id": "credit-conditions-confirmation",
+        "name": "Credit Conditions",
+        "state": "calm",
+        "value": -0.06,
+        "display_value": "-0.0600 | 4W avg -0.0582 | 12W change -0.0290",
+        "explanation": "NFCICREDIT stress state; not a high-yield spread.",
+        "observation_date": "2026-09-04",
+        "market_confirmation": true
+      },
+      {
+        "id": "claims-acceleration",
+        "name": "Claims Acceleration",
+        "state": "calm",
+        "value": 206000.0,
+        "display_value": "206,000 | 13W change -6.0%",
+        "explanation": "Four-week claims average compared with its 13-weeks-ago average.",
+        "observation_date": "2026-09-05",
+        "prior_average": 219250.0,
+        "percent_change": -6.043329532497155
+      },
+      {
+        "id": "sahm-confirmation",
+        "name": "Sahm Confirmation",
+        "state": "calm",
+        "value": -0.07,
+        "display_value": "Sahm -0.07 | unemployment 4.1%",
+        "explanation": "Economic confirmation signal; does not add new recession points.",
+        "observation_date": "2026-08-01"
+      },
+      {
+        "id": "rapid-bull-steepening",
+        "name": "Rapid Bull Steepening",
+        "state": "calm",
+        "value": 0,
+        "display_value": "2Y 20D +36.0 bp | spread 20D -9.0 bp",
+        "explanation": "Potential slowdown / Fed-response confirmation when short rates fall rapidly and the curve widens.",
+        "observation_date": null,
+        "rapid_bull_steepening": false,
+        "market_confirmation": true
+      }
+    ],
+    "thresholds_provisional": true,
+    "summary": "0 of 6 stress confirmations active."
   },
   "categories": [
     {
@@ -366,7 +440,7 @@
       "name": "VIX",
       "category": "Market Fragility / Stress",
       "value": 17.84,
-      "display_value": "17.84 close | 20D avg 16.33 | 20D change +2.63",
+      "display_value": "17.84 close | 20D avg 15.37 | 20D change +3.21",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
