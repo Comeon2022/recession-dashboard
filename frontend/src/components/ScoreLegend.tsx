@@ -1,0 +1,1 @@
+export function ScoreLegend(){return <div className="legend"><span><i className="dot healthy"/>0 Healthy</span><span><i className="dot warning"/>1 Warning</span><span><i className="dot recessionary"/>2 Recessionary</span></div>}

@@ -1,0 +1,1 @@
+export type Indicator={id:string;name:string;category:string;value:number;display_value:string;unit:string;score:0|1|2;explanation:string;source:string;observation_date:string}; export type DashboardData={generated_at:string;country:string;total_score:number;max_score:number;regime:string;summary:string;indicators:Indicator[]};

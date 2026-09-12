@@ -1,0 +1,1 @@
+import type {Indicator} from '../types/dashboard'; import {IndicatorCard} from './IndicatorCard'; export function IndicatorGrid({indicators}:{indicators:Indicator[]}){return <section className="indicator-grid">{indicators.map(i=><IndicatorCard key={i.id} indicator={i}/>)}</section>}
