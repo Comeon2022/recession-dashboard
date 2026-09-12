@@ -202,6 +202,48 @@ Published files: `README.md`, `data/current.json`, `frontend/src/App.tsx`, `fron
 
 Positioning / Sentiment work was not started.
 
+## Positioning / Sentiment v1 — Berkshire Review Status
+
+Implemented locally and intentionally not committed or pushed.
+
+| Field | Official Q2 2026 result | Status |
+|---|---:|---|
+| Insurance and Other cash | $35.096B | PASS |
+| Short-term U.S. Treasury Bills | $324.905B | PASS |
+| Railroad / Utilities / Energy cash | $5.513B | PASS |
+| Total assets | $1,263.071B | PASS |
+| Project-defined liquidity proxy | $365.514B | PASS |
+| Liquidity / Total Assets | 28.9385% (display 28.9%) | PASS |
+| Equity-security purchases YTD | $39.405B | PASS |
+| Equity-security sales YTD | $27.780B | PASS |
+| Net equity flow YTD | +$11.625B (display +$11.6B) | PASS |
+
+Source: Berkshire Hathaway official Q2 2026 report, report date June 30, 2026, `https://www.berkshirehathaway.com/qtrly/2ndqtr26.pdf`; source status `live`. Derivations: liquidity = 35.096 + 324.905 + 5.513 = $365.514B; liquidity/assets = 365.514 / 1,263.071 = 28.9385%; net equity flow = 39.405 - 27.780 = +$11.625B. Interpretation: `Very High Liquidity · Net Buyer`.
+
+Parser/dependency changes: added `scripts/fetch_berkshire.py`, official PDF row parsing with plausibility checks and fallback warning behavior, and `pypdf` in `requirements.txt`. Pipeline and official-parser validation: PASS with no warnings. Existing engines: PASS — 24 indicators, Cycle / Recession `10 / 28`, normalized risk `36 / 100`, Current Stress unchanged. Frontend build: PASS. Changed files: `scripts/fetch_berkshire.py`, `scripts/build_dashboard_data.py`, `data/sample_raw.json`, `data/current.json`, `frontend/src/data/current.json`, `frontend/src/types/dashboard.ts`, `frontend/src/App.tsx`, `frontend/src/styles/positioning.css`, `README.md`, `requirements.txt`, and this handoff. No SEC-wide insider, retail, Nasdaq, Yahoo Finance, TradingView, Elliott Wave, or composite positioning work was added.
+
+## Berkshire Positioning Publication
+
+The reviewed Positioning / Sentiment v1 Berkshire implementation is published.
+
+- Commit: `1a15a96` — `Add Berkshire positioning context`
+- Push status: PASS — pushed to `origin/main` after the handoff update
+- Source status: `live`; official Berkshire Hathaway Q2 2026 report; no fallback warning
+- Report date: `2026-06-30`
+- Liquidity proxy: `$365.514B`
+- Liquidity / Total Assets: `28.9385%` (display `28.9%`)
+- Equity purchases YTD: `$39.405B`
+- Equity sales YTD: `$27.780B`
+- Net equity flow YTD: `+$11.625B` (display `+$11.6B`)
+- Interpretation: `Very High Liquidity · Net Buyer`
+- Cycle / Recession: `10 / 28`; normalized risk: `36 / 100`
+- Current Stress: `Calm / No Break`, `0 / 6`; unchanged
+- Pipeline/parser validation: PASS; frontend build: PASS; `.env` ignored and not staged
+
+Published files: `README.md`, `requirements.txt`, `data/sample_raw.json`, `data/current.json`, `frontend/src/App.tsx`, `frontend/src/data/current.json`, `frontend/src/types/dashboard.ts`, `frontend/src/styles/positioning.css`, `scripts/build_dashboard_data.py`, `scripts/fetch_berkshire.py`, and `CHATGPT_HANDOFF.md`.
+
+No SEC-wide insider aggregation, retail participation, Nasdaq, Yahoo Finance, TradingView, Elliott Wave, or new indicator work was started.
+
 ## Publication Note
 
 The reviewed CAPE remediation is published in `14d9ffd`; the live-source verification and push status above supersede earlier pre-publication wording in this handoff.
