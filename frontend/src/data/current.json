@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-12T12:56:25Z",
+  "generated_at": "2026-09-12T18:43:20Z",
   "country": "United States",
   "total_score": 10,
   "max_score": 28,
@@ -185,12 +185,18 @@
       "name": "Payrolls",
       "category": "Labor",
       "value": 162000.0,
-      "display_value": "Monthly change +162K (PAYEMS)",
+      "display_value": "Monthly change +0K (PAYEMS)",
       "unit": "jobs",
       "explanation": "Weak beneath the headline number",
       "source": "FRED",
       "observation_date": "2026-08-01",
       "scored": true,
+      "trend_metrics": {
+        "Latest monthly change": "+0K",
+        "3M average change": "+0K",
+        "12M average change": "+0K",
+        "Payroll level": "159,075K"
+      },
       "score": 1,
       "risk_score": 50
     },
@@ -205,6 +211,12 @@
       "source": "FRED",
       "observation_date": "2026-08-01",
       "scored": true,
+      "trend_metrics": {
+        "Unemployment rate": "4.1%",
+        "3M average unemployment": "4.1%",
+        "12M change": "-0.3 pp",
+        "Sahm threshold reference": "0.50"
+      },
       "score": 0,
       "risk_score": 0
     },
@@ -219,6 +231,12 @@
       "source": "FRED",
       "observation_date": "2026-09-05",
       "scored": true,
+      "trend_metrics": {
+        "Latest claims": "206,000",
+        "4-week average": "206,000",
+        "4-week avg 13 weeks ago": "219,250",
+        "13-week change": "-6.0%"
+      },
       "score": 0,
       "risk_score": 0
     },
@@ -233,6 +251,12 @@
       "source": "FRED",
       "observation_date": "2026-07-01",
       "scored": true,
+      "trend_metrics": {
+        "Latest": "3.2%",
+        "3M average": "3.3%",
+        "12M average": "3.3%",
+        "Trend": "stable"
+      },
       "score": 1,
       "risk_score": 50
     },
@@ -247,6 +271,12 @@
       "source": "FRED",
       "observation_date": "2026-07-01",
       "scored": true,
+      "trend_metrics": {
+        "Latest": "1.9%",
+        "3M average": "2.0%",
+        "12M average": "2.0%",
+        "Trend": "stable"
+      },
       "score": 1,
       "risk_score": 50
     },
@@ -254,13 +284,18 @@
       "id": "wage-growth",
       "name": "Wage Growth",
       "category": "Labor",
-      "value": 2.8610354223433054,
-      "display_value": "+2.9% YoY",
+      "value": 3.085745494265435,
+      "display_value": "+3.1% YoY",
       "unit": "percent",
       "explanation": "No unusual wage pressure despite constrained labor supply",
       "source": "FRED",
       "observation_date": "2026-08-01",
       "scored": true,
+      "trend_metrics": {
+        "Latest YoY": "+3.1%",
+        "3M average YoY": "+3.2%",
+        "12M change in growth rate": "-0.8 pp"
+      },
       "score": 1,
       "risk_score": 50
     },

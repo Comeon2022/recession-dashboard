@@ -1,5 +1,12 @@
 # ChatGPT Project Handoff
 
+## Current Phase
+Labor Market v2 — core recession/cycle refinement
+
+SEC insider research is DEFERRED / historical; the preserved full-backfill checkpoint must not resume.
+
+The older Market Fragility phase/status section below is historical and superseded. The authoritative active phase is Labor Market v2 above. The current next task is the research-only Labor Scoring Robustness Study (PROJECT_INSTRUCTIONS sections 313–320).
+
 ## Project
 US Recession Risk Dashboard
 
@@ -244,9 +251,382 @@ Published files: `README.md`, `requirements.txt`, `data/sample_raw.json`, `data/
 
 No SEC-wide insider aggregation, retail participation, Nasdaq, Yahoo Finance, TradingView, Elliott Wave, or new indicator work was started.
 
+## SEC Form 4 Research POC — Review Status
+
+Implemented research-only POC per sections 167–174. No production pipeline, generated dashboard JSON, frontend, scoring, GitHub Actions, or existing data source was modified. No commit or push was performed.
+
+Files created: `scripts/research_sec_form4.py`, `research/sec_form4_poc.json`, and `research/sec_form4_notes.md`.
+
+Methodology implemented: fetch one SEC EDGAR daily index; count Forms `4` and `4/A`; select a bounded 20–50 filing sample; fetch only ownership XML documents; parse Table I non-derivative transactions; extract issuer/owner identifiers, dates, codes, shares, acquired/disposed flag, prices, and direct/indirect ownership; retain only `P` and `S` for the research summary; exclude grants, gifts, exercises, withholding, and other codes; calculate dollar volume only where shares and price are both present. The script uses a declared project User-Agent, requires `SEC_CONTACT_EMAIL`, limits requests to 0.6 seconds apart (no more than 2/sec), caches responses, retries 429/5xx responses, and reports estimated 30-day request volume/runtime.
+
+POC execution: `BLOCKED` before SEC requests because `SEC_CONTACT_EMAIL` is not configured locally. Requests attempted: `0`; cache hits: `0`; retries: `0`. This is an explicit fair-access safeguard, not an SEC parsing failure. The local JSON and markdown note record the blocker.
+
+Required blockers before production: provide a real project-owner contact email; complete a live SEC run; quantify XML-shape coverage; define issuer universe; resolve Form 4/A supersession and duplicate handling; establish incremental persistent cache/monitoring; and review whether P/S dollar volume is analytically useful. SEC `P`/`S` values must remain labeled open-market **or private** purchase/sale activity, not pure open-market activity.
+
+## SEC Form 4 POC — Live Execution Result
+
+The configured local `SEC_CONTACT_EMAIL` was loaded at runtime only and was not printed, logged, copied into this handoff, or written to research output. The existing POC was run without code changes and remained research-only.
+
+Result: `BLOCKED` at daily-index discovery. The script selected `2026-09-12`, which is a Saturday, and the SEC daily index request returned `HTTPError`. SEC requests: `1`; ownership XML requests: `0`; cache hits: `0`; retries: `0`; Form 4/4/A counts and P/S transaction metrics: unavailable because discovery failed. XML parse success, price coverage, and dollar-volume coverage: unavailable. Runtime was under two seconds.
+
+The research JSON and markdown note were refreshed with this result. The remaining blockers are selecting a recent available SEC business-day index, then measuring XML-shape coverage, amendments/4/A supersession, duplicate transactions, issuer-universe effects, and 30-day request/runtime estimates from a successful sample. No production files changed, and no commit or push was performed.
+
+## SEC Form 4 POC — Daily-Index Fix and Live Rerun
+
+The daily-index discovery bug was fixed in the research-only script. It now reads the current quarter directory `index.json`, selects the newest eligible `master.YYYYMMDD.idx` not later than today, checks the previous quarter if needed, and retains a bounded backward probe fallback. The configured contact email was used only at runtime in the SEC User-Agent and is not present in this handoff or output.
+
+Live result: PASS for discovery and research execution. Selected index: `master.20260911.idx`, date `2026-09-11`, discovery source `directory_index.json`. Counts: 895 Form 4 filings and 26 Form 4/A filings. Sample: 30 Form 4 filings. Ownership XML parse success: 7/30 (`23.3%`); 23 samples failed due to XML-directory/shape errors captured in the research JSON. Requests: 33 on the first post-fix run; cache hits 6; retries 0; runtime 26.12s. A subsequent cache-only rerun made 0 requests with 49 cache hits.
+
+P/S-only summary from successfully parsed Table I rows: 4 `P` transactions, 8 `S` transactions; 2 buyer issuers, 2 seller issuers, 4 unique issuers, 2 buyer reporting owners, 2 seller reporting owners, 4 unique reporting owners. Price availability and dollar-volume coverage were both `100%` for the 12 retained P/S rows. Purchase dollar volume: `$842,926.84`; sale dollar volume: `$5,904,789.01`. Form 4/A amendments in the sampled filings: `0`.
+
+Estimated 30-day backfill at a 30-filing sample: 1,830 requests (30 daily indexes + 900 filing-directory metadata requests + 900 XML requests), with a conservative rate floor of 1,098 seconds (~18.3 minutes), excluding retries and processing overhead.
+
+Remaining blockers: improve XML-shape coverage beyond `23.3%`; investigate failed filing-directory/XML cases; define amendment supersession and duplicate handling; establish a licensing-safe issuer universe; implement persistent incremental cache/monitoring; and assess dollar-volume usefulness. SEC `P`/`S` remains open-market **or private** purchase/sale activity, not pure open-market activity. Production wiring remains prohibited. No production files changed and no commit/push was performed.
+
+## SEC Form 4 POC — Filing-Shape Discovery Fix and Validation
+
+The prior `23.3%` result was diagnosed filing-by-filing before changing discovery. All 23 failures had cached accession metadata and exactly one XML candidate, but the old resolver rejected generic filenames because it only accepted names containing `ownership` or `xslF345`. The individual audit was:
+
+| Accession | Issuer CIK | Master-index path | Candidate XML | Diagnosis |
+|---|---:|---|---|---|
+| 000143774926030170 | 1001385 | `edgar/data/1001385/0001437749-26-030170.txt` | `rdgdoc.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000111623326000003 | 1032975 | `edgar/data/1032975/0001116233-26-000003.txt` | `form4-09112026_100950.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000107807526000139 | 1078075 | `edgar/data/1078075/0001078075-26-000139.txt` | `form4.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000115903626000119 | 1159036 | `edgar/data/1159036/0001159036-26-000119.txt` | `wk-form4_1789173314.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000143774926030184 | 1217614 | `edgar/data/1217614/0001437749-26-030184.txt` | `rdgdoc.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000176877326000010 | 1280784 | `edgar/data/1280784/0001768773-26-000010.txt` | `primarydocument.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000114036126036384 | 1379344 | `edgar/data/1379344/0001140361-26-036384.txt` | `form4.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000142681626000005 | 1426816 | `edgar/data/1426816/0001426816-26-000005.txt` | `form4-09112026_040925.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000147559726000241 | 1527541 | `edgar/data/1527541/0001475597-26-000241.txt` | `primary_doc.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000141176526000007 | 1595974 | `edgar/data/1595974/0001411765-26-000007.txt` | `wk-form4_1789157516.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000208640326000008 | 1636422 | `edgar/data/1636422/0002086403-26-000008.txt` | `primarydocument.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000171252526000005 | 1712525 |  `edgar/data/1712525/0001712525-26-000005.txt` | `form4-09112026_040921.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000110465926106986 | 1746109 | `edgar/data/1746109/0001104659-26-106986.txt` | `tm2625285-1_4seq1.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000177839526000007 | 1778395 | `edgar/data/1778395/0001778395-26-000007.txt` | `primarydocument.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000162828026061621 | 1832466 | `edgar/data/1832466/0001628280-26-061621.txt` | `wk-form4_1789173662.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000190183926000004 | 1901839 | `edgar/data/1901839/0001901839-26-000004.txt` | `form4-09112026_040902.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000162828026061589 | 1970265 | `edgar/data/1970265/0001628280-26-061589.txt` | `wk-form4_1789160636.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000209079826000006 | 2090798 | `edgar/data/2090798/0002090798-26-000006.txt` | `wk-form4_1789157359.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000208049826000005 | 2136387 | `edgar/data/2136387/0002080498-26-000005.txt` | `form4-09112026_040915.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000122520826007768 | 7084 | `edgar/data/7084/0001225208-26-007768.txt` | `doc4.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000078901926000199 | 789019 | `edgar/data/789019/0000789019-26-000199.txt` | `form4.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000131020426000027 | 882095 | `edgar/data/882095/0001310204-26-000027.txt` | `wk-form4_1789165843.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+| 000202206026000005 | 97134 | `edgar/data/97134/0002022060-26-000005.txt` | `form4-09112026_080953.xml` | fixed-filename filter miss; candidate is valid ownership XML |
+
+The research resolver now inspects the exact filing path, then cached/live accession metadata, bounded relevant nested directories, and every XML candidate; it validates an `ownershipDocument` root/descendant before Table I parsing. The exact 2026-09-11 sample now passes **30/30 (100.0%)**, meeting the research-stage `>=90%` gate. Selected index: `master_20260911.idx`; 895 Form 4 and 26 Form 4/A filings; final cache-only run: 0 requests, 92 cache hits, 0 retries, 0.03s. P/S-only output: 4 purchases and 24 sales, 13 unique issuers/reporting owners, 100% price availability and dollar-volume coverage; sampled amendments: 0.
+
+Because the gate passed, two additional 30-filing business-day validations were run: `master_20260910.idx` (30/30, 100.0%; 1,070 Form 4, 6 Form 4/A) and `master_20260909.idx` (30/30, 100.0%; 1,027 Form 4, 14 Form 4/A). Aggregate additional validation: **60/60 (100.0%)**. These runs used the same cache/retry/rate-limit policy; no production files, generated dashboard JSON, scoring, frontend, or workflows were changed. Form 4/A supersession and duplicate handling remain explicitly unresolved blockers. The configured SEC contact email remained runtime-only and is not present here or in research outputs. No commit or push was performed.
+
 ## Publication Note
+
+## SEC Form 4/A Row-Level Reconciliation Study — Research Only
+
+The Form 4/A study was reworked for sections 204–212. It no longer treats an amendment as a whole-accession replacement. The parser now retains `dateOfOriginalSubmission`, uses it as the primary original-date anchor with issuer and reporting-owner CIKs, and falls back to bounded filing-date heuristics only when the field is absent or ambiguous.
+
+### Validation and matching
+
+- Same amendment sample: **26/26 XML parses (100%)** across 2026-09-09, 2026-09-10, and 2026-09-11.
+- `dateOfOriginalSubmission` coverage: **26/26 (100%)**.
+- Original match confidence: high **16/26 (61.5%)**, medium **4/26 (15.4%)**, low **0/26 (0.0%)**, unmatched **6/26 (23.1%)**.
+- Row actions: `replace_row` 7, `add_row` 4, `metadata_only` 17; ambiguous row actions 0.
+- Amendment-level classes: `replace_row` 7, `add_row` 3, `metadata_only` 10, `unknown_or_unmatched` 6.
+- Exact unchanged original rows are retained in each reconciled research record. Omitted unchanged lines in a 4/A are not treated as removals.
+
+### Auditable reconciliation examples
+
+| Amendment accession | Confidence | Selected original | Action | Original shares @ price | Amended shares @ price |
+|---|---|---|---|---:|---:|
+| `000086311026000091` | high | `0000863110-26-000088.txt` | replace_row | 2,000 @ 36.11 | 1,876 @ 36.11 |
+| `000149315226042326` | high | `0001493152-26-042064.txt` | metadata_only | 31,250 @ 0.80 | 31,250 @ 0.80 |
+| `000149315226042324` | high | `0001493152-26-042061.txt` | replace_row | 31,250 @ 0.78 | 31,250 @ 0.80 |
+| `000166994326000021` | high | `0001669943-26-000019.txt` | metadata_only | 4,064 @ 85.44 | 4,064 @ 85.44 |
+| `000178039626000015` | high | `0001780396-26-000010.txt` | replace_row | 3,747 @ 9.93 | 6,054 @ 9.93 |
+| `000178039626000016` | high | `0001780396-26-000012.txt` | replace_row | 1,579 @ 9.73 | 2,551 @ 9.73 |
+| `000193872226000015` | high | `0001938722-26-000010.txt` | replace_row | 3,747 @ 9.93 | 6,054 @ 9.93 |
+| `000193872226000016` | high | `0001938722-26-000012.txt` | replace_row | 790 @ 9.73 | 1,276 @ 9.73 |
+| `000149315226042324` | high | `0001493152-26-042061.txt` | replace_row | 31,250 @ 0.78 | 31,250 @ 0.80 |
+| `000149315226042326` | high | `0001493152-26-042064.txt` | metadata_only | 31,250 @ 0.80 | 31,250 @ 0.80 |
+
+The full records retain stable row keys based on issuer/owner, security title, transaction date/code, acquired-disposed flag, and direct/indirect ownership; shares and price are intentionally excluded from identity so corrected values can be matched. Remarks/footnotes are retained as corroborating metadata.
+
+### P/S aggregate impact and duplicate caution
+
+For the research-only reconciled rows, before/after P/S counts were `P 6 / S 6` and `P 10 / S 10`; dollar volume changed from `$5,120,176.12` to `$6,738,185.40`. After reconciliation, the diagnostic P/S rows represented 2 purchase issuers / 2 purchase owners and 3 sale issuers / 3 sale owners. These figures are not production aggregates: repeated amendment records and duplicate-risk rows are intentionally still visible for study.
+
+The study retained 14 repeated row fingerprints and did not delete them. A conservative future policy is: use `dateOfOriginalSubmission` plus issuer/owner anchors; replace only stable-key-matched rows; add only genuinely new rows; leave metadata-only P/S totals unchanged; preserve all omitted original rows; and quarantine unmatched/ambiguous amendments rather than guessing. Whole-accession replacement is explicitly rejected.
+
+Operational stats: 3 requests, 217 cache hits, 0 retries, approximately 2.36 seconds. Research outputs are `research/sec_form4a_study.json` and `research/sec_form4a_study.md`. No production files, generated JSON, scoring, frontend, workflows, or data pipeline were changed. No commit or push was performed.
+
+## SEC Form 4/A Amendment Study — Research Only
+
+The targeted amendment study required by sections 194–202 is complete. It uses the validated filing-shape-driven ownership XML resolver, retains the existing SEC User-Agent privacy safeguard, cache, retries, and <=2 requests/second policy, and does not modify production data or apply supersession.
+
+### Sample and parse validation
+
+| SEC index | Form 4 | Form 4/A | Amendments sampled | XML parsed |
+|---|---:|---:|---:|---:|
+| 2026-09-11 | 895 | 26 | 10 | 10/10 |
+| 2026-09-10 | 1,070 | 6 | 6 | 6/6 |
+| 2026-09-09 | 1,027 | 14 | 10 | 10/10 |
+
+Targeted total: **26/26 (100.0%)**, exceeding the 95% research gate. Each record retains issuer CIK, reporting-owner CIKs, period of report, transaction rows, codes, shares, price, acquired/disposed flag, direct/indirect ownership, footnotes/remarks where present, and row fingerprints.
+
+### Original matching and amendment classes
+
+- Candidate original filings examined: 43; candidate original XML parses: 43/43.
+- Match confidence: `high` 12, `medium` 10, `unmatched` 4; high-or-medium match rate **22/26 (84.6%)**, above the 80% research criterion.
+- Amendment classes: `metadata_or_footnote_only` 6; `transaction_row_added` 1; `transaction_row_removed` 4; `unknown_or_unmatched` 15; `transaction_value_corrected` 0; `ownership_nature_corrected` 0; `reporting_owner_corrected` 0.
+- The `unknown_or_unmatched` group is intentionally not forced into a correction class; the study preserves amendment and candidate-original fingerprints for review.
+
+### Duplicate-risk observations
+
+The study found 14 repeated row fingerprints among the sampled amendment rows. Examples include repeated issuer/owner/date/code/share/price/ownership combinations for CIK pairs `1512922/1258622`, `1512922/1302378`, `0102109/1212502`, `1046102/1763701`, `1474627/1869115`, and `1378950/1240508`. No sampled amendment had multiple reporting owners. These are diagnostic examples only: no repeated row was deleted or collapsed.
+
+### Operational results
+
+- Final run: 3 SEC requests, 217 cache hits, 0 retries, approximately 2.53 seconds.
+- The contact email was read only at runtime and is not printed, logged, or copied here or into research output.
+- Research outputs: `research/sec_form4a_study.json` and `research/sec_form4a_study.md`.
+
+### SUPERSEDED — DO NOT USE: prior whole-accession policy
+
+The earlier bullets in this section that described treating a Form 4/A as an authoritative replacement for an entire original accession are obsolete and rejected. They must not be used. The active research rule is row-level only: preserve unchanged original rows, add only added rows, replace only matched corrected rows, leave metadata-only P/S totals unchanged, and never replace a whole accession.
+
+### Current row-level matching and duplicate audit — sections 214–222
+
+The focused follow-up reprocessed the same 26 amendments and inspected the exact `dateOfOriginalSubmission` master-index dates, issuer candidates, owner CIK sets, periods, row overlap, and cached accession/XML evidence. The five unique accessions represented the original 10 non-high-confidence records (duplicates in the sampled selection):
+
+- Six of the prior unmatched records became **high confidence** after exact-date discovery: `000147793226005514` selected `edgar/data/1474627/0001477932-26-005466.txt`; `000114036126036091` selected `edgar/data/1378950/0001140361-26-034452.txt`; and `000168316826007039` selected `edgar/data/1756180/0001683168-26-002886.txt`.
+- The four prior medium records remain **medium**, not forced higher: `000149315226042004` selected `edgar/data/1702924/0001493152-26-041637.txt`, and `000149315226042002` selected `edgar/data/1702924/0001493152-26-041638.txt`. Each has four same-issuer exact-date Form 4 candidates; owner identity narrows the candidate, but the amendment carries no Table I row evidence sufficient for a high-confidence upgrade.
+
+Final confidence across all 26: **high 22/26 (84.6%)**, medium 4/26 (15.4%), low 0, unmatched 0. `dateOfOriginalSubmission` coverage remains 26/26. The high-confidence gate in section 221 is **not met** because 84.6% is below 90%; production remains blocked.
+
+All 14 repeated row fingerprints were classified as `same_accession_duplicate_attachment` at the research-sample level: each repeated fingerprint occurred twice under the same amendment accession and selected original, indicating repeated index/sample/attachment representation rather than two proven economic events. Each should count **once** pending direct attachment-level confirmation. No repeated fingerprint was deleted. No multi-owner representation, cross-filing duplicate, legitimate repeated same-day transaction, or same-amendment distinct duplicate was established in this sample; those remain possible classes requiring broader research.
+
+Reconciled row semantics remain unchanged. P/S diagnostic totals moved from `P=10, S=8` before amendment actions to `P=14, S=12` after row-level additions/replacements; dollar volume moved from `$5,673,914.01` to `$7,291,923.29`. These are research diagnostics and are not production aggregates because duplicate rows remain visible and no production deduplication has been applied.
+
+Exact-date audit evidence, all 10 focused cases, all 14 duplicate classifications, row actions, candidate sets, and fingerprints are in `research/sec_form4a_study.json`. Final operational stats: 3 requests, 324 cache hits, 0 retries, approximately 2.55 seconds. No production files changed and no commit or push was performed.
+
+### Proposed production supersession/dedup policy — not implemented
+
+1. For a high-confidence Form 4/A match, apply only row-level add/replace/metadata actions; never replace the matched original accession as a whole.
+2. Exclude unmatched and low-confidence amendments from aggregates and mark them for review rather than guessing.
+3. Compare transaction rows using the retained diagnostic fingerprint; do not erase legitimate repeated same-day transactions automatically.
+4. Deduplicate exact repeated rows only within a reviewed accession context, and never aggregate an original together with its superseding amendment.
+5. Preserve amendment coverage, match confidence, and excluded counts as quality metadata before any future production signal is considered.
+
+Status: **research complete; production remains blocked pending review of unmatched/unknown amendments, broader issuer/date validation, and approval of the supersession policy.** No production files changed, and no commit or push was performed.
 
 The reviewed CAPE remediation is published in `14d9ffd`; the live-source verification and push status above supersede earlier pre-publication wording in this handoff.
 
-## Suggested Prompt for ChatGPT
+## SEC Form 4/A — Accession-Normalized Validation (Authoritative)
+
+This section supersedes older raw-record amendment metrics. The research layer now canonicalizes one amendment record per SEC accession while retaining every master-index row, accession-directory file list, XML candidate, and attachment diagnostic.
+
+### Why duplicate amendment records appeared
+
+The prior 26-record focus sample contained 10 duplicated accession representations. Each duplicate accession appeared twice on the same SEC business-day index under two issuer/owner directory paths, for example `edgar/data/1258622/...042326.txt` and `edgar/data/1512922/...042326.txt`. The accession directory for each had one XML candidate (`ownership.xml`, `doc4a.xml`, `form4a.xml`, `form4.xml`, or `wk-form4a_*.xml`) and no multiple ownership XML documents. This was a duplicate master-index representation of one submission, amplified by sampling each raw master-index row; it was not a second economic event and not a multiple-attachment case. Canonicalization reduces 26 raw records to 16 unique accessions in the focus sample. Repeated row fingerprints are therefore counted once, while attachment diagnostics remain retained.
+
+### Focus sample, raw versus unique
+
+- Raw focus sample: 26 records; unique accessions: 16; duplicate records: 10.
+- Raw confidence: high 22/26, medium 4/26, low 0, unmatched 0.
+- Unique confidence: high 12/16 (**75.0%**), medium 4/16 (**25.0%**), low 0, unmatched 0.
+- `dateOfOriginalSubmission`: 100% coverage.
+- The 14 repeated fingerprints were classified as same-accession duplicate attachment/index representations and should count once pending attachment-level review. Duplicate attachment rate: 0 multiple-ownership-XML cases among 10 duplicated accession groups; 100% of duplicated groups had one ownership XML candidate.
+
+### The two unique medium-confidence accessions
+
+| Amendment accession | Table I rows | P rows | S rows | Table II rows | Remarks/footnotes | P/S economic effect |
+|---|---:|---:|---:|---:|---|---|
+| `000149315226042004` | 0 | 0 | 0 | 0 | none extracted | Cannot change P/S aggregate; quarantine as unresolved/unknown |
+| `000149315226042002` | 0 | 0 | 0 | 0 | none extracted | Cannot change P/S aggregate; quarantine as unresolved/unknown |
+
+These amendments are not upgraded to high confidence. Their zero-row XML shape supports P/S quarantine, but because no explicit metadata/footnote change was extracted they remain `unknown` rather than being represented as a proven metadata-only amendment.
+
+### Broader unique-accession validation
+
+Validation covered **56 unique Form 4/A accessions** across five SEC business-day indexes:
+
+| Index date | Form 4/A filings sampled |
+|---|---:|
+| 2026-09-11 | 13 |
+| 2026-09-10 | 3 |
+| 2026-09-09 | 7 |
+| 2026-09-08 | 16 |
+| 2026-09-04 | 17 |
+
+Unique XML parse coverage was **56/56 (100%)**. Unique match confidence: high 37/56 (**66.1%**), medium 18/56 (**32.1%**), low 0, unmatched 1/56 (**1.8%**). `dateOfOriginalSubmission` coverage remained 100%. Economic relevance: P/S Table I 17; non-P/S Table I 34; unknown 5. Five non-high-confidence P/S amendments remain quarantined, so the unresolved P/S-relevant rate is **5/17 (29.4%)**. Metadata/non-P/S unresolved count is 14/56 (**25.0%**). Row-action resolution was 100% for the generated row actions, but this does not override unresolved original matching.
+
+Every unique accession record retains parse status, date/issuer/owner anchors, selected original, confidence, row actions, P/S relevance, and quarantine status. Future production interpretation is conservative: high-confidence amendments may reconcile row-by-row; non-high-confidence zero-P/S amendments remain quarantined as economically irrelevant only where proven; any non-high-confidence P/S amendment remains quarantined and would make the affected rolling period degraded.
+
+Operational stats for the broader run: 129 requests, 1,072 cache hits, 0 retries, approximately 113.5 seconds. No production files, generated JSON, scoring, frontend, workflows, or existing pipeline were changed. No commit or push was performed. Research outputs are `research/sec_form4a_study.json`, `research/sec_form4a_focus.json`, and `research/sec_form4a_study.md`.
+
+### Refined production gate result
+
+**NOT MET.** Ordinary and targeted XML parsing pass the current research thresholds, but unique-accession high-confidence matching is only 66.1%, the focus unique rate is 75.0%, and 5 unique P/S-relevant amendments remain quarantined. The SEC insider work remains research-only.
+
+## CURRENT AUTHORITATIVE SEC RESEARCH STATUS — Rolling 30-Day Simulation
+
+This section supersedes prior SEC status summaries for the rolling-window task. The simulation runner is implemented at `scripts/research_sec_rolling.py`, but the complete XML simulation was not completed in this run because the required full-universe request volume is materially larger than the prior sampled studies. No aggregates are claimed without parsing the complete universe.
+
+### Completed inventory
+
+Window: **2026-08-13 through 2026-09-11**, ending on the latest available SEC filing day used by the research run.
+
+- SEC business days processed: 21
+- Form 4 master-index rows: **24,627**
+- Form 4/A master-index rows: **512**
+- Unique Form 4 accessions: **11,791**
+- Unique Form 4/A accessions: **241**
+- The inventory completed from cached SEC daily indexes with no production requests or data writes.
+
+The exact index counts and duplicate-row total (**13,107**) are in `research/sec_form4_rolling30.json` with `status: inventory_only`.
+
+### Why the full simulation remains pending
+
+The complete requested pipeline requires ownership-directory metadata and XML retrieval for every unique accession, followed by parsing all Table I rows and matching/quarantine reconciliation. At the enforced 0.6-second minimum interval, this is tens of thousands of SEC requests and several hours of minimum runtime. The initial full attempt was stopped before producing partial aggregates; therefore no raw-original, high-confidence-reconciled, or final quarantine-adjusted 30-day P/S totals are reported here.
+
+The research runner preserves the required A/B/C model, canonical accession state, candidate-original quarantine, P/S-only aggregation, quality fields, cache/retry counters, and request/runtime estimates. It must be allowed to complete end-to-end before any market-level conclusion is drawn. This is an operational research blocker, not evidence about the economic signal.
+
+Production remains blocked. No production dashboard, generated JSON, scoring, frontend, GitHub Actions, or existing data pipeline was modified. No commit or push was performed. `SEC_CONTACT_EMAIL` was not printed or copied into output.
+
+## CURRENT AUTHORITATIVE SEC RESEARCH STATUS — Ingestion Architecture POC
+
+This section supersedes the prior rolling-crawl feasibility note for the ingestion-architecture task. The full 30-day XML universe was intentionally **not** rerun.
+
+### Complete-submission parity result
+
+The research-only runner [research_sec_ingestion.py](C:/Users/Liorkale/Desktop/recession-web/scripts/research_sec_ingestion.py) fetches the exact master-index `.txt` filing path, extracts the local `<DOCUMENT>` / `<TEXT>` ownership XML block, strips the SEC `<XML>` wrapper, validates `ownershipDocument`, and parses it with the existing ownership parser. Accession-directory metadata and separate XML remain the fallback path.
+
+- Form 4 parity sample: **100 unique accessions**
+- Form 4/A parity sample: **20 unique accessions**
+- Ownership-document discovery: **120/120 (100%)**
+- Directory/XML fallback: **0/120 (0%)**
+- Field-level parity: **100%**; mismatches: **0**
+- Compared issuer CIK, reporting-owner CIKs, period, original-submission date, Table I rows, transaction date/code/shares/price/acquired-disposed/direct-indirect fields, Table II count, and footnotes/remarks.
+- POC run statistics: 40 network requests, 440 cache hits, 0 retries; all 120 records had zero parity failures.
+
+The optimized path reduces the theoretical per-accession design from metadata + XML to one complete-submission request: approximately **50% fewer requests** (12,032 instead of 24,064 for the inventoried universe), subject to fallback requests. It must not be used for the full crawl until broader operational review is complete.
+
+### Resumable checkpoint verification
+
+The POC persists accession-keyed state in `research/sec_live_state.json`, including form type, filing date/path, fetch status, parse status, normalized rows, source method, and failure metadata. A restart simulation skipped all **3/3** previously successful test accessions and issued **0** repeat requests. State is research-only and is not connected to production.
+
+### Official SEC 2026 Q2 bulk dataset
+
+The SEC official [Insider Transactions Data Sets page](https://www.sec.gov/data-research/sec-markets-data/insider-transactions-data-sets) lists **2026 Q2 345** at approximately **10.97 MB** and states coverage through June 2026, quarterly updates, and as-filed flattened XML-derived data. The official [data documentation](https://www.sec.gov/files/insider_transactions_readme.pdf) defines eight tab-delimited UTF-8 tables:
+
+- `SUBMISSION`: primary key `ACCESSION_NUMBER`; filing date, period, original-submission date, document type, issuer, remarks and filing flags.
+- `REPORTINGOWNER`: `ACCESSION_NUMBER + RPTOWNERCIK`.
+- `NONDERIV_TRANS`: Table I rows keyed by `ACCESSION_NUMBER + NONDERIV_TRANS_SK`, including transaction date/code, shares, price, acquired/disposed, ownership and footnote IDs.
+- `NONDERIV_HOLDING`: Table I holdings.
+- `DERIV_TRANS` and `DERIV_HOLDING`: Table II transactions/holdings.
+- `FOOTNOTES`: `ACCESSION_NUMBER + FOOTNOTE_ID`.
+- `OWNER_SIGNATURE`: `ACCESSION_NUMBER + OWNERSIGNATURENAME`.
+
+The Q2 ZIP was not downloaded in this task. The bulk data is suitable as the historical baseline through June 2026, but not as the current September 2026 source.
+
+### Proposed hybrid architecture
+
+Use the quarterly bulk dataset for historical state and backtesting through the latest completed quarter. Use complete-submission EDGAR ingestion for the current-quarter delta, keyed by canonical accession and checkpointed locally. Reconcile Form 4/A rows against local Form 4 state first; use SEC directory/XML fallback only when complete-submission extraction fails. At the next quarterly release, compare the bulk compaction checkpoint against accumulated live state before replacement. No sentiment score or bullish/bearish threshold is defined.
+
+No production files, dashboard JSON, scoring, frontend, workflows, or existing pipeline changed. No commit or push was performed. Research outputs are `research/sec_submission_parity.json`, `research/sec_live_state.json`, and `research/sec_submission_parity.json`'s documented bulk schema fields.
+
+## CURRENT AUTHORITATIVE SEC RESEARCH STATUS — Full 30-Day Run Checkpoint
+
+The complete-window runner required by sections 258–267 is implemented at [research_sec_full.py](C:/Users/Liorkale/Desktop/recession-web/scripts/research_sec_full.py). It uses the inventoried 2026-08-13 through 2026-09-11 universe, canonicalizes by `(form, accession)`, retrieves complete-submission `.txt` first, persists accession state after deterministic 300-accession batches, and applies the existing row-level/quarantine policy only at finalization.
+
+Execution reached a clean checkpoint boundary:
+
+- Completed: **300 / 12,032** unique accessions
+- Remaining: **11,732**
+- Batch size: 300
+- Batch requests: 195; cache hits: 105; retries: 0; HTTP 429s: 0
+- State file: `research/sec_full_state.json` (~646,655 bytes)
+- Progress file: `research/sec_full_progress.json`
+
+The full run was stopped after this completed batch because the enforced 0.6-second minimum request interval makes the remaining complete-submission crawl a multi-hour operation. No final A/B/C market views are reported from partial data. In particular, no partial P/S ratio, quarantine impact, or production-feasibility conclusion should be inferred from this checkpoint. The runner can resume by rerunning the same command; completed accessions are skipped and successful fetches are not refetched.
+
+Production remains blocked pending completion and review of all 12,032 accessions. No production dashboard, generated JSON, scoring, frontend, workflows, or existing pipeline changed. No commit or push was performed.
+
+## CURRENT AUTHORITATIVE SEC RESEARCH STATUS — Resume Checkpoint Update
+
+The full-window run resumed from the prior 300-accession checkpoint without restarting or deleting cache/state. One additional deterministic 300-accession batch completed and flushed successfully:
+
+- Target window: 2026-08-13 through 2026-09-11
+- Target unique accessions: **12,032**
+- Completed: **600**
+- Remaining: **11,432**
+- Completed accession keys: unique; completed + remaining = **12,032**
+- Successful parsed accessions: **599**
+- Failed accessions: **1** (preserved with failure metadata; not fabricated)
+- Complete-submission successes: **599**
+- Directory/XML fallback successes: **0**
+- Latest batch operational counters: 291 requests, 8 cache hits, 0 retries, 0 HTTP 429s
+- State file: `research/sec_full_state.json`, approximately **1,306,240 bytes**
+- Progress file: `research/sec_full_progress.json`
+
+A subsequent resume attempt did not reach its next 300-accession flush within the safe execution window and was stopped before checkpoint mutation. The saved 600-accession checkpoint remains intact, and no previously successful accession regressed. No partial P/S aggregates, ratios, quarantine impact, sentiment, or production-feasibility conclusion are reported. The complete A/B/C reconciliation remains deferred until all 12,032 accessions finish.
+
+## HISTORICAL / SUPERSEDED SEC RESEARCH STATUS — 100-Accession Resume Checkpoint
+
+Sections 277–283 supersede the prior 300-batch checkpoint details. The research runner now enforces deterministic **100-accession** checkpoint batches and resumed from the saved 600-accession state without restarting or refetching successful accessions.
+
+- Fixed target universe: **12,032** unique accessions
+- Window: **2026-08-13 through 2026-09-11**
+- Completed: **1,100**
+- Remaining: **10,932**
+- Successful parses: **1,097**
+- Preserved failures: **3** (0.33%, below the 1% operational diagnosis threshold)
+- Complete-submission successes: **1,097**
+- Fallback successes: **0**
+- Latest completed batch: 100 accessions
+- Latest-run counters: 98 requests, 2 cache hits, 0 retries, 0 HTTP 429s
+- State size: approximately **2,361,723 bytes**
+- Latest completed batch: 100 accessions
+- Latest-run counters: 51 requests, 47 cache hits, 0 retries, 0 HTTP 429s
+- State size: approximately **1,986,324 bytes**
+
+Checkpoint integrity passed before and after the run: target remained 12,032, completed keys remained unique, completed + remaining equals 12,032, and no prior successful accession regressed. A subsequent batch did not reach its next flush within the safe execution window and was stopped before state mutation. No partial P/S aggregates, buyer/seller ratios, quarantine impact, sentiment, or production-feasibility conclusion is reported. The final A/B/C reconciliation remains deferred until all accessions complete.
+
+## CURRENT AUTHORITATIVE SEC RESEARCH STATUS — DEFERRED
+
+Per PROJECT_INSTRUCTIONS sections 293–296, the SEC insider full backfill is **DEFERRED** and is no longer the active project priority. No further accessions will be processed unless SEC insider research is explicitly reactivated.
+
+Preserved local checkpoint:
+
+- Fixed universe: 12,032 accessions for 2026-08-13 through 2026-09-11
+- Completed: **1,100**
+- Remaining: **10,932**
+- Successful parses: **1,097**
+- Preserved failures: **3**
+- Complete-submission successes: **1,097**
+- Fallback successes: **0**
+- State: `research/sec_full_state.json`
+- Progress: `research/sec_full_progress.json`
+- Cache: `research/.sec_cache/`
+- Latest completed batch: 100 accessions
+- Latest-run counters: 98 requests, 2 cache hits, 0 retries, 0 HTTP 429s
+- State size: approximately **2,361,723 bytes**
+
+The state and cache were preserved and not deleted by this priority reset. SEC insider data remains research-only and is not connected to the dashboard, scoring, generated production JSON, frontend, workflows, or production data pipeline.
+
+Next project priority: return to the core US recession/cycle objective, especially labor deterioration, claims acceleration, JOLTS/labor-demand review, consumer deterioration, rates/credit stress confirmation, and robustness of the existing recession-risk score. No automatic scoring changes are implied by this priority reset.
+
+## Labor Market v2 — Validation (sections 298–308)
+
+- Scope: labor derivations and presentation only; SEC insider full backfill remains deferred and no SEC state/cache was resumed or changed.
+- `.gitignore`: PASS for `.env`, `research/.sec_cache/`, `research/_sec_cache/`, `research/sec_live_state.json`, `research/sec_live_failures.json`, `research/sec_live_progress.json`, `research/sec_full_state.json`, and `research/sec_full_progress.json`; the whole `research/` directory is not ignored.
+- Payrolls: PASS — latest monthly change, 3-month average monthly change, and 12-month average monthly change are generated from PAYEMS.
+- Initial Claims: PASS — canonical ICSA derivation exposes latest claims `206,000`, 4-week average `206,000`, 4-week average 13 weeks ago `219,250`, and 13-week change `-6.0%`. Current Stress consumes the same derived object; its claims signal matches these values exactly.
+- JOLTS: PASS — Hires and Quits expose latest, 3-month average, 12-month average, and descriptive trend without adding score components.
+- Unemployment/Sahm and wages: PASS — unemployment 3-month average and 12-month change, Sahm threshold reference, wage latest YoY, 3-month average YoY, and 12-month growth-rate change are displayed without scoring changes.
+- Score invariant: PASS — Cycle / Recession remains `10 / 28`, normalized risk `36 / 100`; no thresholds, denominator, or scored-indicator count changed.
+- Frontend: PASS — `npm run build` completed successfully (`tsc -b` and Vite production build).
+- Pipeline: PASS — real-key Python pipeline completed and synchronized `data/current.json`, `data/history.json`, and frontend data.
+- `.env`: PASS — ignored by Git and not staged. No commit or push was performed.
+
+## Historical Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
+> **SEC research status — authoritative as of latest review:** Earlier Form 4/A conclusions below are historical and superseded where they use raw duplicate sample records or whole-accession language. The current accession-normalized status is the final SEC section 224–232 section near the end of this file. Production remains blocked.

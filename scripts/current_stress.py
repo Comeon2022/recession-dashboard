@@ -5,7 +5,7 @@ All thresholds here are provisional, descriptive, and excluded from scoring.
 
 from __future__ import annotations
 
-from derived_metrics import derive_vix_metrics
+from derived_metrics import derive_claims_metrics, derive_vix_metrics
 
 
 STATE_RANK = {"calm": 0, "watch": 1, "stress": 2, "severe": 3}
@@ -23,7 +23,7 @@ def _signal(signal_id: str, name: str, state: str, value: float, display: str, e
     return {"id": signal_id, "name": name, "state": state, "value": value, "display_value": display, "explanation": explanation, **extra}
 
 
-def build_current_stress(vix: list[dict], financial: list[dict], credit: list[dict], claims: list[dict], sahm: dict, unemployment: dict, curve: dict, vix_metrics: dict | None = None) -> dict:
+def build_current_stress(vix: list[dict], financial: list[dict], credit: list[dict], claims: list[dict], sahm: dict, unemployment: dict, curve: dict, vix_metrics: dict | None = None, claims_metrics: dict | None = None) -> dict:
     vix_metrics = vix_metrics or derive_vix_metrics(vix)
     vix_current, vix_average, vix_change = vix_metrics["current"], vix_metrics["average20"], vix_metrics["change20"]
     vix_state = _state("calm", severe=vix_current >= 35, stress=vix_current >= 25 or vix_change >= 8, watch=vix_current >= 20 or vix_current >= 1.15 * vix_average)
@@ -38,11 +38,10 @@ def build_current_stress(vix: list[dict], financial: list[dict], credit: list[di
     credit_change = credit_current - credit_values[-1] if len(credit_values) > 1 else 0
     credit_state = _state("calm", severe=credit_current >= 0.5, stress=credit_current >= 0, watch=credit_current < 0 and credit_change >= 0.10)
 
-    claims_values = [item["value"] for item in claims]
-    claims_average = sum(claims_values[:4]) / min(4, len(claims_values))
-    prior_values = claims_values[13:17] if len(claims_values) >= 17 else claims_values[-4:]
-    prior_average = sum(prior_values) / len(prior_values)
-    claims_change_pct = (claims_average / prior_average - 1) * 100 if prior_average else 0
+    claims_metrics = claims_metrics or derive_claims_metrics(claims)
+    claims_average = claims_metrics["four_week_average"]
+    prior_average = claims_metrics["four_week_average_13_weeks_ago"]
+    claims_change_pct = claims_metrics["thirteen_week_change_pct"]
     claims_state = _state("calm", severe=claims_change_pct >= 20, stress=claims_change_pct >= 10, watch=claims_change_pct >= 5)
 
     sahm_value = sahm["value"]

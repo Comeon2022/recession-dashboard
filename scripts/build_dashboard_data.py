@@ -14,7 +14,7 @@ from fetch_finra import fetch_margin_debt
 from fetch_berkshire import fetch_berkshire_report
 from market_fragility import build_yield_curve_regime
 from current_stress import build_current_stress
-from derived_metrics import derive_vix_metrics
+from derived_metrics import derive_claims_metrics, derive_jolts_metrics, derive_payroll_metrics, derive_vix_metrics, derive_wage_metrics
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
 
 try:
@@ -67,26 +67,39 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         return raw, [], ["FRED_API_KEY is not configured; sample values retained for all indicators."]
 
     def payrolls():
-        value, date = latest_change("PAYEMS", api_key)
-        update("payrolls", value * 1000, f"Monthly change {value:+,.0f}K (PAYEMS)", date, "monthly")
+        metrics = derive_payroll_metrics(fetch_fred_series("PAYEMS", api_key))
+        value = metrics["latest_monthly_change"]
+        update("payrolls", value * 1000, f"Monthly change {value / 1000:+,.0f}K (PAYEMS)", metrics["observation_date"], "monthly")
+        by_id["payrolls"]["trend_metrics"] = {"Latest monthly change": f"{value / 1000:+,.0f}K", "3M average change": f"{metrics['three_month_average_monthly_change'] / 1000:+,.0f}K", "12M average change": f"{metrics['twelve_month_average_monthly_change'] / 1000:+,.0f}K", "Payroll level": f"{metrics['level']:,.0f}K"}
 
     def sahm():
         sahm = latest_observation("SAHMREALTIME", api_key)
         unemployment = latest_observation("UNRATE", api_key)
+        unemployment_series = fetch_fred_series("UNRATE", api_key)
+        latest_date = datetime.strptime(unemployment["date"], "%Y-%m-%d")
+        prior_year = next((item for item in unemployment_series[1:] if (latest_date - datetime.strptime(item["date"], "%Y-%m-%d")).days >= 330), None)
         validate_observation_date(unemployment["date"], "monthly")
         update("sahm-rule", sahm["value"], f"Unemployment {unemployment['value']:.1f}% | Sahm = {sahm['value']:+.2f}", sahm["date"], "monthly")
+        by_id["sahm-rule"]["trend_metrics"] = {"Unemployment rate": f"{unemployment['value']:.1f}%", "3M average unemployment": f"{sum(item['value'] for item in unemployment_series[:3]) / 3:.1f}%", "12M change": f"{unemployment['value'] - prior_year['value']:+.1f} pp" if prior_year else "n/a", "Sahm threshold reference": "0.50"}
 
     def simple(indicator_id, series_id, formatter, frequency, multiplier=1):
         item = latest_observation(series_id, api_key)
         update(indicator_id, item["value"] * multiplier, formatter(item["value"] * multiplier), item["date"], frequency)
 
+    def claims():
+        metrics = derive_claims_metrics(fetch_fred_series("ICSA", api_key))
+        update("initial-claims", metrics["latest_claims"], f"{metrics['latest_claims']:,.0f}", metrics["observation_date"], "weekly")
+        by_id["initial-claims"]["trend_metrics"] = {"Latest claims": f"{metrics['latest_claims']:,.0f}", "4-week average": f"{metrics['four_week_average']:,.0f}", "4-week avg 13 weeks ago": f"{metrics['four_week_average_13_weeks_ago']:,.0f}", "13-week change": f"{metrics['thirteen_week_change_pct']:+.1f}%"}
+
     def yoy(indicator_id, series_id, formatter, frequency="monthly"):
-        value, date = latest_yoy(series_id, api_key)
-        update(indicator_id, value, formatter(value), date, frequency)
+        metrics = derive_wage_metrics(fetch_fred_series(series_id, api_key))
+        update(indicator_id, metrics["latest_yoy"], formatter(metrics["latest_yoy"]), metrics["observation_date"], frequency)
+        by_id[indicator_id]["trend_metrics"] = {"Latest YoY": f"{metrics['latest_yoy']:+.1f}%", "3M average YoY": f"{metrics['three_month_average_yoy']:+.1f}%", "12M change in growth rate": f"{metrics['twelve_month_change_pp']:+.1f} pp"}
 
     def jolts(indicator_id, series_id):
-        item = latest_observation(series_id, api_key)
-        update(indicator_id, item["value"], f"{item['value']:.1f}%", item["date"], "monthly")
+        metrics = derive_jolts_metrics(fetch_fred_series(series_id, api_key))
+        update(indicator_id, metrics["latest"], f"{metrics['latest']:.1f}%", metrics["observation_date"], "monthly")
+        by_id[indicator_id]["trend_metrics"] = {"Latest": f"{metrics['latest']:.1f}%", "3M average": f"{metrics['three_month_average']:.1f}%", "12M average": f"{metrics['twelve_month_average']:.1f}%", "Trend": metrics["trend"]}
 
     def window_stats(indicator_id, series_id, formatter, frequency, window=20):
         observations = fetch_fred_series(series_id, api_key)
@@ -136,7 +149,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         curve = raw.get("_yield_curve_regime")
         if not curve:
             raise ValueError("yield curve regime unavailable for Current Stress")
-        raw["_current_stress"] = build_current_stress(vix, financial, credit, claims, sahm, unemployment, curve, raw.get("_vix_metrics"))
+        raw["_current_stress"] = build_current_stress(vix, financial, credit, claims, sahm, unemployment, curve, raw.get("_vix_metrics"), derive_claims_metrics(claims))
 
     def berkshire_loader():
         raw["_berkshire_positioning"] = fetch_berkshire_report()
@@ -175,7 +188,7 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
 
     attempt("payrolls", payrolls)
     attempt("sahm-rule", sahm)
-    attempt("initial-claims", lambda: simple("initial-claims", "ICSA", lambda value: f"{value:,.0f}", "weekly"))
+    attempt("initial-claims", claims)
     attempt("jolts-hires", lambda: jolts("jolts-hires", "JTSHIR"))
     attempt("jolts-quits", lambda: jolts("jolts-quits", "JTSQUR"))
     attempt("wage-growth", lambda: yoy("wage-growth", "CES0500000003", lambda value: f"{value:+.1f}% YoY"))

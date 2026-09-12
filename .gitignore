@@ -5,3 +5,14 @@ dist/
 __pycache__/
 *.pyc
 .vscode/
+# SEC research cache / transient state
+research/_sec_cache/
+research/.sec_cache/
+research/sec_live_state.json
+research/sec_live_failures.json
+research/sec_live_progress.json
+research/sec_full_state.json
+research/sec_full_progress.json
+research/sec_full_results.json
+research/sec_form4_rolling30.json
+research/sec_form4_rolling30.md
