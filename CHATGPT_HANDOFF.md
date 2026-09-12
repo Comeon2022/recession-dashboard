@@ -4,54 +4,66 @@
 US Recession Risk Dashboard
 
 ## Current Phase
-Phase 1 — Local Static Dashboard
+Deployment preparation — GitHub Actions data refresh
 
 ## Status
-Completed and verified. Phase 2 has not started.
+Workflow created and locally validated. GitHub-hosted live execution is pending repository-secret setup and a manual Actions run.
 
 ## What Was Done
-- Repaired the frontend dependency installation with `npm install --force --no-audit --no-fund`.
-- Fixed the TypeScript CSS side-effect import error by adding `frontend/src/vite-env.d.ts`.
-- Confirmed the dashboard builds and the Vite development server responds successfully.
+- Created `.github/workflows/update-data.yml` with `workflow_dispatch` and weekday `14:00 UTC` schedule (`0 14 * * 1-5`).
+- Configured the workflow to consume the repository secret `FRED_API_KEY` without printing or storing it.
+- Added Python dependency installation, the existing data pipeline, generated-JSON validation, and frontend production build.
+- Configured commits to stage only the four generated JSON files and push only when staged content changes.
+- Updated `README.md` with GitHub secret setup and manual workflow instructions.
 
 ## Files Created or Changed
-- `frontend/src/vite-env.d.ts` — Vite client type reference required for CSS imports.
-- `frontend/package-lock.json` — regenerated/validated npm dependency lockfile.
-- `frontend/node_modules/` — installed Phase 1 dependencies; ignored by Git.
-- `CHATGPT_HANDOFF.md` — updated with final verification.
+- `.github/workflows/update-data.yml` — automated FRED refresh workflow.
+- `README.md` — GitHub Actions secret/setup documentation.
+- `CHATGPT_HANDOFF.md` — current deployment-preparation status.
+- Generated JSON files were refreshed by the local verification run.
 
 ## Current Architecture
-React + Vite + TypeScript imports sample data from `frontend/src/data/current.json` and renders the gauge, summary, legend, and ten indicator cards. No external APIs or Python scoring are connected.
+GitHub Actions checks out the repository, installs Python dependencies, supplies `FRED_API_KEY` through the Actions secret environment, runs `scripts/build_dashboard_data.py`, validates root/frontend JSON synchronization, runs `npm ci` and `npm run build` from `frontend`, then commits only generated data files if they changed.
 
 ## Current Data / Score State
-- Total score: 7 / 20
+- Total score: 10 / 28
+- Normalized risk score: 36 / 100
 - Regime: Slowdown
-- Number of indicators implemented: 10
-- Data source mode: sample
+- Indicators implemented: 18
+- Live FRED-backed indicators: 15
+- Manual/sample indicators: 3
+- Data status: `ok` in the local `.env` verification run
 
 ## Commands to Run Locally
 ```powershell
+# Local pipeline check
+python scripts/build_dashboard_data.py
+
+# Frontend build check
 cd frontend
-npm install
-npm run dev
+npm run build
 ```
 
 ## Verification Performed
-- `npm install --force --no-audit --no-fund`: PASS
-- `npm run build`: PASS
-- `npm run dev -- --host 127.0.0.1`: PASS — Vite ready at `http://127.0.0.1:5173/`
-- HTTP smoke check against `/`: PASS — HTTP 200
+- Workflow YAML parse: PASS using local PyYAML parser.
+- Local Python pipeline with configured local key: PASS.
+- Generated JSON validation and root/frontend synchronization: PASS.
+- `npm run build`: PASS.
+- GitHub Actions live run: NOT TESTED — requires the GitHub repository secret and a GitHub-hosted runner.
 
 ## Issues / Warnings
-- No remaining Phase 1 build or runtime issues identified.
-- The initial install required `--force` because the existing Windows `node_modules` tree had stale cleanup conflicts.
+- The workflow cannot be fully live-tested from this workspace. The user must add the repository secret `FRED_API_KEY` in **Settings → Secrets and variables → Actions**, then manually run **Actions → Update macro dashboard data → Run workflow**.
+- No Cloudflare-specific files were added.
+- No BLS or OpenAI integration was added.
 
 ## Important Decisions
-- Phase 1 remains sample-data-only.
-- No API keys, live data integrations, Python scoring, or OpenAI integration were added.
+- Schedule is exactly weekdays at 14:00 UTC: `0 14 * * 1-5`.
+- The workflow stages only `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, and `frontend/src/data/history.json`.
+- No scoring thresholds or indicators were changed.
+- The secret is referenced only as `${{ secrets.FRED_API_KEY }}` and is never echoed.
 
 ## Next Recommended Step
-Request Phase 2 only when ready to implement the Python sample scoring and JSON generation pipeline.
+Add the GitHub repository secret `FRED_API_KEY` and manually run the workflow once from GitHub Actions to validate the hosted refresh and conditional commit behavior.
 
 ## Suggested Prompt for ChatGPT
-Here is the latest `CHATGPT_HANDOFF.md` from Codex. Phase 1 is complete and verified: dependencies install, the production build passes, and the Vite dev server returns HTTP 200. Review the handoff and advise on the next step.
+Here is the latest `CHATGPT_HANDOFF.md` from Codex. The GitHub Actions refresh workflow is locally validated, but its live run is pending repository-secret setup and manual dispatch. Review the workflow and README instructions.

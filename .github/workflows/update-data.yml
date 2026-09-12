@@ -1,0 +1,55 @@
+name: Update macro dashboard data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 14 * * 1-5"
+
+permissions:
+  contents: write
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    env:
+      FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: python -m pip install --upgrade pip && pip install -r requirements.txt
+
+      - name: Build dashboard data
+        run: python scripts/build_dashboard_data.py
+
+      - name: Validate generated JSON
+        run: |
+          python -c "import json; from pathlib import Path; files = [Path('data/current.json'), Path('data/history.json'), Path('frontend/src/data/current.json'), Path('frontend/src/data/history.json')]; [json.loads(path.read_text(encoding='utf-8')) for path in files]; assert json.loads(files[0].read_text(encoding='utf-8')) == json.loads(files[2].read_text(encoding='utf-8')); assert json.loads(files[1].read_text(encoding='utf-8')) == json.loads(files[3].read_text(encoding='utf-8')); print('Generated JSON validation: PASS')"
+
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: frontend
+        run: npm run build
+
+      - name: Commit generated data if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/current.json data/history.json frontend/src/data/current.json frontend/src/data/history.json
+          if git diff --cached --quiet; then
+            echo "No generated data changes to commit."
+          else
+            git commit -m "chore(data): refresh macro dashboard"
+            git push
+          fi
