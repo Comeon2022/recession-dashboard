@@ -4,66 +4,61 @@
 US Recession Risk Dashboard
 
 ## Current Phase
-Deployment preparation — GitHub Actions data refresh
+Design refresh — Hebrew-first dashboard information architecture
 
 ## Status
-Workflow created and locally validated. GitHub-hosted live execution is pending repository-secret setup and a manual Actions run.
+Completed and verified. This was a frontend-only refactor.
 
 ## What Was Done
-- Created `.github/workflows/update-data.yml` with `workflow_dispatch` and weekday `14:00 UTC` schedule (`0 14 * * 1-5`).
-- Configured the workflow to consume the repository secret `FRED_API_KEY` without printing or storing it.
-- Added Python dependency installation, the existing data pipeline, generated-JSON validation, and frontend production build.
-- Configured commits to stage only the four generated JSON files and push only when staged content changes.
-- Updated `README.md` with GitHub secret setup and manual workflow instructions.
+- Replaced the previous English-first layout with an RTL-friendly Hebrew-first dashboard.
+- Added a prominent top summary with Hebrew title, subtitle, normalized risk, raw score, regime, thesis, and update date.
+- Added a large `התמונה הכוללת` section with gauge, interpretation, legend, status counts, and category chips.
+- Grouped detailed indicators into `שוק העבודה`, `שוק הדיור`, and `שוק האג״ח / ריביות`.
+- Added `מצב הצרכן` as a derived interpretation panel using existing indicators without duplicating records or double-counting scores.
+- Refreshed the palette, spacing, card hierarchy, gauge, section icons, shadows, and responsive RTL layout.
+- Preserved the existing JSON data model and data-driven rendering.
 
 ## Files Created or Changed
-- `.github/workflows/update-data.yml` — automated FRED refresh workflow.
-- `README.md` — GitHub Actions secret/setup documentation.
-- `CHATGPT_HANDOFF.md` — current deployment-preparation status.
-- Generated JSON files were refreshed by the local verification run.
+- `frontend/src/App.tsx` — Hebrew-first page structure, grouping, and derived consumer summary.
+- `frontend/src/styles/dashboard.css` — infographic-style RTL layout and responsive visual refresh.
+- `CHATGPT_HANDOFF.md` — current design status.
 
 ## Current Architecture
-GitHub Actions checks out the repository, installs Python dependencies, supplies `FRED_API_KEY` through the Actions secret environment, runs `scripts/build_dashboard_data.py`, validates root/frontend JSON synchronization, runs `npm ci` and `npm run build` from `frontend`, then commits only generated data files if they changed.
+The static React/Vite frontend still imports generated JSON from `frontend/src/data/current.json`. The redesign only changes presentation and grouping; Python scoring, FRED integrations, GitHub Actions, and Cloudflare Pages architecture remain unchanged.
 
 ## Current Data / Score State
 - Total score: 10 / 28
 - Normalized risk score: 36 / 100
 - Regime: Slowdown
-- Indicators implemented: 18
+- Indicators rendered: 18
 - Live FRED-backed indicators: 15
 - Manual/sample indicators: 3
-- Data status: `ok` in the local `.env` verification run
+- Consumer section: derived presentation-only summary
 
 ## Commands to Run Locally
 ```powershell
-# Local pipeline check
-python scripts/build_dashboard_data.py
-
-# Frontend build check
 cd frontend
+npm install
+npm run dev
 npm run build
 ```
 
 ## Verification Performed
-- Workflow YAML parse: PASS using local PyYAML parser.
-- Local Python pipeline with configured local key: PASS.
-- Generated JSON validation and root/frontend synchronization: PASS.
 - `npm run build`: PASS.
-- GitHub Actions live run: NOT TESTED — requires the GitHub repository secret and a GitHub-hosted runner.
+- TypeScript compilation: PASS as part of the Vite build.
+- Static data-driven rendering preserved: PASS by successful build against existing generated JSON.
 
 ## Issues / Warnings
-- The workflow cannot be fully live-tested from this workspace. The user must add the repository secret `FRED_API_KEY` in **Settings → Secrets and variables → Actions**, then manually run **Actions → Update macro dashboard data → Run workflow**.
-- No Cloudflare-specific files were added.
-- No BLS or OpenAI integration was added.
+- Browser visual review was not performed in this session; the build is successful and responsive CSS includes mobile behavior.
+- No pipeline, scoring, FRED, GitHub Actions, deployment, BLS, OpenAI, or indicator changes were made.
 
 ## Important Decisions
-- Schedule is exactly weekdays at 14:00 UTC: `0 14 * * 1-5`.
-- The workflow stages only `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, and `frontend/src/data/history.json`.
-- No scoring thresholds or indicators were changed.
-- The secret is referenced only as `${{ secrets.FRED_API_KEY }}` and is never echoed.
+- Hebrew is now the visible default language and the page uses `dir="rtl"`.
+- Consumer Condition is intentionally a derived summary rather than a new scoring group.
+- Status colors remain concentrated in badges, dots, and gauge segments while the main iconography stays blue.
 
 ## Next Recommended Step
-Add the GitHub repository secret `FRED_API_KEY` and manually run the workflow once from GitHub Actions to validate the hosted refresh and conditional commit behavior.
+Open the local dashboard in a browser and review the Hebrew RTL layout at desktop and mobile widths.
 
 ## Suggested Prompt for ChatGPT
-Here is the latest `CHATGPT_HANDOFF.md` from Codex. The GitHub Actions refresh workflow is locally validated, but its live run is pending repository-secret setup and manual dispatch. Review the workflow and README instructions.
+Here is the latest `CHATGPT_HANDOFF.md` from Codex. The frontend has been refreshed into a Hebrew-first, RTL-friendly infographic layout and the build passes. Review the visual hierarchy and suggest any focused UI refinements.

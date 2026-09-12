@@ -39,3 +39,14 @@ To configure it in GitHub:
 The workflow cannot be fully live-tested locally or from this workspace until the GitHub repository secret is configured and the workflow is manually run from GitHub Actions.
 
 Cloudflare-specific deployment files are intentionally not included yet.
+
+## Cloudflare Pages setup
+
+Configure the Cloudflare Pages project with these exact values:
+
+- Production branch: `main`
+- Root directory: `frontend`
+- Build command: `npm run build`
+- Output directory: `dist`
+
+This is a static Vite site. No Worker, backend server, or account-side Cloudflare configuration is included in the repository; complete the Pages setup manually in the Cloudflare dashboard.
