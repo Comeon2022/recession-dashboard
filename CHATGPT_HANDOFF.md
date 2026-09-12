@@ -113,8 +113,8 @@ npm run build
 - `npm run build`: PASS.
 - `.env` staging check: PASS — ignored and not staged.
 - Reviewed implementation commit: `0377162` — `Add market fragility stress indicators`.
-- Final handoff commit: recorded below after this update is committed.
-- Push status: pending final handoff commit push.
+- Final verification commit: `1f4ec3c` — `Verify market fragility and yield curve indicators`.
+- Push status: PASS — pushed to `origin/main`.
 
 ## Published Files
 The reviewed implementation is published on `origin/main` in commit `0377162`:
