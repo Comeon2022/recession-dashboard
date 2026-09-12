@@ -105,8 +105,32 @@ npm run build
 - Yield Curve Regime enriches the existing scored Yield Curve indicator rather than creating a duplicate.
 - BAMLH0A0HYM2 and BAMLH0A3HYC remain documented as research-only, with no public values.
 
-## Next Recommended Step
-Review this data-model and source expansion before committing or pushing it.
+## Final Publication Verification
+- Real-key Python pipeline: PASS — 19 live FRED-backed records, FINRA live parse, and 3 manual indicators.
+- Generated JSON validation: PASS — root/frontend data files match; 22 indicators, 14 scored, 8 context-only.
+- Root score consistency: PASS — Cycle / Recession score `10 / 28`; normalized risk `36 / 100`; regime `Slowdown`.
+- Context exclusion: PASS — `vix`, `financial-stress`, `credit-conditions`, and `margin-debt-gdp` each have `scored: false`, `score: null`, and `risk_score: null`.
+- `npm run build`: PASS.
+- `.env` staging check: PASS — ignored and not staged.
+- Reviewed implementation commit: `0377162` — `Add market fragility stress indicators`.
+- Final handoff commit: recorded below after this update is committed.
+- Push status: pending final handoff commit push.
+
+## Published Files
+The reviewed implementation is published on `origin/main` in commit `0377162`:
+- `scripts/market_fragility.py`
+- `scripts/fetch_finra.py`
+- `scripts/fetch_fred.py`
+- `scripts/build_dashboard_data.py`
+- `data/sample_raw.json`
+- `data/current.json`, `data/history.json`
+- `frontend/src/data/current.json`, `frontend/src/data/history.json`
+- `frontend/src/types/dashboard.ts`
+- `frontend/src/App.tsx`
+- `README.md`
+- `CHATGPT_HANDOFF.md`
+
+The unrelated local change to `PROJECT_INSTRUCTIONS.md` was not staged or published. No Valuation / Bubble Risk implementation was started.
 
 ## Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
