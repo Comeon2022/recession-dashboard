@@ -150,6 +150,58 @@ Pipeline: PASS — official Yale/Shiller CAPE source is live, `source_status: li
 - Commit: `14d9ffd` — `Add valuation and Shiller CAPE context indicators`.
 - Push status: PASS — pushed to `origin/main` after this handoff update.
 
+## Current Stress / Break Confirmation v1 — Review Status
+
+Implemented locally and intentionally not committed or pushed.
+
+| Signal | Current value / derived field | State | Result |
+|---|---|---|---|
+| Volatility Release / FRED `VIXCLS` | 17.84; 20D average 15.37; 20D change +3.59; 2026-09-10 | Watch | PASS |
+| Financial Stress / FRED `STLFSI4` | -0.7884; 4W average -0.8194; 12W change +0.1624; 2026-09-04 | Calm | PASS |
+| Credit Conditions / FRED `NFCICREDIT` | -0.0600; 4W average -0.0582; 12W change -0.0290; 2026-09-04 | Calm | PASS |
+| Claims Acceleration / `ICSA` | 4W average 206,000; 13-week change -6.0%; 2026-09-05 | Calm | PASS |
+| Sahm Confirmation / `SAHMREALTIME` + `UNRATE` | Sahm -0.07; unemployment 4.1%; 2026-08-01 | Calm | PASS |
+| Rapid Bull Steepening / existing curve regime | 2Y 20D +36.0 bp; 2s10s change -9.0 bp | Calm / false | PASS |
+
+Current Stress aggregate: `Calm / No Break`, `0 of 6` active confirmations, no market/financial confirmation active. Thresholds are explicitly provisional. Historical sanity checks passed for calm synthetic inputs, claims acceleration state boundaries, Sahm thresholds, and the rapid bull-steepening requirement (`2Y <= -25 bp` plus spread widening `>= +15 bp`).
+
+Score preservation: PASS — Cycle / Recession remains `10 / 28`, normalized risk `36 / 100`; the indicator count remains 24 and no new scored indicator or denominator was added. Pipeline and generated JSON validation: PASS. Frontend build: PASS. Changed files: `scripts/current_stress.py`, `scripts/build_dashboard_data.py`, `frontend/src/types/dashboard.ts`, `frontend/src/App.tsx`, `frontend/src/styles/current-stress.css`, `data/current.json`, `frontend/src/data/current.json`, `README.md`, and this handoff. No Current Stress commit/push was performed.
+
+## VIX Shared Derived-Metric Reconciliation — Review Status
+
+Implemented locally and intentionally not committed or pushed. Root cause: Market Fragility used 20 newest observations and compared the latest with the 20th item, producing a 19-observation change; Current Stress independently used a different slice and calculation. Both now consume `scripts/derived_metrics.py`.
+
+Canonical policy: sort valid observations ascending, discard missing/non-numeric values identically, use exactly 20 valid observations for the moving average, and define `20D change` as latest minus the value 20 valid observations earlier, requiring 21 valid observations.
+
+| VIX field | Canonical result | Status |
+|---|---:|---|
+| Current value | 17.84 | PASS |
+| Observation date | 2026-09-10 | PASS |
+| 20D average | 15.3695 (displayed 15.37) | PASS |
+| 20-observation change | +3.21 | PASS |
+| Market Fragility display | `17.84 close | 20D avg 15.37 | 20D change +3.21` | PASS |
+| Current Stress display | `17.84 | 20D avg 15.37 | 20D change +3.21` | PASS |
+
+Current Stress after reconciliation: `Calm / No Break`, `0 of 6` active confirmations; Volatility Release remains `Watch`, all other signals remain Calm. Score preservation: PASS — Cycle / Recession remains `10 / 28`, normalized risk `36 / 100`, with 24 indicators and no denominator change. Pipeline/JSON validation: PASS with no warnings. Historical canonical-metric sanity checks: PASS. Frontend build: PASS. Changed files: `scripts/derived_metrics.py`, `scripts/build_dashboard_data.py`, `scripts/current_stress.py`, `data/current.json`, `frontend/src/data/current.json`, and this handoff. No commit/push performed.
+
+## Current Stress Publication
+
+The reviewed Current Stress / Break Confirmation v1 and canonical VIX reconciliation were published after final validation.
+
+- Commit: `302b662` — `Add current stress break confirmation engine`
+- Push status: PASS — pushed to `origin/main` after the handoff update
+- Live pipeline: PASS; no warnings
+- Frontend build: PASS
+- VIX: `17.84`, 20D average `15.37`, 20-observation change `+3.21`, observation date `2026-09-10`; Market Fragility and Current Stress match exactly
+- Current Stress: `Calm / No Break`, `0 / 6` active confirmations
+- Signal states: Volatility Release `Watch`; Financial Stress `Calm`; Credit Conditions `Calm`; Claims Acceleration `Calm`; Sahm Confirmation `Calm`; Rapid Bull Steepening `Calm`
+- Cycle / Recession: `10 / 28`; normalized risk `36 / 100`
+- `.env`: ignored and not staged
+
+Published files: `README.md`, `data/current.json`, `frontend/src/App.tsx`, `frontend/src/data/current.json`, `frontend/src/styles/current-stress.css`, `frontend/src/types/dashboard.ts`, `scripts/build_dashboard_data.py`, `scripts/current_stress.py`, `scripts/derived_metrics.py`, and `CHATGPT_HANDOFF.md`.
+
+Positioning / Sentiment work was not started.
+
 ## Publication Note
 
 The reviewed CAPE remediation is published in `14d9ffd`; the live-source verification and push status above supersede earlier pre-publication wording in this handoff.
