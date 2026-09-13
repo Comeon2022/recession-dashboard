@@ -63,7 +63,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Change: merged the title hero and Overall Picture into one compact summary block with one canonical Cycle score/regime/raw-points/scored-count presentation. The gauge is reduced to a compact footprint; Current Stress is a separate compact companion showing `Calm / No Break` and `0 / 6 confirmations`.
 - Layout: Healthy/Warning/Recessionary counts, domain pills, interpretation, and the explanatory evidence chain now live inside the merged block. The standalone duplicate Current Stress panel is visually suppressed. Desktop targets a compact 420–520px summary; mobile stacks title, score, gauge, stress, counts, pills, and evidence without horizontal overflow.
 - Validation: frontend build PASS; 24 indicators and live score fields preserved (`9 / 24`, `38 / 100`, `Slowdown`). No generated JSON, scoring, thresholds, roles, Current Stress logic, history, workflows, infrastructure, `.env`, or SEC state changed.
-- Commit/push: pending final publication.
+- Commit: `90e0562423eda7d41637ad85e7fcf44d96da6844`; message `Compact dashboard top summary`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
