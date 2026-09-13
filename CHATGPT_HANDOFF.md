@@ -971,3 +971,11 @@ This pre-publication monitoring record is retained for audit history. Its stale 
 ## ARCHIVED HISTORICAL SUGGESTED PROMPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
 > **SEC research status — authoritative as of latest review:** Earlier Form 4/A conclusions below are historical and superseded where they use raw duplicate sample records or whole-accession language. The current accession-normalized status is the final SEC section 224–232 section near the end of this file. Production remains blocked.
+## Dashboard Presentation & UX Refresh — bold takeaways and historical recession comparisons
+
+- Implemented the approved UI-only Iteration 10 in `frontend/src/components/IndicatorCard.tsx` and `frontend/src/styles/presentation-refresh.css`.
+- Indicator conclusions now use semantic bold takeaway text. Every card now shows the ordered comparison row `Today | 2020 | 2008 | 2001`.
+- Today uses the card's existing formatted primary metric. The current production payload contains no recession-era per-indicator observations, so unavailable historical cells are explicitly `N/A`; no values were fabricated and no data-generation/scoring semantics changed. A future approved data-plumbing task can populate these cells using a documented recession-window method.
+- Production logic, scoring, thresholds, roles, generated JSON, history, workflows, infrastructure, and SEC state were untouched.
+- Validation: frontend build PASS; 24 visible indicators preserved; JOLTS Hires remains scored; JOLTS Quits remains Context; Sahm remains Confirmation · Context. Desktop/tablet/mobile comparison grids use four compact columns and remain responsive.
+- Status: NOT COMMITTED / NOT PUSHED pending review.
