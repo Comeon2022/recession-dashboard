@@ -81,7 +81,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Change: added a robust two-column desktop header with normal-flow metadata in the left column and Cycle score/scale/stress metadata in the right column. The risk scale is width-contained with percentage marker positioning and a three-column label layout; the decorative arc is removed.
 - Responsive behavior: mobile switches to one normal-flow column with no absolute essential content, clipping, or right-edge overflow. Header content is targeted to a compact 250–320px desktop footprint.
 - Validation: frontend build PASS; 24 indicators and existing score fields preserved (`9 / 24`, `38 / 100`, `Slowdown`). No generated JSON, scoring, thresholds, roles, Current Stress logic, history, workflows, infrastructure, `.env`, or SEC state changed.
-- Commit/push: pending final publication.
+- Commit: `bba0bdebcf15444a27c448cf7fc15009314e5b84`; message `Fix dashboard header layout`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
