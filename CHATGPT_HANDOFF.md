@@ -110,7 +110,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Hero sizing: retained the approved poster/civic direction while reducing the desktop hero toward 360–430px, gauge to approximately 390px wide × 195px arc, score plate padding/type, Current Stress footprint, skyline height, and top/bottom spacing.
 - Evidence chain: compact horizontal strip with reduced margins; mobile continues to stack cleanly. Indicator-card implementation and data structure were untouched.
 - Validation: frontend build PASS; 24 indicators and Hires/Quits/Sahm roles preserved; desktop/tablet/mobile responsive rules reviewed for no clipping or overflow. Generated JSON, scoring, thresholds, Current Stress logic, history, workflows, infrastructure, `.env`, and SEC state changed: NO.
-- Commit/push: pending final publication.
+- Commit: `f0d885f8007029b728ca4c72820b6e405ad9a2c5`; message `Compact infographic hero`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
