@@ -5,16 +5,38 @@ Score v2 Monitoring & Stability
 
 ### Monitoring Refresh 2026-09-13
 
+Independent monitoring cycle: 1 / 3.
+
 - Clean real-key refresh: v2 architecture PASS — 24 visible, 12 scored, denominator 24; JOLTS Hires scored, Quits context-only, Sahm Cycle context/confirmation-only; Current Stress has six signals including Sahm Confirmation.
 - Actual state: `9 / 24`, `38 / 100`, `Slowdown`. No scored indicator changed state versus the prior production snapshot. Pipeline warnings: none.
 - History: `same-version replace` for the existing `2026-09-13` row; one row per date, no duplicate; legacy `2026-09-12` v1 row unchanged; no cross-version overwrite or warning.
 - Root/frontend current and history JSON synchronized; frontend production build PASS. Expected generated changes are current snapshot refreshes only.
 
-### Monitoring Refresh 2026-09-13 (Refresh #2)
+### Supplemental Same-Day Verification 2026-09-13
 
-Pipeline: PASS. Model version 2; 24 visible, 12 scored, denominator 24. Score `9 / 24` → `38 / 100`; regime `Slowdown`. Changed scored signals: none. Current Stress: six signals including Sahm Confirmation. History action: `same-version replace`; one row per date, legacy v1 unchanged, no cross-version overwrite or warning. Root/frontend current and history JSON synchronized; build PASS; pipeline warnings none; model change NONE. Monitoring progress: `2 / 3`.
+This supplemental run confirms same-version replacement/idempotence but does not increment the independent three-cycle monitoring counter. Architecture: PASS — v2, 24 visible, 12 scored, denominator 24. State: `9 / 24` → `38 / 100`, `Slowdown`; changed scored signals: none. Current Stress: six signals including Sahm Confirmation. History: `same-version replace`, one row per date, legacy v1 unchanged, no cross-version overwrite or warning. Root/frontend sync PASS; build PASS; pipeline warnings none. Authoritative monitoring progress remains `1 / 3` independent cycles.
 
 The published Cycle Score v2 remains the production baseline. SEC insider research is DEFERRED / historical and must not resume.
+
+## Dashboard Presentation & UX Refresh — local visual review
+
+- Frontend files changed: `frontend/src/App.tsx`, `frontend/src/components/IndicatorCard.tsx`, `frontend/src/styles/presentation-refresh.css`.
+- Hero: institutional macro header, integrated Cycle score plate with live score/regime/raw points/scored count, larger gauge treatment, adjacent Current Stress companion, and subtle CSS civic/grid motif.
+- Evidence chain: explanatory-only strip from Labor deterioration → Consumer pressure → Economic slowdown → Earnings / cash-flow pressure → Asset-price vulnerability; no score or data field added.
+- Card roles: scored indicators show `Cycle score · Healthy/Warning/Recessionary`; context cards show `Context`; Sahm shows `Confirmation · Context`.
+- Responsive behavior: three-column desktop card grid, two-column tablet fallback, stacked mobile hero/evidence chain/single-column cards with readable role labels and no horizontal overflow.
+- Validation: frontend production build PASS; 24 indicator rendering and v2 role language preserved; no stale 14/28 copy found. Generated JSON, scoring/data-source code, history, workflow, infrastructure, `.env`, and SEC state were untouched.
+- Status: **NOT COMMITTED / NOT PUSHED**. Active monitoring baseline remains `Score v2 Monitoring & Stability`; active workstream is UI-only.
+
+## Dashboard Presentation & UX Refresh — online review
+
+- Commit: pending final publication hash; message `Refresh dashboard presentation`.
+- Push: pending.
+- Frontend build: PASS.
+- Published files: `frontend/src/App.tsx`, `frontend/src/components/IndicatorCard.tsx`, `frontend/src/styles/presentation-refresh.css`, `CHATGPT_HANDOFF.md`.
+- Production logic changed: NO. Scoring, data, history, Current Stress, workflows, infrastructure, `.env`, and SEC state are untouched.
+- Cloudflare: deployment expected automatically from `main`.
+- Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
 
