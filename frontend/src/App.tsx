@@ -6,6 +6,7 @@ import './styles/dashboard.css';
 import './styles/current-stress.css';
 import './styles/positioning.css';
 import './styles/presentation-refresh.css';
+import './styles/header-layout.css';
 
 const laborIds = ['payrolls', 'sahm-rule', 'initial-claims', 'jolts-hires', 'jolts-quits', 'wage-growth'];
 const housingIds = ['housing-starts', 'building-permits', 'new-home-sales', 'months-supply', 'fhfa-home-prices', 'mortgage-rate-30y', 'mortgage-delinquency', 'mortgage-debt-service'];
