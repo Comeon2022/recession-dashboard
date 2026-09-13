@@ -45,7 +45,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Badges: scored cards use `Cycle score · Healthy/Warning/Recessionary`; context cards use `Context`; Sahm uses `Confirmation · Context`. Labor subtotal is labeled `Risk points`.
 - Responsive behavior: two-column support grid on desktop, stacked metrics and one card per row on mobile; footer and badges wrap without horizontal overflow.
 - Build: PASS. 24 indicators/data values preserved; Hires remains Cycle-scored, Quits Context, Sahm Confirmation · Context. Production logic, JSON, history, workflows, infrastructure, `.env`, and SEC state changed: NO.
-- Commit/push: pending final publication.
+- Commit: `c98ca7b4c1ddf9c89bb7df6934bab76edb583c93`; message `Improve indicator card readability`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
