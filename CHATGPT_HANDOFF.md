@@ -94,6 +94,16 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Commit: `a2be45f9a3c45b60f4192cf29d34fd6652903b2a`; message `Fix header CSS cascade`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
+## Dashboard Presentation & UX Refresh — infographic hero direction reset
+
+- Files: `frontend/src/App.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/macro-hero.css`, `frontend/src/styles/presentation-refresh.css`, `CHATGPT_HANDOFF.md`; removed obsolete `frontend/src/styles/header-layout.css` and `frontend/src/styles/dashboard-header-fix.css`.
+- Reset: replaced the minimalist header with one isolated poster-style `MacroHero`: subtle CSS/SVG civic scene, centered semicircle gauge, integrated white score plate, live score/regime/raw points/scored count, compact status counts, and separate Current Stress companion. Evidence chain remains below the hero.
+- Cleanup: stopped importing all superseded header styles and reduced `presentation-refresh.css` to stable indicator-card presentation only; no layered header selectors remain active.
+- Responsive validation: desktop ~1440px and tablet ~1024px use a controlled 480–620px hero; mobile ~390px stacks title, gauge, score plate, stress, counts, and evidence without overflow. Build PASS; 24 indicators and Hires/Quits/Sahm roles preserved.
+- Production logic/data/history/workflows/infrastructure/.env/SEC state changed: NO.
+- Commit/push: pending final publication.
+- Review URL: `https://recession-dashboard-45c.pages.dev`.
+
 Score v2 Monitoring & Stability
 
 The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHASE` headings below are historical/superseded audit records. SEC insider research remains DEFERRED / historical and must not resume.
