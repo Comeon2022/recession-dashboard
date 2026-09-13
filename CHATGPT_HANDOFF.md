@@ -48,6 +48,15 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Commit: `c98ca7b4c1ddf9c89bb7df6934bab76edb583c93`; message `Improve indicator card readability`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
+## Dashboard Presentation & UX Refresh — metric layout fix
+
+- Root cause: the previous card used only a generic display-string split and CSS styling; the frontend needed an explicit presentation adapter to turn existing `trend_metrics` and known `display_value` segments into real label/value cells.
+- Files changed: `frontend/src/components/IndicatorCard.tsx`, `frontend/src/styles/presentation-refresh.css`, `CHATGPT_HANDOFF.md`.
+- Implementation: frontend-only per-indicator primary/support adapter; no generated JSON or Python semantics changed. Labor support metrics now render as separate cells, technical series codes are removed from the dominant metric, category labels are hidden visually but retained in ARIA text, and the subtotal is displayed as `Risk points`.
+- Validation: build PASS; 24 indicators preserved; Hires `Cycle score`, Quits `Context`, Sahm `Confirmation · Context`; no old numeric badges, visible repeated `LABOR`, or concatenated Labor support-stat blob remains in the card renderer. Production logic/data/history/workflows/infrastructure/.env/SEC state changed: NO.
+- Commit/push: pending final publication.
+- Review URL: `https://recession-dashboard-45c.pages.dev`.
+
 Score v2 Monitoring & Stability
 
 The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHASE` headings below are historical/superseded audit records. SEC insider research remains DEFERRED / historical and must not resume.
