@@ -119,7 +119,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Gauge labels: added a dedicated gauge-width three-column row with left/center/right alignment for Healthy, Slowdown, and Recession; labels remain inside the hero and clear of the score plate/stress companion.
 - Evidence chain: added a compact desktop/tablet horizontal flex sequence with visible arrows; controlled wrapping is used at narrower widths and mobile stacking remains readable.
 - Validation: frontend build PASS; 24 indicators preserved; no generated JSON, scoring, data/history, indicator-card, Current Stress, workflow, infrastructure, `.env`, or SEC changes. Responsive rules reviewed at 1440px, 1024px, and 390px for clipping/overflow.
-- Commit/push: pending final publication.
+- Commit: `d4780480b6379ef94bc8104ebc603911f76f3fba`; message `Fix gauge labels and evidence chain layout`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
