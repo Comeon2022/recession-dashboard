@@ -1,6 +1,11 @@
 # ChatGPT Project Handoff
 
 ## CURRENT AUTHORITATIVE PHASE
+Cycle Score v2 — published
+
+Commit `eaf0a46844e7a120be46332d4ce7d0c798430d72` pushed to `origin/main`. Next phase: **Score v2 Monitoring & Stability**. SEC insider research remains DEFERRED / historical and must not resume.
+
+## CURRENT AUTHORITATIVE PHASE
 Cycle Score v2 — local implementation review
 
 Implementation is local only: NOT COMMITTED / NOT PUSHED. SEC insider research remains DEFERRED / historical and must not resume.
@@ -794,6 +799,21 @@ Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTION
 - Validation: real-key pipeline PASS; JSON fields PASS; root/frontend current and history files synchronized; frontend `npm run build` PASS; Hires threshold unchanged; no scoring threshold/source/workflow/infrastructure changes; `.env` ignored and unstaged; SEC state untouched.
 - Files changed: `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `README.md`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, `CHATGPT_HANDOFF.md`.
 - Commit status: **NOT COMMITTED**. Push status: **NOT PUSHED**.
+
+## CYCLE SCORE V2 — PUBLISHED STATUS
+
+- Commit: `eaf0a46844e7a120be46332d4ce7d0c798430d72`
+- Message: `Introduce Cycle Score v2`
+- Push: PASS — verified at `origin/main`.
+- Final v2 baseline: 24 visible indicators; 12 scored; `9 / 24`; normalized risk `38 / 100`; regime `Slowdown`; Labor denominator share `8 / 24 = 33.3%`.
+- Role changes: JOLTS Hires remains scored with unchanged threshold logic; JOLTS Quits is visible context-only; Sahm is visible confirmation/context-only for Cycle scoring and remains in Current Stress.
+- History: unversioned `2026-09-12` v1 snapshot preserved unchanged; new `2026-09-13` v2 snapshot carries `score_model_version: 2`; no old snapshot was rescored.
+- Current Stress: unchanged `Calm / No Break`, `0 / 6`; Sahm Confirmation remains present.
+- Verification: real-key pipeline PASS; root/frontend current and history JSON synchronized; frontend production build PASS; `.env` and SEC state/cache ignored and unstaged; no threshold, source, workflow, infrastructure, or SEC changes.
+- Published files: `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `README.md`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, `CHATGPT_HANDOFF.md`.
+- Next phase: **Score v2 Monitoring & Stability**. No scoring redesign begins here.
+
+Older duplicate v2 design/implementation headings in this handoff are historical audit records and are superseded by this published status. The former Historical Suggested Prompt is archived below.
 
 ## Historical Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
