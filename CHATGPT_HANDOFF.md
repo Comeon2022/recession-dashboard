@@ -101,7 +101,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Cleanup: stopped importing all superseded header styles and reduced `presentation-refresh.css` to stable indicator-card presentation only; no layered header selectors remain active.
 - Responsive validation: desktop ~1440px and tablet ~1024px use a controlled 480–620px hero; mobile ~390px stacks title, gauge, score plate, stress, counts, and evidence without overflow. Build PASS; 24 indicators and Hires/Quits/Sahm roles preserved.
 - Production logic/data/history/workflows/infrastructure/.env/SEC state changed: NO.
-- Commit/push: pending final publication.
+- Commit: `5adbecd9dcd9ee34e1c1c559956384d00ed7df06`; message `Restore infographic hero direction`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
