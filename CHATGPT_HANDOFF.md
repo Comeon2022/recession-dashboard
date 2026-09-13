@@ -3,6 +3,13 @@
 ## CURRENT AUTHORITATIVE PHASE
 Score v2 Monitoring & Stability
 
+### Monitoring Refresh 2026-09-13
+
+- Clean real-key refresh: v2 architecture PASS — 24 visible, 12 scored, denominator 24; JOLTS Hires scored, Quits context-only, Sahm Cycle context/confirmation-only; Current Stress has six signals including Sahm Confirmation.
+- Actual state: `9 / 24`, `38 / 100`, `Slowdown`. No scored indicator changed state versus the prior production snapshot. Pipeline warnings: none.
+- History: `same-version replace` for the existing `2026-09-13` row; one row per date, no duplicate; legacy `2026-09-12` v1 row unchanged; no cross-version overwrite or warning.
+- Root/frontend current and history JSON synchronized; frontend production build PASS. Expected generated changes are current snapshot refreshes only.
+
 The published Cycle Score v2 remains the production baseline. SEC insider research is DEFERRED / historical and must not resume.
 
 Score v2 Monitoring & Stability
