@@ -91,7 +91,7 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Files changed: `frontend/src/App.tsx`, `frontend/src/styles/dashboard-header-fix.css`, `CHATGPT_HANDOFF.md`.
 - CSS fix: uniquely scoped normal-flow `.dashboard-header*` selectors replace legacy header behavior; score, scale, stress, counts, and domains are contained in the right column. Decorative/header legacy rules are no longer active because the old classes are absent from the header DOM.
 - Width validation: 1440px and 1024px use a real two-column grid with normal subtitle/metadata flow and contained score/scale/stress; 390px switches to one column with wrapping domain pills and no horizontal overflow. Build PASS; 24 indicators and score data preserved. Production logic/data/history/workflows/infrastructure/.env/SEC state changed: NO.
-- Commit/push: pending final publication.
+- Commit: `a2be45f9a3c45b60f4192cf29d34fd6652903b2a`; message `Fix header CSS cascade`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
 Score v2 Monitoring & Stability
