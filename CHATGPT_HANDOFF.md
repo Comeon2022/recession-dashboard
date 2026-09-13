@@ -10,6 +10,10 @@ Score v2 Monitoring & Stability
 - History: `same-version replace` for the existing `2026-09-13` row; one row per date, no duplicate; legacy `2026-09-12` v1 row unchanged; no cross-version overwrite or warning.
 - Root/frontend current and history JSON synchronized; frontend production build PASS. Expected generated changes are current snapshot refreshes only.
 
+### Monitoring Refresh 2026-09-13 (Refresh #2)
+
+Pipeline: PASS. Model version 2; 24 visible, 12 scored, denominator 24. Score `9 / 24` → `38 / 100`; regime `Slowdown`. Changed scored signals: none. Current Stress: six signals including Sahm Confirmation. History action: `same-version replace`; one row per date, legacy v1 unchanged, no cross-version overwrite or warning. Root/frontend current and history JSON synchronized; build PASS; pipeline warnings none; model change NONE. Monitoring progress: `2 / 3`.
+
 The published Cycle Score v2 remains the production baseline. SEC insider research is DEFERRED / historical and must not resume.
 
 Score v2 Monitoring & Stability
