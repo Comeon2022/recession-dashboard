@@ -84,6 +84,16 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Commit: `bba0bdebcf15444a27c448cf7fc15009314e5b84`; message `Fix dashboard header layout`; push: PASS to `origin/main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
+## Dashboard Presentation & UX Refresh — header CSS root-cause fix
+
+- Root cause: the prior header reused legacy `.summary-*` / `.merged-*` selectors from `dashboard.css`, `presentation-refresh.css`, and `header-layout.css` in multiple import layers. Conflicting grid/flex rules, the old absolute `.updated` rule, and legacy media queries acted on the compressed DOM; the evidence chain remained nested in that same block and the later full Current Stress markup remained active.
+- DOM fix: `App.tsx` now has one `.dashboard-header` with exactly two primary children: `.dashboard-header__left` and `.dashboard-header__right`. Evidence chain is a sibling below the header; the duplicate lower Current Stress panel is neutralized visually.
+- Files changed: `frontend/src/App.tsx`, `frontend/src/styles/dashboard-header-fix.css`, `CHATGPT_HANDOFF.md`.
+- CSS fix: uniquely scoped normal-flow `.dashboard-header*` selectors replace legacy header behavior; score, scale, stress, counts, and domains are contained in the right column. Decorative/header legacy rules are no longer active because the old classes are absent from the header DOM.
+- Width validation: 1440px and 1024px use a real two-column grid with normal subtitle/metadata flow and contained score/scale/stress; 390px switches to one column with wrapping domain pills and no horizontal overflow. Build PASS; 24 indicators and score data preserved. Production logic/data/history/workflows/infrastructure/.env/SEC state changed: NO.
+- Commit/push: pending final publication.
+- Review URL: `https://recession-dashboard-45c.pages.dev`.
+
 Score v2 Monitoring & Stability
 
 The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHASE` headings below are historical/superseded audit records. SEC insider research remains DEFERRED / historical and must not resume.
