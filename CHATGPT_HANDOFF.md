@@ -13,7 +13,7 @@ The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHAS
 
 The Same-Date History Consistency Fix is published in this handoff sequence. Missing `score_model_version` means v1; new dates append; same-date same-version snapshots atomically replace the full daily row; same-date cross-version conflicts preserve the existing row, add no duplicate, and emit a warning.
 
-- Publication commit: pending final commit hash; message `Fix same-day history consistency`; push status pending.
+- Publication commit: `14df5b3ea93aeb43705232f3e65938dfdc3c4b1e`; message `Fix same-day history consistency`; push status PASS to `origin/main`.
 - Tests A-E: PASS — new-date append; identical same-version rerun without duplication; changed same-version payload replaced atomically with stable row count; legacy v1 cross-version conflict preserved byte-for-byte with warning; next-date append preserved older rows and chronological order.
 - Live pipeline/build: PASS — v2, 24 visible, 12 scored, `9 / 24`, `38 / 100`, `Slowdown`; frontend `npm run build` passed.
 - Roles and Current Stress: PASS — Hires scored; Quits context-only; Sahm Cycle context/confirmation-only; six Current Stress signals including Sahm Confirmation.
