@@ -1005,5 +1005,5 @@ Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stres
 - PAYEMS unit correction was display/comparison-only: latest `+162K`, 3M `+71K`, 12M `+50K`; 2020 `-20,469K` (2020-04-01), 2008 `-824K` (2009-03-01), 2001 `-311K` (2001-10-01). Scoring input and thresholds unchanged.
 - Final invariants: model v2; 24 visible; 12 scored; denominator 24; Hires scored; Quits Context; Sahm Confirmation · Context; Current Stress six signals. Final live state `9/24`, `38/100`, `Slowdown`.
 - Pipeline PASS; root/frontend current and history synchronized; frontend build PASS; push PASS.
-- Commit: `PENDING` — `Add historical recession comparisons`; files are staged for final publication.
+- Commit: `b10333f4566d8cb611308ed4d2adfd31180cd01c` — `Add historical recession comparisons`; push to `origin/main` PASS. This handoff hash correction follows the implementation publication.
 - Review URL: https://recession-dashboard-45c.pages.dev
