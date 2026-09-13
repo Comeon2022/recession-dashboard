@@ -978,4 +978,5 @@ Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stres
 - Today uses the card's existing formatted primary metric. The current production payload contains no recession-era per-indicator observations, so unavailable historical cells are explicitly `N/A`; no values were fabricated and no data-generation/scoring semantics changed. A future approved data-plumbing task can populate these cells using a documented recession-window method.
 - Production logic, scoring, thresholds, roles, generated JSON, history, workflows, infrastructure, and SEC state were untouched.
 - Validation: frontend build PASS; 24 visible indicators preserved; JOLTS Hires remains scored; JOLTS Quits remains Context; Sahm remains Confirmation · Context. Desktop/tablet/mobile comparison grids use four compact columns and remain responsive.
-- Status: NOT COMMITTED / NOT PUSHED pending review.
+- Published: commit `f5ea79779753b329ef4d9d01fac6672bcff4f750`, message `Add bold takeaways and recession comparisons`; push to `origin/main` PASS.
+- Review URL: https://recession-dashboard-45c.pages.dev
