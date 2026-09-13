@@ -30,8 +30,8 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 
 ## Dashboard Presentation & UX Refresh — online review
 
-- Commit: pending final publication hash; message `Refresh dashboard presentation`.
-- Push: pending.
+- Commit: `a69ffff4d7d33475223e5142849faf5c0f07fa36`; message `Refresh-dashboard-presentation`.
+- Push: PASS to `origin/main`.
 - Frontend build: PASS.
 - Published files: `frontend/src/App.tsx`, `frontend/src/components/IndicatorCard.tsx`, `frontend/src/styles/presentation-refresh.css`, `CHATGPT_HANDOFF.md`.
 - Production logic changed: NO. Scoring, data, history, Current Stress, workflows, infrastructure, `.env`, and SEC state are untouched.
