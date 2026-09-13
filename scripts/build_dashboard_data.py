@@ -265,12 +265,20 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
     }
 
 
-def update_history(current: dict) -> list[dict]:
+def update_history(current: dict, warnings: list[str] | None = None) -> list[dict]:
     history = read_json(HISTORY_PATH, [])
     date = current["generated_at"][:10]
-    if any(entry.get("date") == date for entry in history):
-        return sorted(history, key=lambda entry: entry["date"])
-    history.append({"date": date, "total_score": current["total_score"], "max_score": current["max_score"], "risk_score": current["risk_score"], "regime": current["regime"], "score_model_version": 2})
+    current_version = current.get("score_model_version", 1)
+    replacement = {"date": date, "total_score": current["total_score"], "max_score": current["max_score"], "risk_score": current["risk_score"], "regime": current["regime"], "score_model_version": current_version}
+    existing_index = next((index for index, entry in enumerate(history) if entry.get("date") == date), None)
+    if existing_index is None:
+        history.append(replacement)
+    else:
+        existing_version = history[existing_index].get("score_model_version", 1)
+        if existing_version == current_version:
+            history[existing_index] = replacement
+        elif warnings is not None:
+            warnings.append(f"history: same-date score model version conflict for {date} (existing v{existing_version}, current v{current_version}); existing row preserved")
     return sorted(history, key=lambda entry: entry["date"])
 
 
@@ -281,7 +289,7 @@ def main() -> None:
     status = "sample" if not api_key else ("ok" if not warnings else "partial")
     current = build_current(raw, status, warnings)
     write_json(DATA_PATH, current)
-    write_json(HISTORY_PATH, update_history(current))
+    write_json(HISTORY_PATH, update_history(current, warnings))
     shutil.copyfile(DATA_PATH, FRONTEND_DATA_PATH / "current.json")
     shutil.copyfile(HISTORY_PATH, FRONTEND_DATA_PATH / "history.json")
     for indicator in current["indicators"]:

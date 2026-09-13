@@ -1,36 +1,52 @@
 # ChatGPT Project Handoff
 
 ## CURRENT AUTHORITATIVE PHASE
+Score v2 Monitoring & Stability
+
+The published Cycle Score v2 remains the production baseline. SEC insider research is DEFERRED / historical and must not resume.
+
+Score v2 Monitoring & Stability
+
+The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHASE` headings below are historical/superseded audit records. SEC insider research remains DEFERRED / historical and must not resume.
+
+## CURRENT AUTHORITATIVE SAME-DATE HISTORY PUBLICATION STATUS
+
+The Same-Date History Consistency Fix is published in this handoff sequence. Missing `score_model_version` means v1; new dates append; same-date same-version snapshots atomically replace the full daily row; same-date cross-version conflicts preserve the existing row, add no duplicate, and emit a warning.
+
+- Publication commit: pending final commit hash; message `Fix same-day history consistency`; push status pending.
+- Tests A-E: PASS — new-date append; identical same-version rerun without duplication; changed same-version payload replaced atomically with stable row count; legacy v1 cross-version conflict preserved byte-for-byte with warning; next-date append preserved older rows and chronological order.
+- Live pipeline/build: PASS — v2, 24 visible, 12 scored, `9 / 24`, `38 / 100`, `Slowdown`; frontend `npm run build` passed.
+- Roles and Current Stress: PASS — Hires scored; Quits context-only; Sahm Cycle context/confirmation-only; six Current Stress signals including Sahm Confirmation.
+- History/sync: PASS — root/frontend current and history JSON synchronized; legacy `2026-09-12` v1 row unchanged. Current JSON changes are legitimate `generated_at` refreshes.
+- Safety: PASS — `.env` and SEC transient state/cache ignored and unstaged; no scoring, threshold, source, workflow, infrastructure, or SEC changes.
+- Published files: `scripts/build_dashboard_data.py`, `data/current.json`, `frontend/src/data/current.json`, `CHATGPT_HANDOFF.md`. `README.md` required no change.
+- Verdict: **STABLE**. Next phase remains **Score v2 Monitoring & Stability**.
+
 Cycle Score v2 — published
 
 Commit `eaf0a46844e7a120be46332d4ce7d0c798430d72` pushed to `origin/main`. Next phase: **Score v2 Monitoring & Stability**. SEC insider research remains DEFERRED / historical and must not resume.
 
-## CURRENT AUTHORITATIVE PHASE
 Cycle Score v2 — local implementation review
 
 Implementation is local only: NOT COMMITTED / NOT PUSHED. SEC insider research remains DEFERRED / historical and must not resume.
 
-## CURRENT AUTHORITATIVE PHASE
 Cycle Score v2 Design Decision — research / design only
 
 No production implementation is approved in this phase. SEC insider research remains DEFERRED / historical and must not resume.
 
-## CURRENT AUTHORITATIVE PHASE
 Recession Score Architecture Audit — research only
 
 Corporate, Consumer, Broad Cycle and Labor studies are completed historical phases. SEC insider research remains DEFERRED / historical and must not resume. Production scoring remains unchanged.
 
-## CURRENT AUTHORITATIVE PHASE
 Corporate Profit & Credit Transmission Study — research only
 
 Consumer, Broad Cycle, Labor, Market Fragility and SEC work remain completed or deferred historical phases. Production scoring remains unchanged.
 
-## CURRENT AUTHORITATIVE PHASE
 Consumer Pressure & Household Resilience Study — research only
 
 Labor Market v2 and Broad Cycle research are completed historical phases. Production scoring remains unchanged. SEC insider research remains DEFERRED / historical and must not resume.
 
-## Current Phase
+## HISTORICAL / SUPERSEDED PHASE
 Labor Market v2 — core recession/cycle refinement
 
 SEC insider research is DEFERRED / historical; the preserved full-backfill checkpoint must not resume.
@@ -40,7 +56,7 @@ The older Market Fragility phase/status section below is historical and supersed
 ## Project
 US Recession Risk Dashboard
 
-## Current Phase
+## HISTORICAL / SUPERSEDED PHASE
 Market Fragility / Stress expansion — sections 95–104
 
 ## Status
@@ -763,7 +779,7 @@ Research-only audit completed under PROJECT_INSTRUCTIONS sections 390–402. No 
 - Ranked shortlist: (1) separate Sahm as confirmation/context, (2) further Hires/Quits de-duplication study, (3) add broader activity/consumer/credit only as context first. All require separate approval; no implementation is recommended in this task.
 - Research outputs: `scripts/research_score_architecture.py`, `research/score_architecture_audit.json`, `research/score_architecture_audit.md`.
 
-## CURRENT AUTHORITATIVE CYCLE SCORE V2 DESIGN STATUS
+## HISTORICAL / SUPERSEDED CYCLE SCORE V2 DESIGN STATUS
 
 Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTIONS sections 407–417. No production scoring, thresholds, denominator, scored-indicator count, generated JSON, frontend, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
 
@@ -776,7 +792,7 @@ Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTION
 - Future UI/migration plan is design-only: retain Sahm and both JOLTS cards, add clear scored/context role labels, preserve old history, optionally version new snapshots with `score_model_version: 2`, and keep Actions/static deployment unchanged.
 - Outputs: `scripts/research_cycle_score_v2_design.py`, `research/cycle_score_v2_design.json`, `research/cycle_score_v2_design.md`.
 
-## CURRENT AUTHORITATIVE CYCLE SCORE V2 IMPLEMENTATION STATUS
+## HISTORICAL / SUPERSEDED CYCLE SCORE V2 IMPLEMENTATION STATUS
 
 - Exact structural diff: JOLTS Quits and Sahm now have `scored:false`, `score:null`, `risk_score:null`; both remain visible. JOLTS Hires remains scored with its existing threshold function unchanged. Current Stress continues consuming Sahm unchanged.
 - v1 → v2: `14 / 28`, `10`, `36 / 100`, Slowdown → `12 / 24`, `9`, `38 / 100`, Slowdown. Labor denominator share: `42.9%` → `33.3%`.
@@ -787,7 +803,7 @@ Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTION
 - Files changed: `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `README.md`, `CHATGPT_HANDOFF.md`, `data/current.json`, `frontend/src/data/current.json`, plus history handling preserved existing snapshots. No commit or push.
 - Status: **NOT COMMITTED / NOT PUSHED**. Awaiting ChatGPT review before publication.
 
-## CURRENT AUTHORITATIVE CYCLE SCORE V2 IMPLEMENTATION STATUS
+## HISTORICAL / SUPERSEDED CYCLE SCORE V2 IMPLEMENTATION STATUS
 
 - Implementation status: local implementation complete; **NOT COMMITTED / NOT PUSHED** pending review.
 - Exact scoring diff: `sahm-rule` and `jolts-quits` are forced context-only in the production build path (`scored:false`, `score:null`, `risk_score:null`). `jolts-hires` remains scored through the unchanged `score_jolts_hires` threshold function. Sahm remains visible and continues through the unchanged Current Stress confirmation path.
@@ -815,6 +831,26 @@ Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTION
 
 Older duplicate v2 design/implementation headings in this handoff are historical audit records and are superseded by this published status. The former Historical Suggested Prompt is archived below.
 
-## Historical Suggested Prompt for ChatGPT
+## HISTORICAL / SUPERSEDED SCORE V2 MONITORING — PRE-FIX
+
+This pre-publication monitoring record is retained for audit history. Its stale same-date conclusions are superseded by the published fix below.
+
+- Fix files: `scripts/build_dashboard_data.py`, `README.md`, `CHATGPT_HANDOFF.md`, `data/current.json`, `frontend/src/data/current.json`. No frontend code was changed.
+- Tests A–E: PASS — new-date v2 append; same-date same-version identical rerun; same-date same-version changed payload replacement without row-count growth; same-date v1/v2 conflict with byte-preserved v1 and warning; next-date append with chronological order and older rows unchanged.
+- Live pipeline after fix: PASS; actual current state remains `9 / 24`, `38 / 100`, `Slowdown`. The generated data diff is limited to the legitimate `generated_at` refresh, with model/role/score fields unchanged.
+
+- Real-key pipeline: PASS. Current payload: `score_model_version: 2`, 24 visible indicators, 12 scored, denominator `24`, raw score `9 / 24`, normalized risk `38 / 100`, regime `Slowdown`.
+- Role invariants: PASS — JOLTS Hires scored; JOLTS Quits context-only with null score fields; Sahm context/confirmation-only with null Cycle score fields.
+- Current Stress: PASS — `Calm / No Break`, `0 / 6`; six signals remain and Sahm Confirmation remains present.
+- Historical fixture result: same-date changed v2 data stayed stale under the pre-fix policy. This is superseded; the approved fix now replaces same-version rows atomically.
+- Historical design issue: same-date divergence was confirmed before implementation and is now resolved by the published rule below.
+- Normalization/regime invariants: PASS — `round(total_score / max_possible_score * 100)` and existing regime bands remain unchanged.
+- Frontend clarity: PASS — Hires is labeled `Cycle score · Warning`, Quits `Context`, Sahm `Confirmation · Context`; denominator copy is 24; no production-facing 14/28 text remains.
+- Synchronization/build: PASS — root/frontend current and history JSON synchronized; frontend production build passed.
+- `.env` and SEC state/cache: PASS — ignored and untouched. No scoring redesign or production logic change was made.
+- Historical verdict: **STABLE WITH DOCUMENTATION ISSUE** — superseded by the published fix.
+- Next phase: **Score v2 Monitoring & Stability**. No commit or push was performed for this monitoring task.
+
+## ARCHIVED HISTORICAL SUGGESTED PROMPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.
 > **SEC research status — authoritative as of latest review:** Earlier Form 4/A conclusions below are historical and superseded where they use raw duplicate sample records or whole-accession language. The current accession-normalized status is the final SEC section 224–232 section near the end of this file. Production remains blocked.
