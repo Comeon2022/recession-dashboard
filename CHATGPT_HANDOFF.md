@@ -38,6 +38,16 @@ The published Cycle Score v2 remains the production baseline. SEC insider resear
 - Cloudflare: deployment expected automatically from `main`.
 - Review URL: `https://recession-dashboard-45c.pages.dev`.
 
+## Dashboard Presentation & UX Refresh — card readability iteration
+
+- Files: `frontend/src/components/IndicatorCard.tsx`, `frontend/src/styles/presentation-refresh.css`, `CHATGPT_HANDOFF.md`.
+- Card anatomy: consistent icon/role row, title, labeled dominant metric, separated supporting-metric grid, concise interpretation, and aligned source/date footer. Technical series identifiers no longer lead the primary metric.
+- Badges: scored cards use `Cycle score · Healthy/Warning/Recessionary`; context cards use `Context`; Sahm uses `Confirmation · Context`. Labor subtotal is labeled `Risk points`.
+- Responsive behavior: two-column support grid on desktop, stacked metrics and one card per row on mobile; footer and badges wrap without horizontal overflow.
+- Build: PASS. 24 indicators/data values preserved; Hires remains Cycle-scored, Quits Context, Sahm Confirmation · Context. Production logic, JSON, history, workflows, infrastructure, `.env`, and SEC state changed: NO.
+- Commit/push: pending final publication.
+- Review URL: `https://recession-dashboard-45c.pages.dev`.
+
 Score v2 Monitoring & Stability
 
 The published v2 implementation is stable. All other `CURRENT AUTHORITATIVE PHASE` headings below are historical/superseded audit records. SEC insider research remains DEFERRED / historical and must not resume.
