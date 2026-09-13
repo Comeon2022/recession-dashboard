@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T07:15:36Z",
+  "generated_at": "2026-09-13T18:58:38Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -186,20 +186,47 @@
       "name": "Payrolls",
       "category": "Labor",
       "value": 162000.0,
-      "display_value": "Monthly change +0K (PAYEMS)",
+      "display_value": "Monthly change +162K (PAYEMS)",
       "unit": "jobs",
       "explanation": "Weak beneath the headline number",
       "source": "FRED",
       "observation_date": "2026-08-01",
       "scored": true,
       "trend_metrics": {
-        "Latest monthly change": "+0K",
-        "3M average change": "+0K",
-        "12M average change": "+0K",
+        "Latest monthly change": "+162K",
+        "3M average change": "+71K",
+        "12M average change": "+50K",
         "Payroll level": "159,075K"
       },
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "monthly_change",
+        "direction": "lower_is_worse",
+        "series_id": "PAYEMS",
+        "history_start_date": "1939-02-01",
+        "today": {
+          "value": 162.0,
+          "date": "2026-08-01",
+          "display": "+162K"
+        },
+        "recession_2020": {
+          "value": -20469.0,
+          "date": "2020-04-01",
+          "display": "-20,469K"
+        },
+        "recession_2008": {
+          "value": -824.0,
+          "date": "2009-03-01",
+          "display": "-824K"
+        },
+        "recession_2001": {
+          "value": -311.0,
+          "date": "2001-10-01",
+          "display": "-311K"
+        }
+      }
     },
     {
       "id": "sahm-rule",
@@ -219,7 +246,34 @@
         "Sahm threshold reference": "0.50"
       },
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "unemployment_rate",
+        "direction": "higher_is_worse",
+        "series_id": "UNRATE",
+        "history_start_date": "1948-01-01",
+        "today": {
+          "value": 4.1,
+          "date": "2026-08-01",
+          "display": "4.1%"
+        },
+        "recession_2020": {
+          "value": 14.8,
+          "date": "2020-04-01",
+          "display": "14.8%"
+        },
+        "recession_2008": {
+          "value": 9.5,
+          "date": "2009-06-01",
+          "display": "9.5%"
+        },
+        "recession_2001": {
+          "value": 5.5,
+          "date": "2001-11-01",
+          "display": "5.5%"
+        }
+      }
     },
     {
       "id": "initial-claims",
@@ -239,7 +293,34 @@
         "13-week change": "-6.0%"
       },
       "score": 0,
-      "risk_score": 0
+      "risk_score": 0,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "claims_level",
+        "direction": "higher_is_worse",
+        "series_id": "ICSA",
+        "history_start_date": "1967-01-07",
+        "today": {
+          "value": 206000.0,
+          "date": "2026-09-05",
+          "display": "206,000"
+        },
+        "recession_2020": {
+          "value": 6137000.0,
+          "date": "2020-04-04",
+          "display": "6,137,000"
+        },
+        "recession_2008": {
+          "value": 665000.0,
+          "date": "2009-03-28",
+          "display": "665,000"
+        },
+        "recession_2001": {
+          "value": 517000.0,
+          "date": "2001-09-29",
+          "display": "517,000"
+        }
+      }
     },
     {
       "id": "jolts-hires",
@@ -259,7 +340,34 @@
         "Trend": "stable"
       },
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "JTSHIR",
+        "history_start_date": "2000-12-01",
+        "today": {
+          "value": 3.2,
+          "date": "2026-07-01",
+          "display": "3.2%"
+        },
+        "recession_2020": {
+          "value": 3.1,
+          "date": "2020-04-01",
+          "display": "3.1%"
+        },
+        "recession_2008": {
+          "value": 2.8,
+          "date": "2009-06-01",
+          "display": "2.8%"
+        },
+        "recession_2001": {
+          "value": 3.7,
+          "date": "2001-11-01",
+          "display": "3.7%"
+        }
+      }
     },
     {
       "id": "jolts-quits",
@@ -279,7 +387,34 @@
         "Trend": "stable"
       },
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "JTSQUR",
+        "history_start_date": "2000-12-01",
+        "today": {
+          "value": 1.9,
+          "date": "2026-07-01",
+          "display": "1.9%"
+        },
+        "recession_2020": {
+          "value": 1.5,
+          "date": "2020-04-01",
+          "display": "1.5%"
+        },
+        "recession_2008": {
+          "value": 1.3,
+          "date": "2009-06-01",
+          "display": "1.3%"
+        },
+        "recession_2001": {
+          "value": 2.0,
+          "date": "2001-11-01",
+          "display": "2.0%"
+        }
+      }
     },
     {
       "id": "wage-growth",
@@ -298,7 +433,35 @@
         "12M change in growth rate": "-0.8 pp"
       },
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "yoy",
+        "direction": "lower_is_worse",
+        "series_id": "CES0500000003",
+        "history_start_date": "2007-02-01",
+        "today": {
+          "value": 2.8610354223433054,
+          "date": "2026-08-01",
+          "display": "2.9%"
+        },
+        "recession_2020": {
+          "value": 2.772776377385666,
+          "date": "2020-02-01",
+          "display": "2.8%"
+        },
+        "recession_2008": {
+          "value": 2.466150870406203,
+          "date": "2008-01-01",
+          "display": "2.5%"
+        },
+        "recession_2001": {
+          "value": null,
+          "date": null,
+          "display": "N/A",
+          "reason": "N/A — CES0500000003 has no valid observations in the fixed window"
+        }
+      }
     },
     {
       "id": "ism-employment",
@@ -312,7 +475,13 @@
       "observation_date": "2026-08-01",
       "scored": true,
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — manual/sample indicator; no approved historical source series"
+      }
     },
     {
       "id": "ism-activity",
@@ -326,7 +495,13 @@
       "observation_date": "2026-08-01",
       "scored": true,
       "score": 0,
-      "risk_score": 0
+      "risk_score": 0,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — manual/sample indicator; no approved historical source series"
+      }
     },
     {
       "id": "lei",
@@ -340,7 +515,13 @@
       "observation_date": "2026-07-01",
       "scored": true,
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — manual/sample indicator; no approved current historical source"
+      }
     },
     {
       "id": "yield-curve",
@@ -375,7 +556,34 @@
         }
       },
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "spread",
+        "direction": "custom_curve_stress",
+        "series_id": "T10Y2Y",
+        "history_start_date": "1976-06-01",
+        "today": {
+          "value": 33.0,
+          "date": "2026-09-11",
+          "display": "+33 bp"
+        },
+        "recession_2020": {
+          "value": 12.0,
+          "date": "2020-02-24",
+          "display": "+12 bp"
+        },
+        "recession_2008": {
+          "value": 93.0,
+          "date": "2007-12-14",
+          "display": "+93 bp"
+        },
+        "recession_2001": {
+          "value": 46.0,
+          "date": "2001-03-12",
+          "display": "+46 bp"
+        }
+      }
     },
     {
       "id": "housing-starts",
@@ -389,7 +597,34 @@
       "observation_date": "2026-07-01",
       "scored": true,
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "HOUST",
+        "history_start_date": "1959-01-01",
+        "today": {
+          "value": 1239.0,
+          "date": "2026-07-01",
+          "display": "1.24M"
+        },
+        "recession_2020": {
+          "value": 936.0,
+          "date": "2020-04-01",
+          "display": "0.94M"
+        },
+        "recession_2008": {
+          "value": 478.0,
+          "date": "2009-04-01",
+          "display": "0.48M"
+        },
+        "recession_2001": {
+          "value": 1540.0,
+          "date": "2001-10-01",
+          "display": "1.54M"
+        }
+      }
     },
     {
       "id": "building-permits",
@@ -403,7 +638,34 @@
       "observation_date": "2026-07-01",
       "scored": true,
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "PERMIT",
+        "history_start_date": "1960-01-01",
+        "today": {
+          "value": 1433.0,
+          "date": "2026-07-01",
+          "display": "1.43M"
+        },
+        "recession_2020": {
+          "value": 1079.0,
+          "date": "2020-04-01",
+          "display": "1.08M"
+        },
+        "recession_2008": {
+          "value": 513.0,
+          "date": "2009-03-01",
+          "display": "0.51M"
+        },
+        "recession_2001": {
+          "value": 1565.0,
+          "date": "2001-09-01",
+          "display": "1.56M"
+        }
+      }
     },
     {
       "id": "new-home-sales",
@@ -417,7 +679,34 @@
       "observation_date": "2026-07-01",
       "scored": true,
       "score": 1,
-      "risk_score": 50
+      "risk_score": 50,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "HSN1F",
+        "history_start_date": "1963-01-01",
+        "today": {
+          "value": 607.0,
+          "date": "2026-07-01",
+          "display": "0.61M"
+        },
+        "recession_2020": {
+          "value": 576.0,
+          "date": "2020-04-01",
+          "display": "0.58M"
+        },
+        "recession_2008": {
+          "value": 336.0,
+          "date": "2009-01-01",
+          "display": "0.34M"
+        },
+        "recession_2001": {
+          "value": 853.0,
+          "date": "2001-09-01",
+          "display": "0.85M"
+        }
+      }
     },
     {
       "id": "mortgage-delinquency",
@@ -431,7 +720,34 @@
       "observation_date": "2026-04-01",
       "scored": true,
       "score": 0,
-      "risk_score": 0
+      "risk_score": 0,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "DRSFRMACBS",
+        "history_start_date": "1991-01-01",
+        "today": {
+          "value": 1.86,
+          "date": "2026-04-01",
+          "display": "1.9%"
+        },
+        "recession_2020": {
+          "value": 2.54,
+          "date": "2020-04-01",
+          "display": "2.5%"
+        },
+        "recession_2008": {
+          "value": 8.58,
+          "date": "2009-04-01",
+          "display": "8.6%"
+        },
+        "recession_2001": {
+          "value": 2.41,
+          "date": "2001-04-01",
+          "display": "2.4%"
+        }
+      }
     },
     {
       "id": "months-supply",
@@ -445,7 +761,34 @@
       "observation_date": "2026-07-01",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "MSACSR",
+        "history_start_date": "1963-01-01",
+        "today": {
+          "value": 9.6,
+          "date": "2026-07-01",
+          "display": "9.60"
+        },
+        "recession_2020": {
+          "value": 6.8,
+          "date": "2020-04-01",
+          "display": "6.80"
+        },
+        "recession_2008": {
+          "value": 12.2,
+          "date": "2009-01-01",
+          "display": "12.20"
+        },
+        "recession_2001": {
+          "value": 4.4,
+          "date": "2001-09-01",
+          "display": "4.40"
+        }
+      }
     },
     {
       "id": "fhfa-home-prices",
@@ -459,7 +802,34 @@
       "observation_date": "2026-04-01",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "lower_is_worse",
+        "series_id": "USSTHPI",
+        "history_start_date": "1975-01-01",
+        "today": {
+          "value": 719.87,
+          "date": "2026-04-01",
+          "display": "719.9"
+        },
+        "recession_2020": {
+          "value": 453.17,
+          "date": "2020-04-01",
+          "display": "453.2"
+        },
+        "recession_2008": {
+          "value": 341.17,
+          "date": "2009-04-01",
+          "display": "341.2"
+        },
+        "recession_2001": {
+          "value": 251.68,
+          "date": "2001-04-01",
+          "display": "251.7"
+        }
+      }
     },
     {
       "id": "mortgage-rate-30y",
@@ -473,7 +843,34 @@
       "observation_date": "2026-09-10",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "MORTGAGE30US",
+        "history_start_date": "1971-04-02",
+        "today": {
+          "value": 6.76,
+          "date": "2026-09-10",
+          "display": "6.8%"
+        },
+        "recession_2020": {
+          "value": 3.65,
+          "date": "2020-03-19",
+          "display": "3.6%"
+        },
+        "recession_2008": {
+          "value": 6.63,
+          "date": "2008-07-24",
+          "display": "6.6%"
+        },
+        "recession_2001": {
+          "value": 7.24,
+          "date": "2001-06-01",
+          "display": "7.2%"
+        }
+      }
     },
     {
       "id": "mortgage-debt-service",
@@ -487,7 +884,35 @@
       "observation_date": "2026-01-01",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "MDSP",
+        "history_start_date": "2005-01-01",
+        "today": {
+          "value": 5.876343,
+          "date": "2026-01-01",
+          "display": "5.9%"
+        },
+        "recession_2020": {
+          "value": 5.028352,
+          "date": "2020-04-01",
+          "display": "5.0%"
+        },
+        "recession_2008": {
+          "value": 8.911721,
+          "date": "2008-01-01",
+          "display": "8.9%"
+        },
+        "recession_2001": {
+          "value": null,
+          "date": null,
+          "display": "N/A",
+          "reason": "N/A — MDSP has no valid observations in the fixed window"
+        }
+      }
     },
     {
       "id": "vix",
@@ -501,7 +926,34 @@
       "observation_date": "2026-09-10",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "VIXCLS",
+        "history_start_date": "1990-01-02",
+        "today": {
+          "value": 17.84,
+          "date": "2026-09-10",
+          "display": "17.84"
+        },
+        "recession_2020": {
+          "value": 82.69,
+          "date": "2020-03-16",
+          "display": "82.69"
+        },
+        "recession_2008": {
+          "value": 80.86,
+          "date": "2008-11-20",
+          "display": "80.86"
+        },
+        "recession_2001": {
+          "value": 43.74,
+          "date": "2001-09-20",
+          "display": "43.74"
+        }
+      }
     },
     {
       "id": "financial-stress",
@@ -515,7 +967,34 @@
       "observation_date": "2026-09-04",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "STLFSI4",
+        "history_start_date": "1993-12-31",
+        "today": {
+          "value": -0.7884,
+          "date": "2026-09-04",
+          "display": "-0.79"
+        },
+        "recession_2020": {
+          "value": 5.6533,
+          "date": "2020-03-20",
+          "display": "5.65"
+        },
+        "recession_2008": {
+          "value": 9.6778,
+          "date": "2008-10-10",
+          "display": "9.68"
+        },
+        "recession_2001": {
+          "value": 2.0194,
+          "date": "2001-09-21",
+          "display": "2.02"
+        }
+      }
     },
     {
       "id": "credit-conditions",
@@ -529,7 +1008,34 @@
       "observation_date": "2026-09-04",
       "scored": false,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "recession_stress_extreme",
+        "metric": "level",
+        "direction": "higher_is_worse",
+        "series_id": "NFCICREDIT",
+        "history_start_date": "1971-01-08",
+        "today": {
+          "value": -0.06,
+          "date": "2026-09-04",
+          "display": "-0.06"
+        },
+        "recession_2020": {
+          "value": 0.629,
+          "date": "2020-04-10",
+          "display": "0.63"
+        },
+        "recession_2008": {
+          "value": 2.795,
+          "date": "2008-12-05",
+          "display": "2.79"
+        },
+        "recession_2001": {
+          "value": 0.419,
+          "date": "2001-03-02",
+          "display": "0.42"
+        }
+      }
     },
     {
       "id": "margin-debt-gdp",
@@ -545,7 +1051,13 @@
       "source_reference_month": "Jul-26",
       "gdp_observation_date": "2026-04-01",
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — quarterly FINRA context is not a meaningful recession-state comparator here"
+      }
     },
     {
       "id": "public-equity-gdp",
@@ -564,7 +1076,13 @@
       "historical_percentile": 100.0,
       "percentile_label": "Historically Extreme",
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — valuation context is not a meaningful recession-state comparator"
+      }
     },
     {
       "id": "shiller-cape",
@@ -584,7 +1102,31 @@
       "percentile_label": "Historically Extreme",
       "long_run_median": 16.6,
       "score": null,
-      "risk_score": null
+      "risk_score": null,
+      "historical_comparison": {
+        "method": "unavailable",
+        "metric": "n/a",
+        "direction": "n/a",
+        "reason": "N/A — valuation context is not a meaningful recession-state comparator"
+      }
     }
-  ]
+  ],
+  "historical_comparison_methodology": {
+    "method": "recession_stress_extreme",
+    "windows": {
+      "recession_2020": {
+        "start": "2020-02-01",
+        "end": "2020-04-30"
+      },
+      "recession_2008": {
+        "start": "2007-12-01",
+        "end": "2009-06-30"
+      },
+      "recession_2001": {
+        "start": "2001-03-01",
+        "end": "2001-11-30"
+      }
+    },
+    "note": "Each card compares its displayed primary metric with the most stressed observation in the fixed window; unavailable values remain N/A."
+  }
 }

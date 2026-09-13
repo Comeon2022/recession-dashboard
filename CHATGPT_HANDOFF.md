@@ -980,3 +980,30 @@ Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stres
 - Validation: frontend build PASS; 24 visible indicators preserved; JOLTS Hires remains scored; JOLTS Quits remains Context; Sahm remains Confirmation · Context. Desktop/tablet/mobile comparison grids use four compact columns and remain responsive.
 - Published: commit `f5ea79779753b329ef4d9d01fac6672bcff4f750`, message `Add bold takeaways and recession comparisons`; push to `origin/main` PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
+## Historical Recession Comparison — local data review
+
+### Unit audit
+
+- PAYEMS was a display/comparison-only defect, not scoring-affecting. FRED PAYEMS is in thousands; the scorer continues to receive the existing `monthly_change * 1000` job-count input. Only presentation code was corrected to append `K` directly to PAYEMS differences.
+- Corrected Payroll displays: latest `+162K`, 3M average `+71K`, 12M average `+50K`; comparisons: 2020 `-20,469K` on 2020-04-01, 2008 `-824K` on 2009-03-01, 2001 `-311K` on 2001-10-01. The prior `+0K` display is now `+162K`.
+- Unit audit PASS across all 17 populated comparisons: UNRATE/Sahm unemployment in `%`; ICSA in claims; JOLTS and wage growth in `%`; Yield Curve normalized to basis points with custom lowest-spread selection; VIX/financial stress/credit conditions retain index units; housing levels use annualized millions where applicable; mortgage rates/delinquency/debt service use `%`; FHFA remains index level. Every populated comparison includes raw value, display, and observation date.
+- Seven indicators remain explicit `N/A` only because they are manual, valuation, or positioning context without an approved meaningful historical comparator.
+- Validation after correction: real-key pipeline PASS; score model v2, 24 visible, 12 scored, denominator 24, `9/24`; Hires scored, Quits context-only, Sahm confirmation/context-only, Current Stress six signals; root/frontend JSON synchronized; frontend build PASS; warnings none. NOT COMMITTED / NOT PUSHED.
+
+- Method: `scripts/historical_comparisons.py` owns fixed windows 2020-02-01—2020-04-30, 2007-12-01—2009-06-30, and 2001-03-01—2001-11-30. For each approved underlying series it reconstructs the card's primary metric, selects the window's stressed extreme using an explicit direction, and records value, display, and observation date. Yield Curve uses a custom stress comparator (lowest spread); no dashboard snapshot history was used.
+- Directions: Payrolls monthly change lower-is-worse; Unemployment/Claims higher-is-worse; JOLTS Hires/Quits lower-is-worse; Wage Growth YoY lower-is-worse; VIX/Financial Stress/Credit Conditions higher-is-worse; housing levels lower-is-worse; mortgage delinquency/rate/debt service higher-is-worse; Yield Curve custom curve-stress.
+- Files changed: `scripts/historical_comparisons.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `data/current.json`, `frontend/src/data/current.json`, and `research/historical_comparison_coverage.md` (plus this handoff). No scoring thresholds, roles, denominator, or history semantics changed.
+- Coverage: 17 approved FRED-backed indicators received computed comparisons; 7 manual/valuation/positioning indicators remain explicit `N/A` with reasons. JOLTS has valid 2001 observations and was included.
+- Examples: Payrolls `2020 -20,469K | 2008 -824K | 2001 -311K`; Unemployment `14.8% | 9.5% | 5.5%`; Claims `6,137,000 | 665,000 | 517,000`; JOLTS Hires `3.1% | 2.8% | 3.7%`; JOLTS Quits `1.5% | 1.3% | 2.0%`.
+- Validation: real-key pipeline PASS; model v2, 24 visible, 12 scored, denominator 24, score 9/24, Current Stress 6 signals; root/frontend current and history synchronized; frontend build PASS. Warnings: none.
+- Status: NOT COMMITTED / NOT PUSHED. Stop for review before publication.
+## Historical Recession Comparison — published
+
+- Published implementation: `scripts/historical_comparisons.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `data/current.json`, `frontend/src/data/current.json`, `research/historical_comparison_coverage.md`, and `CHATGPT_HANDOFF.md`.
+- Methodology: fixed windows 2020-02-01—2020-04-30, 2007-12-01—2009-06-30, and 2001-03-01—2001-11-30; same primary metric as Today; stressed extreme selected with documented per-indicator direction; exact dates retained.
+- Coverage: 17 approved FRED-backed indicators populated; 7 manual/valuation/positioning indicators remain explicit N/A with reasons.
+- PAYEMS unit correction was display/comparison-only: latest `+162K`, 3M `+71K`, 12M `+50K`; 2020 `-20,469K` (2020-04-01), 2008 `-824K` (2009-03-01), 2001 `-311K` (2001-10-01). Scoring input and thresholds unchanged.
+- Final invariants: model v2; 24 visible; 12 scored; denominator 24; Hires scored; Quits Context; Sahm Confirmation · Context; Current Stress six signals. Final live state `9/24`, `38/100`, `Slowdown`.
+- Pipeline PASS; root/frontend current and history synchronized; frontend build PASS; push PASS.
+- Commit: `PENDING` — `Add historical recession comparisons`; files are staged for final publication.
+- Review URL: https://recession-dashboard-45c.pages.dev

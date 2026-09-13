@@ -16,6 +16,7 @@ from market_fragility import build_yield_curve_regime
 from current_stress import build_current_stress
 from derived_metrics import derive_claims_metrics, derive_jolts_metrics, derive_payroll_metrics, derive_vix_metrics, derive_wage_metrics
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
+from historical_comparisons import build_historical_comparisons, coverage_markdown
 
 try:
     from dotenv import load_dotenv
@@ -69,8 +70,8 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
     def payrolls():
         metrics = derive_payroll_metrics(fetch_fred_series("PAYEMS", api_key))
         value = metrics["latest_monthly_change"]
-        update("payrolls", value * 1000, f"Monthly change {value / 1000:+,.0f}K (PAYEMS)", metrics["observation_date"], "monthly")
-        by_id["payrolls"]["trend_metrics"] = {"Latest monthly change": f"{value / 1000:+,.0f}K", "3M average change": f"{metrics['three_month_average_monthly_change'] / 1000:+,.0f}K", "12M average change": f"{metrics['twelve_month_average_monthly_change'] / 1000:+,.0f}K", "Payroll level": f"{metrics['level']:,.0f}K"}
+        update("payrolls", value * 1000, f"Monthly change {value:+,.0f}K (PAYEMS)", metrics["observation_date"], "monthly")
+        by_id["payrolls"]["trend_metrics"] = {"Latest monthly change": f"{value:+,.0f}K", "3M average change": f"{metrics['three_month_average_monthly_change']:+,.0f}K", "12M average change": f"{metrics['twelve_month_average_monthly_change']:+,.0f}K", "Payroll level": f"{metrics['level']:,.0f}K"}
 
     def sahm():
         sahm = latest_observation("SAHMREALTIME", api_key)
@@ -288,10 +289,20 @@ def main() -> None:
     raw, live_ids, warnings = apply_fred_data(read_json(RAW_PATH, {}), api_key)
     status = "sample" if not api_key else ("ok" if not warnings else "partial")
     current = build_current(raw, status, warnings)
+    current["indicators"], comparison_warnings = build_historical_comparisons(current["indicators"], fetch_fred_series, api_key)
+    warnings.extend(comparison_warnings)
+    current["warnings"] = warnings
+    current["data_status"] = status if not comparison_warnings else "partial"
+    current["historical_comparison_methodology"] = {
+        "method": "recession_stress_extreme",
+        "windows": {key: {"start": start, "end": end} for key, (start, end) in __import__("historical_comparisons").WINDOWS.items()},
+        "note": "Each card compares its displayed primary metric with the most stressed observation in the fixed window; unavailable values remain N/A.",
+    }
     write_json(DATA_PATH, current)
     write_json(HISTORY_PATH, update_history(current, warnings))
     shutil.copyfile(DATA_PATH, FRONTEND_DATA_PATH / "current.json")
     shutil.copyfile(HISTORY_PATH, FRONTEND_DATA_PATH / "history.json")
+    (ROOT / "research" / "historical_comparison_coverage.md").write_text(coverage_markdown(current["indicators"]), encoding="utf-8")
     for indicator in current["indicators"]:
         print(f"{indicator['name']}: {indicator['score'] if indicator['scored'] else 'context'}")
     print(f"Total Score: {current['total_score']} / {current['max_score']}")
