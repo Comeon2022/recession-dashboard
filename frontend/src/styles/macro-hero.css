@@ -22,3 +22,16 @@
 .macro-hero__gauge { width:405px; height:230px; }.macro-hero__arc { width:390px; height:195px; }.macro-hero__arc:after { inset:29px 29px 0; }.macro-hero__needle { height:160px; }.macro-hero__labels { bottom:41px; font-size:10px; }.macro-hero__score-plate { width:220px; padding:10px 14px 9px; }.macro-hero__score-plate strong { font-size:44px; }.macro-hero__score-plate b { margin:2px auto 5px; font-size:13px; }.macro-hero__score-plate div { font-size:9px; }
 .macro-hero__stress { width:175px; margin-bottom:29px; padding:10px 12px; }.macro-hero__stress strong { font-size:14px; }.macro-hero__counts { gap:15px; margin-top:0; font-size:11px; }
 @media(max-width:760px){.macro-hero{padding:24px 16px 20px}.macro-hero__gauge{width:100%;height:245px}.macro-hero__arc{width:min(410px,100%);height:min(205px,52vw)}.macro-hero__needle{height:min(168px,43vw)}.macro-hero__labels{bottom:53px}.macro-hero__score-plate{bottom:3px}.macro-hero__stress{width:100%;margin:14px 0 0;text-align:center}.macro-hero__counts{flex-wrap:wrap;margin-top:14px;gap:9px 14px}.macro-hero__art{opacity:.32}}
+
+/* Gauge labels stay in a dedicated three-column row tied to the gauge wrapper. */
+.macro-hero__labels { right:0; left:0; bottom:79px; grid-template-columns:repeat(3,1fr); padding:0 4px; }
+.macro-hero__labels span { white-space:nowrap; }.macro-hero__labels span:nth-child(2) { text-align:center; }.macro-hero__labels span:last-child { text-align:right; }
+/* Evidence chain is a horizontal poster strip on desktop/tablet. */
+main > .evidence-chain { margin:18px 0 24px; padding:9px 0 0; border-top:1px solid #d7e2ea; border-bottom:0; }
+main > .evidence-chain .section-kicker { margin-bottom:6px; font-size:9px; }
+main > .evidence-chain .evidence-steps { display:flex; align-items:center; justify-content:space-between; flex-wrap:nowrap; gap:8px; margin-top:0; }
+main > .evidence-chain .evidence-step { display:flex; align-items:center; flex:1 1 auto; gap:5px; min-width:0; font-size:10px; white-space:nowrap; }
+main > .evidence-chain .evidence-step span { display:grid; place-items:center; flex:0 0 19px; width:19px; height:19px; border-radius:50%; background:#e4f0f8; color:#17639b; font-size:8px; font-weight:800; }
+main > .evidence-chain .evidence-step b { overflow:hidden; text-overflow:ellipsis; }.evidence-step i { flex:0 0 auto; margin-left:auto; color:#91a9bc; font-size:15px; font-style:normal; }
+@media(max-width:1024px){main > .evidence-chain .evidence-steps{flex-wrap:wrap;justify-content:flex-start}main > .evidence-chain .evidence-step{flex:0 1 auto}}
+@media(max-width:760px){.macro-hero__labels{bottom:53px;font-size:9px}main > .evidence-chain{margin:14px 0 20px}main > .evidence-chain .evidence-steps{display:flex;flex-wrap:wrap;gap:8px 12px}main > .evidence-chain .evidence-step{flex:1 1 100%;white-space:normal}main > .evidence-chain .evidence-step i{margin-left:8px;transform:rotate(90deg)}}
