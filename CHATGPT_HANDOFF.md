@@ -1,5 +1,30 @@
 # ChatGPT Project Handoff
 
+## CURRENT AUTHORITATIVE PHASE
+Cycle Score v2 — local implementation review
+
+Implementation is local only: NOT COMMITTED / NOT PUSHED. SEC insider research remains DEFERRED / historical and must not resume.
+
+## CURRENT AUTHORITATIVE PHASE
+Cycle Score v2 Design Decision — research / design only
+
+No production implementation is approved in this phase. SEC insider research remains DEFERRED / historical and must not resume.
+
+## CURRENT AUTHORITATIVE PHASE
+Recession Score Architecture Audit — research only
+
+Corporate, Consumer, Broad Cycle and Labor studies are completed historical phases. SEC insider research remains DEFERRED / historical and must not resume. Production scoring remains unchanged.
+
+## CURRENT AUTHORITATIVE PHASE
+Corporate Profit & Credit Transmission Study — research only
+
+Consumer, Broad Cycle, Labor, Market Fragility and SEC work remain completed or deferred historical phases. Production scoring remains unchanged.
+
+## CURRENT AUTHORITATIVE PHASE
+Consumer Pressure & Household Resilience Study — research only
+
+Labor Market v2 and Broad Cycle research are completed historical phases. Production scoring remains unchanged. SEC insider research remains DEFERRED / historical and must not resume.
+
 ## Current Phase
 Labor Market v2 — core recession/cycle refinement
 
@@ -626,6 +651,149 @@ Next project priority: return to the core US recession/cycle objective, especial
 - Frontend: PASS — `npm run build` completed successfully (`tsc -b` and Vite production build).
 - Pipeline: PASS — real-key Python pipeline completed and synchronized `data/current.json`, `data/history.json`, and frontend data.
 - `.env`: PASS — ignored by Git and not staged. No commit or push was performed.
+
+## CURRENT AUTHORITATIVE LABOR RESEARCH STATUS
+
+### Labor Market v2 publication
+
+- Commit: `0a62b383b7ba666dd5dd73e2e358a599b557ad1d`
+- Message: `Improve labor market trend signals`
+- Push: PASS — pushed to `origin/main`.
+- Published files: `.gitignore`, `CHATGPT_HANDOFF.md`, `data/current.json`, `frontend/src/components/IndicatorCard.tsx`, `frontend/src/data/current.json`, `scripts/build_dashboard_data.py`, `scripts/current_stress.py`, `scripts/derived_metrics.py`.
+- Final checks: real-key pipeline PASS; frontend build PASS; generated JSON synchronized; score `10 / 28`; normalized risk `36 / 100`; no scoring, threshold, denominator, data-source, workflow, or infrastructure changes.
+
+### Labor Scoring Robustness Study — research only
+
+- FRED `USREC` is an evaluation label only and never enters production scoring.
+- Coverage: PAYEMS 1939–2026, ICSA 1967–2026, JOLTS Hires/Quits 2000–2026, UNRATE 1948–2026, SAHMREALTIME 1959–2026, USREC 1854–2026.
+- Canonical current metrics: payroll latest/3M/12M `+162K / +71.3K / +50.3K`; claims latest/4W/prior-4W/13W change `206,000 / 206,000 / 219,250 / -6.04%`; JOLTS Hires `3.2 / 3.3 / 3.3`; Quits `1.9 / 2.0 / 2.0`.
+- JOLTS Hires/Quits correlation: `0.746` overall, `0.967` in recession months, `0.719` outside recession months.
+- Same-month descriptive correlations with USREC: PAYEMS `-0.108`, ICSA `0.265`, JOLTS Hires `-0.184`, JOLTS Quits `-0.153`, UNRATE `0.148`, SAHM `0.306`.
+- Recommendation: retain production scoring unchanged; evaluate payroll smoothing and claims acceleration as context candidates; treat Hires/Quits as overlapping evidence; treat Sahm as confirmation/context pending further timing analysis.
+- Research-only outputs: `scripts/research_labor_robustness.py`, `research/labor_scoring_robustness.json`, `research/labor_scoring_robustness.md`.
+- No scoring implementation was started. SEC insider research remains DEFERRED / historical and must not resume.
+
+## CURRENT AUTHORITATIVE LABOR TIMING RESEARCH STATUS
+
+Research-only study completed under PROJECT_INSTRUCTIONS sections 322–334. No production scoring, thresholds, denominator, frontend semantics, generated production JSON, workflows, infrastructure, or data sources were changed. No commit or push was performed for this study.
+
+- Evaluation label: FRED `USREC` only; never a production feature.
+- Event framework: recession episodes evaluated at `t-12`, `t-6`, `t-3`, `t`, and `t+3`.
+- Event-window medians:
+  - Payroll latest change: `+228K / +93K / +108K / -99K / -155K`.
+  - Payroll 3M average: `+162K / +119.3K / +91K / -12.7K / -131.3K`.
+  - Payroll 12M average: `+170.4K / +151.4K / +152.1K / +77.1K / +16.1K`.
+  - Payroll 3M-minus-12M momentum: `+16.9K / +2.1K / -28.9K / -89.8K / -149.8K`.
+  - Claims 4W average: `295,125 / 307,125 / 334,125 / 390,500 / 422,375`.
+  - Claims 13W acceleration: `-1.5% / +5.0% / +4.0% / +12.4% / +11.7%`.
+  - Unemployment: `4.6% / 4.3% / 4.5% / 4.65% / 5.15%`.
+  - Sahm: `0.02 / 0.07 / 0.13 / 0.30 / 0.53`.
+- Episode consistency using simple descriptive events: payroll latest negative before start `28.6%`; payroll momentum negative `37.1%`; claims acceleration positive `22.9%`; unemployment fixed reference rise `17.1%`; Sahm `0.50` confirmation `8.6%`. These are not optimized production thresholds.
+- False-warning behavior: negative payroll months outside USREC `116/919 (12.6%)`; positive claims acceleration months `241/628 (38.4%)`; Sahm ≥0.50 outside USREC `106/705 (15.0%)`.
+- JOLTS overlap: Hires/Quits correlation `0.746`; 3-month lead correlations are `0.771` for Hires leading Quits and `0.690` for Quits leading Hires. Neither is established as distinct enough to change production weighting.
+
+| Signal | Role | Leading? | Redundant? | Recommended future status |
+|---|---|---|---|---|
+| Payroll latest | Early but noisy | Limited; 28.6% prior-event consistency | Partly overlaps smoothing | Keep scored unchanged; smoothing as context |
+| Payroll 3M/12M/momentum | Trend context | Momentum earlier than level, 37.1% consistency | High overlap by construction | Needs more research before replacement |
+| Claims 4W level | Labor stress level | Limited at fixed 75th-percentile reference | Related to acceleration | Keep current scored level |
+| Claims 13W acceleration | Change/early-warning context | 22.9% prior-event consistency | Complements level | Keep as context/confirmation |
+| JOLTS Hires | Labor demand | No reliable early signal under fixed reference | High overlap with Quits | Keep scored pending further study |
+| JOLTS Quits | Worker confidence | Limited under fixed reference | High overlap with Hires | Needs more research; possible context-only |
+| Unemployment | Slow deterioration | Limited lead behavior | Overlaps Sahm | Keep scored unchanged |
+| Sahm Rule | Recession confirmation | Mostly confirmation, not leading | Overlaps unemployment | Confirmation/context candidate |
+
+Coverage limitations: JOLTS begins in 2000; claims begins in 1967; older labor-force regimes are structurally different; raw payroll changes are not comparable across decades without normalization. Research outputs are `scripts/research_labor_timing.py`, `research/labor_timing_incremental.json`, and `research/labor_timing_incremental.md`.
+
+## CURRENT AUTHORITATIVE BROAD CYCLE RESEARCH STATUS
+
+Research-only Broad Cycle Confirmation Study completed under PROJECT_INSTRUCTIONS sections 339–349. No production scoring, thresholds, denominator, frontend, generated production JSON, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
+
+- Series: PAYEMS, W875RX1, INDPRO, CMRMTSPL; PCEC96 was fetched only as secondary context and excluded from the 0–4 breadth measure. FRED `USREC` was used only as a historical evaluation label.
+- Current latest metrics: PAYEMS (2026-08) `+0.135%` 3M / `+0.381%` 12M, improving; W875RX1 (2026-07) `+0.561%` / `-0.379%`, flat/mixed; INDPRO (2026-07) `+0.462%` / `+1.079%`, improving; CMRMTSPL (2026-06) `+0.062%` / `+2.189%`, improving.
+- Four-series breadth uses transparent descriptive rules: index series deteriorate only when both 3M and 12M growth are negative; PAYEMS also requires a negative latest monthly change. Current common date is 2026-06: `1/4` deteriorating; research conclusion: **Broad activity is slowing but not contracting**.
+- Breadth history: `3-of-4` occurred in 53 recession months and 5 non-recession months; `4-of-4` occurred in 27 recession months and 1 non-recession month. This is descriptive evidence only, not an NBER score or recession probability.
+- Coverage: PAYEMS 1939–2026, W875RX1 1959–2026, INDPRO 1919–2026, CMRMTSPL 1967–2026, PCEC96 2007–2026. CMRMTSPL is the lagging common-date constraint.
+- CMRMTSPL source safeguard: FRED identifies it as a BEA-derived/spliced real manufacturing and trade sales series. It remains research-only pending explicit redistribution/licensing review; no production publication is recommended yet.
+
+Decision: keep all current production scoring unchanged. Research outputs: `scripts/research_broad_cycle.py`, `research/broad_cycle_confirmation.json`, and `research/broad_cycle_confirmation.md`.
+
+## CURRENT AUTHORITATIVE CONSUMER PRESSURE RESEARCH STATUS
+
+Research-only Consumer Pressure & Household Resilience Study completed under PROJECT_INSTRUCTIONS sections 355–367. No production scoring, thresholds, denominator, frontend, generated JSON, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
+
+- Approved series: PCEC96, DSPIC96, PSAVERT, TDSP, DRCCLACBS; W875RX1 was secondary income-quality context only. USREC was an evaluation label only.
+- Current state: PCEC96 (2026-07) 3M `+0.82%`, 12M `+2.14%`, resilient; DSPIC96 3M `+0.92%`, 12M `+0.45%`, resilient; PSAVERT `3.0%`, 12M change `-33.3%`, cushion pressured; TDSP (2026-Q1) `11.16`, 25th historical percentile; DRCCLACBS (2026-Q2) `2.85%`, 31.2nd percentile and down `6.25%` YoY.
+- Exact divergence formula: `consumer_cashflow_gap = PCEC96 6M annualized growth - DSPIC96 6M annualized growth`, with annualized six-month growth equal to `2 × six-month percent change`. Latest gap: `+3.17 pp`; consumption is outrunning real disposable income.
+- Consumer breadth is descriptive only: spending resilient, income resilient, saving-rate cushion pressured, debt/delinquency resilient; `1/4` pressured blocks on the latest common monthly date `2026-07`. Research conclusion: **Consumer is losing momentum**.
+- Event study: spending pressure was mostly coincident (`50.0%` pressured at t=0, `0.0%` at t-3); saving-rate pressure was visible at t-3 (`100.0%` episode consistency under the descriptive rule); debt/delinquency pressure was mixed and frequency-limited (`50.0%` at t-6/t-3/t=0); income pressure was not consistently leading. False-warning counts across 215 non-recession common months: spending 2, income 15, saving cushion 98, debt/delinquency 33.
+- Overlap review: W875RX1 must not be double-counted with DSPIC96; credit-card delinquency remains distinct from mortgage delinquency; TDSP is household debt burden and does not duplicate Current Stress market signals; no consumer measure is added to production.
+- Coverage/caveats: monthly PCEC96/DSPIC96/PSAVERT and quarterly TDSP/DRCCLACBS; quarterly observations were not interpolated and event comparisons use as-of observations; FRED history is revised, not real-time vintage data; ratio levels are regime-dependent.
+
+Decision: keep all measures research-only or context candidates pending separate review. Outputs: `scripts/research_consumer_pressure.py`, `research/consumer_pressure.json`, `research/consumer_pressure.md`.
+
+## CURRENT AUTHORITATIVE CORPORATE PRESSURE RESEARCH STATUS
+
+Research-only Corporate Profit & Credit Transmission Study completed under PROJECT_INSTRUCTIONS sections 372–385. No production scoring, thresholds, denominator, frontend, generated JSON, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
+
+- Current state: CPATAX (2026-Q2) `3,921.445`, QoQ `+8.22%`, YoY `+20.31%`, 100th historical percentile, profit/GDP `12.07%`; DRTSCILM (2026-Q3) `0.0%`, 46.9th percentile, 4Q average `4.975`; BUSLOANS (2026-08) 3M `+1.96%`, 12M `+9.80%`, momentum `-7.84 pp`; ISRATIO (2026-06) `1.30`, 24.5th percentile, 12M change `-6.47%`.
+- Corporate breadth is descriptive only: profits resilient, lending standards pressured, C&I loan growth resilient, inventory/sales resilient; `1/4` pressured blocks at the latest common date `2026-06`. Research conclusion: **Corporate momentum is slowing**.
+- Event medians: profit YoY was positive through t-3 and negative at t=0; lending standards rose from `2.8` at t-12 to `36.8` at t-3 and `39.4` at t=0; loan growth remained positive around recession starts; inventory ratios were elevated around t-3/t=0. This supports credit tightening as the clearest transmission signal, but not a production trigger.
+- Episode consistency under the descriptive block rules was low across the full historical episode set: at t-3 profits `5.7%`, lending standards `8.6%`, loan growth `0%`, inventories `5.7%`. False-warning counts across 386 non-recession tested months: profits 76, lending standards 165, loan growth 112, inventories 139.
+- Overlap review: DRTSCILM measures bank lending standards, distinct from NFCICREDIT/STLFSI4 financial stress; BUSLOANS measures credit quantity and can reflect demand or stress borrowing; CPATAX is corporate fundamentals, distinct from INDPRO but related; ISRATIO is operating-cycle pressure; Margin Debt/GDP is market leverage; Current Stress and Yield Curve remain separate confirmation engines.
+- Revised-data caveat: CPATAX and DRTSCILM are quarterly and revised; event values use the latest observed as-of quarter without interpolation. This is not a real-time vintage backtest.
+
+Decision: keep all four corporate measures research-only/context candidates pending further review. Outputs: `scripts/research_corporate_pressure.py`, `research/corporate_pressure.json`, `research/corporate_pressure.md`.
+
+## CURRENT AUTHORITATIVE SCORE ARCHITECTURE AUDIT STATUS
+
+Research-only audit completed under PROJECT_INSTRUCTIONS sections 390–402. No production scoring, thresholds, denominator, scored-indicator count, frontend, generated JSON, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
+
+- Authoritative production baseline from the actual scorer: **14 scored indicators, 10 / 28 points, normalized risk 36 / 100, regime Slowdown**.
+- Domain denominator shares: Labor `12/28 (42.9%)`, Business `6/28 (21.4%)`, Housing `6/28 (21.4%)`, Rates `2/28 (7.1%)`, Mortgage/Household Credit `2/28 (7.1%)`. Labor currently contributes `4/10` points.
+- Labor redundancy: existing research found Hires/Quits correlation `0.746` overall and `0.967` during recession months, supporting duplicate-vote concern. Sahm crossed `0.50` before only `8.6%` of episodes and is primarily confirmation-like despite equal cycle-score treatment.
+- Threshold audit: payrolls/claims/ISM/yield curve are reasonable-but-provisional; Hires, Quits, wages, housing, mortgage delinquency and similar level rules are weak/heuristic; LEI is manual/insufficiently testable; Sahm is strongly supported as confirmation but its equal cycle weight is questionable.
+- Thought experiments: A current `10/28`; B collapse Hires/Quits to one vote and treat Sahm as confirmation `9/24` (38/100, non-production); C remove Sahm from cycle denominator while retaining other votes `10/26` (38/100, non-production). No historical composite was fabricated because manual LEI/ISM history limits full reconstruction.
+- Evidence-chain review covers Labor, Housing, Yield Curve/Rates, Broad Activity, Consumer, Corporate/Credit, Market Fragility, Current Stress, Valuation and Positioning, distinguishing score drivers, context, confirmation and vulnerability.
+- Ranked shortlist: (1) separate Sahm as confirmation/context, (2) further Hires/Quits de-duplication study, (3) add broader activity/consumer/credit only as context first. All require separate approval; no implementation is recommended in this task.
+- Research outputs: `scripts/research_score_architecture.py`, `research/score_architecture_audit.json`, `research/score_architecture_audit.md`.
+
+## CURRENT AUTHORITATIVE CYCLE SCORE V2 DESIGN STATUS
+
+Research/design-only Cycle Score v2 decision completed under PROJECT_INSTRUCTIONS sections 407–417. No production scoring, thresholds, denominator, scored-indicator count, generated JSON, frontend, workflows, infrastructure, data sources, or SEC state were changed. No commit or push was performed.
+
+- Exactly one recommendation: keep **JOLTS Hires scored**, move **JOLTS Quits to context-only**, and remove **Sahm from Cycle scoring** while retaining Sahm visibly in confirmation/Current Stress.
+- Candidate v2: **12 scored indicators**, denominator **24**, current raw score **9 / 24**, normalized risk **38 / 100**, regime **Slowdown**. Labor share becomes **8 / 24 = 33.3%**, versus v1 `12 / 28 = 42.9%`.
+- Points removed: Sahm `0` current points and `2` denominator points; JOLTS Quits `1` current point and `2` denominator points. Hires remains the sole scored labor-demand vote.
+- Selection evidence: Hires is the more direct labor-demand measure; Quits is more worker-confidence/confirmation-like. Existing Hires/Quits correlation is `0.746` overall and `0.967` in recession months. Both thresholds remain weak/heuristic and unchanged.
+- Current qualitative regime remains Slowdown; the structural change is intended to improve interpretability without an arbitrary large regime jump. Primary downside: Quits may contain distinct information and the smaller denominator increases remaining-vote influence.
+- Historical limitation: no full v1/v2 composite backtest was fabricated because manual/missing LEI/ISM history prevents reconstruction. Existing timing evidence and current counterfactuals were reused.
+- Future UI/migration plan is design-only: retain Sahm and both JOLTS cards, add clear scored/context role labels, preserve old history, optionally version new snapshots with `score_model_version: 2`, and keep Actions/static deployment unchanged.
+- Outputs: `scripts/research_cycle_score_v2_design.py`, `research/cycle_score_v2_design.json`, `research/cycle_score_v2_design.md`.
+
+## CURRENT AUTHORITATIVE CYCLE SCORE V2 IMPLEMENTATION STATUS
+
+- Exact structural diff: JOLTS Quits and Sahm now have `scored:false`, `score:null`, `risk_score:null`; both remain visible. JOLTS Hires remains scored with its existing threshold function unchanged. Current Stress continues consuming Sahm unchanged.
+- v1 → v2: `14 / 28`, `10`, `36 / 100`, Slowdown → `12 / 24`, `9`, `38 / 100`, Slowdown. Labor denominator share: `42.9%` → `33.3%`.
+- Additive metadata: current payload includes `score_model_version: 2`.
+- History safety: `update_history` preserves an existing same-date snapshot unchanged; the existing unversioned `2026-09-12` snapshot remains v1 and was not rescored or rewritten. New dates can receive version 2. This is the smallest safe migration; mixed-version history remains explicit/documented.
+- Current Stress: Sahm Confirmation remains present and enabled; no Current Stress thresholds or logic changed.
+- Pipeline and validation: real-key pipeline PASS; visible indicator count unchanged; scored count 12; denominator 24; raw score 9; normalized risk 38; regime Slowdown; generated-data synchronization PASS; frontend production build PASS; threshold/source/workflow/infrastructure/SEC-state checks PASS.
+- Files changed: `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `README.md`, `CHATGPT_HANDOFF.md`, `data/current.json`, `frontend/src/data/current.json`, plus history handling preserved existing snapshots. No commit or push.
+- Status: **NOT COMMITTED / NOT PUSHED**. Awaiting ChatGPT review before publication.
+
+## CURRENT AUTHORITATIVE CYCLE SCORE V2 IMPLEMENTATION STATUS
+
+- Implementation status: local implementation complete; **NOT COMMITTED / NOT PUSHED** pending review.
+- Exact scoring diff: `sahm-rule` and `jolts-quits` are forced context-only in the production build path (`scored:false`, `score:null`, `risk_score:null`). `jolts-hires` remains scored through the unchanged `score_jolts_hires` threshold function. Sahm remains visible and continues through the unchanged Current Stress confirmation path.
+- v1 → v2: `14` scored / `10 / 28` / `36 / 100` / Slowdown → `12` scored / `9 / 24` / `38 / 100` / Slowdown. Labor denominator share: `42.9%` → `8 / 24 = 33.3%`.
+- Visible indicator count: unchanged at `24`. Removed current contributions: Sahm `0` points and `2` denominator points; Quits `1` point and `2` denominator points.
+- Model metadata: current payload has `score_model_version: 2`.
+- History behavior: the existing unversioned `2026-09-12` v1 snapshot remains byte-for-byte preserved; the new `2026-09-13` snapshot carries `score_model_version: 2`. No old snapshot was rescored.
+- Current Stress verification: `Calm / No Break`, `0 / 6` active confirmations; Sahm Confirmation remains present. No Current Stress thresholds or logic changed.
+- Validation: real-key pipeline PASS; JSON fields PASS; root/frontend current and history files synchronized; frontend `npm run build` PASS; Hires threshold unchanged; no scoring threshold/source/workflow/infrastructure changes; `.env` ignored and unstaged; SEC state untouched.
+- Files changed: `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorCard.tsx`, `README.md`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, `CHATGPT_HANDOFF.md`.
+- Commit status: **NOT COMMITTED**. Push status: **NOT PUSHED**.
 
 ## Historical Suggested Prompt for ChatGPT
 Here is the latest `CHATGPT_HANDOFF.md` from Codex. The Market Fragility / Stress expansion is implemented and verified locally but intentionally not committed or pushed. Review the live values, curve formulas, FINRA parser, and unchanged root score.

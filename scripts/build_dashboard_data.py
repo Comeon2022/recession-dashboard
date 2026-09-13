@@ -232,6 +232,8 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
     indicators = []
     for raw_indicator in raw["indicators"]:
         indicator = dict(raw_indicator)
+        if indicator["id"] in {"sahm-rule", "jolts-quits"}:
+            indicator["scored"] = False
         if indicator["id"] == "yield-curve" and "_yield_curve_regime" in raw:
             indicator["yield_curve_regime"] = raw["_yield_curve_regime"]
         indicator.setdefault("scored", True)
@@ -252,6 +254,7 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
     risk_score = round(total_score / max_score * 100) if max_score else 0
     return {
         "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        "score_model_version": 2,
         "country": raw["country"], "total_score": total_score, "max_score": max_score,
         "risk_score": risk_score, "regime": get_regime_from_risk_score(risk_score),
         "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
@@ -265,8 +268,9 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
 def update_history(current: dict) -> list[dict]:
     history = read_json(HISTORY_PATH, [])
     date = current["generated_at"][:10]
-    history = [entry for entry in history if entry.get("date") != date]
-    history.append({"date": date, "total_score": current["total_score"], "max_score": current["max_score"], "risk_score": current["risk_score"], "regime": current["regime"]})
+    if any(entry.get("date") == date for entry in history):
+        return sorted(history, key=lambda entry: entry["date"])
+    history.append({"date": date, "total_score": current["total_score"], "max_score": current["max_score"], "risk_score": current["risk_score"], "regime": current["regime"], "score_model_version": 2})
     return sorted(history, key=lambda entry: entry["date"])
 
 

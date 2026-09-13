@@ -1,9 +1,10 @@
 {
-  "generated_at": "2026-09-12T18:43:20Z",
+  "generated_at": "2026-09-13T06:23:33Z",
+  "score_model_version": 2,
   "country": "United States",
-  "total_score": 10,
-  "max_score": 28,
-  "risk_score": 36,
+  "total_score": 9,
+  "max_score": 24,
+  "risk_score": 38,
   "regime": "Slowdown",
   "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
   "yield_curve_regime": {
@@ -123,9 +124,9 @@
     {
       "id": "labor",
       "name": "Labor",
-      "score": 4,
-      "max_score": 12,
-      "risk_score": 33,
+      "score": 3,
+      "max_score": 8,
+      "risk_score": 38,
       "regime": "Slowdown"
     },
     {
@@ -210,15 +211,15 @@
       "explanation": "Still far from the +0.50 recession trigger",
       "source": "FRED",
       "observation_date": "2026-08-01",
-      "scored": true,
+      "scored": false,
       "trend_metrics": {
         "Unemployment rate": "4.1%",
         "3M average unemployment": "4.1%",
         "12M change": "-0.3 pp",
         "Sahm threshold reference": "0.50"
       },
-      "score": 0,
-      "risk_score": 0
+      "score": null,
+      "risk_score": null
     },
     {
       "id": "initial-claims",
@@ -270,15 +271,15 @@
       "explanation": "Workers are less confident about changing jobs",
       "source": "FRED",
       "observation_date": "2026-07-01",
-      "scored": true,
+      "scored": false,
       "trend_metrics": {
         "Latest": "1.9%",
         "3M average": "2.0%",
         "12M average": "2.0%",
         "Trend": "stable"
       },
-      "score": 1,
-      "risk_score": 50
+      "score": null,
+      "risk_score": null
     },
     {
       "id": "wage-growth",

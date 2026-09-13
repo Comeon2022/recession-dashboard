@@ -19,6 +19,10 @@ Build for production with `npm run build`. The frontend reads synchronized JSON 
 
 `data/sample_raw.json` is normalized and scored by `scripts/build_dashboard_data.py`. The script writes `data/current.json` and `data/history.json`, then synchronizes both files into `frontend/src/data/`. It optionally reads `FRED_API_KEY` from local `.env`, preserves sample values on request failure, and keeps deterministic scoring in Python.
 
+## Cycle Score v2
+
+The local Cycle Score v2 implementation reduces duplicate labor weighting structurally: JOLTS Hires remains the scored labor-demand measure, JOLTS Quits remains visible as worker-confidence context, and Sahm remains visible and supports recession confirmation but no longer contributes to the Cycle score denominator. Remaining thresholds are unchanged; this is not a claim of statistical optimality. The current payload carries `score_model_version: 2`. Existing history snapshots are preserved as v1 when they have no version field; prior snapshots are not rescored.
+
 ## GitHub Actions refresh
 
 The workflow at `.github/workflows/update-data.yml` runs manually through `workflow_dispatch` or automatically at 14:00 UTC on weekdays (`0 14 * * 1-5`). It runs the Python pipeline, validates all generated JSON, builds the frontend, and commits only these generated files when they change:
