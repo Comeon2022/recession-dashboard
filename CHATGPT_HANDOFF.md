@@ -8,6 +8,13 @@
 - Validation: frontend build PASS; 24 indicators preserved; raw enum strings are not used in top-level summaries; responsive layout remains governed by existing desktop/tablet/mobile rules. Commit `c72f089b028c56f9e09cf8f20c56081b5346e3c4` (`Standardize section summaries`) pushed to `origin/main`: PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
+## CPI Release Analyzer — interpretation layer
+
+- Added a reader-facing `What looked unusual this month?` card using existing outlier fields, with separated category, monthly move, classification badge, and cautious deterministic explanation rows.
+- Added `What it means for the consumer` with conditional statements derived only from existing gasoline/energy, shelter, breadth, negative-offset, and outlier payload fields. Breadth, concentration, and persistence remain distinct; no new inference or score was added.
+- Fixed `Why it matters` into a clean callout with an independent heading and body layout. No Python, generated JSON, BLS logic, mappings, scoring, Current Stress, workflow, or infrastructure files changed.
+- Validation: frontend production build PASS; desktop/tablet/mobile responsive rules reviewed; no horizontal-overflow patterns added. **NOT COMMITTED / NOT PUSHED.**
+
 ## CPI Release Analyzer — source remediation local review
 
 - Replaced the fragile BLS Public Data API dependency with the official BLS CPI flat-file endpoint `https://download.bls.gov/pub/time.series/cu/cu.data.1.AllItems`, with defensive release-page fallback and explicit source-status warnings.
