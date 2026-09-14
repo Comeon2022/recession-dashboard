@@ -8,6 +8,14 @@
 - Validation: frontend build PASS; 24 indicators preserved; raw enum strings are not used in top-level summaries; responsive layout remains governed by existing desktop/tablet/mobile rules. Commit `c72f089b028c56f9e09cf8f20c56081b5346e3c4` (`Standardize section summaries`) pushed to `origin/main`: PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
+## CPI Release Analyzer — top-first interpretation layout
+
+- Moved `What looked unusual this month?` and `What it means for the consumer` directly below the CPI title/date and bold conclusion, before KPI cards and technical detail.
+- Removed technical caveat wording from the top reading flow; methodology remains at the bottom. Kept one canonical interpretation block and left `Why it matters` as a lower educational callout.
+- Responsive layout preserves side-by-side interpretation cards on desktop/tablet where space permits and stacks cleanly on mobile. No data, BLS, scoring, Current Stress, history, workflow, infrastructure, or SEC changes.
+- Frontend build: PASS. Published files: `frontend/src/components/CpiPanel.tsx` and `CHATGPT_HANDOFF.md`. Commit/push pending.
+- Review URL: https://recession-dashboard-45c.pages.dev
+
 ## CPI Release Analyzer — interpretation layer
 
 - Added a reader-facing `What looked unusual this month?` card using existing outlier fields, with separated category, monthly move, classification badge, and cautious deterministic explanation rows.
