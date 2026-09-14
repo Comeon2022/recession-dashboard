@@ -6,7 +6,7 @@
 - Added three plain-English summary cards for curve shape, 20D move, and 2s10s spread; Today is the dominant curve and 2020/2008/2001 overlays are muted. Historical copy now explains the recession-window selection without jargon-first wording.
 - Removed repeated tenor dates when aligned; each tenor now shows current yield plus signed 20D movement. Visible spreads are simplified to 2Y → 10Y, 3M → 10Y, and 5Y → 30Y. Added deterministic bold takeaway and compact “Why it matters” explanation.
 - Responsive behavior: summary cards stack on mobile, chart scrolls safely, and tenor details wrap without clipping. Production logic, generated data, scoring, history, Current Stress, workflows, infrastructure, and SEC state were unchanged.
-- Validation: frontend build PASS; 24 indicators preserved; commit/push pending. Review URL: https://recession-dashboard-45c.pages.dev
+- Validation: frontend build PASS; 24 indicators preserved. Commit `65b33c2cff0f296dc97f9d9b2a49ba94745867e9` (`Simplify Treasury curve for readers`) pushed to `origin/main`: PASS. Review URL: https://recession-dashboard-45c.pages.dev
 
 
 ## Treasury Curve Expansion — published
