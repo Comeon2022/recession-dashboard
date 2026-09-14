@@ -13,6 +13,7 @@ from fetch_fred import fetch_fred_series, latest_change, latest_observation, lat
 from fetch_finra import fetch_margin_debt
 from fetch_berkshire import fetch_berkshire_report
 from market_fragility import build_yield_curve_regime
+from treasury_curve import TENORS, build_treasury_curve
 from current_stress import build_current_stress
 from derived_metrics import derive_claims_metrics, derive_jolts_metrics, derive_payroll_metrics, derive_vix_metrics, derive_wage_metrics
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
@@ -124,10 +125,11 @@ def apply_fred_data(raw: dict, api_key: str) -> tuple[dict, list[str], list[str]
         raw["_vix_metrics"] = metrics
 
     def curve_loader():
-        curve_series = {series: fetch_fred_series(series, api_key) for series in ("DGS1", "DGS2", "DGS5", "DGS10", "DGS30", "T10Y2Y", "T10Y3M")}
+        curve_series = {series: fetch_fred_series(series, api_key) for series in ("DGS1MO", "DGS3MO", "DGS6MO", "DGS1", "DGS2", "DGS3", "DGS5", "DGS7", "DGS10", "DGS20", "DGS30", "T10Y2Y", "T10Y3M")}
         for observations in curve_series.values():
             validate_observation_date(observations[0]["date"], "daily")
         raw["_yield_curve_regime"] = build_yield_curve_regime(curve_series)
+        raw["_treasury_curve"] = build_treasury_curve(curve_series)
         curve = by_id["yield-curve"]
         curve["yield_curve_regime"] = raw["_yield_curve_regime"]
         curve["display_value"] = f"{curve['display_value']} · {raw['_yield_curve_regime']['curve_phase']} / {raw['_yield_curve_regime']['steepening_type']}"
@@ -237,6 +239,7 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
             indicator["scored"] = False
         if indicator["id"] == "yield-curve" and "_yield_curve_regime" in raw:
             indicator["yield_curve_regime"] = raw["_yield_curve_regime"]
+            indicator["treasury_curve"] = raw.get("_treasury_curve")
         indicator.setdefault("scored", True)
         if indicator["scored"]:
             try:
@@ -260,6 +263,7 @@ def build_current(raw: dict, data_status: str, warnings: list[str]) -> dict:
         "risk_score": risk_score, "regime": get_regime_from_risk_score(risk_score),
         "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
         "yield_curve_regime": raw.get("_yield_curve_regime"),
+        "treasury_curve": raw.get("_treasury_curve"),
         "current_stress": raw.get("_current_stress"),
         "berkshire_positioning": raw.get("_berkshire_positioning", raw.get("berkshire_positioning")),
         "categories": build_categories(indicators), "data_status": data_status, "warnings": warnings, "indicators": indicators,

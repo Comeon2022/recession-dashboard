@@ -13,5 +13,13 @@
     "risk_score": 38,
     "regime": "Slowdown",
     "score_model_version": 2
+  },
+  {
+    "date": "2026-09-14",
+    "total_score": 9,
+    "max_score": 24,
+    "risk_score": 38,
+    "regime": "Slowdown",
+    "score_model_version": 2
   }
 ]

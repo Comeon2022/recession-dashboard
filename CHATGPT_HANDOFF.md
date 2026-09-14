@@ -1,5 +1,33 @@
 # ChatGPT Project Handoff
 
+## Treasury Curve Expansion — published
+
+- Final consistency correction: shape now uses the documented `10Y - 3M >= 100 bp` threshold plus positive long-end slope for `steep`; with `10Y - 3M = 95 bp`, the current shape is correctly `normal_upward`. Current 20D movement remains `bear_flattening`.
+- Final validation: 11/11 current tenors, spreads PASS; historical overlays 2020 11/11, 2008 11/11, 2001 10/11; model v2, 24 visible, 12 scored, denominator 24, score `9/24`; Current Stress six signals; root/frontend JSON synchronization PASS; frontend build PASS.
+- Files published: `scripts/treasury_curve.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/TreasuryCurvePanel.tsx`, `frontend/src/components/IndicatorGrid.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, and `CHATGPT_HANDOFF.md`.
+- Commit and push pending final publication. Review URL: https://recession-dashboard-45c.pages.dev
+
+
+## Treasury Curve Expansion — review corrections
+
+- Corrected full-curve movement semantics: current 20D anchors 2Y +36 bp vs 10Y +27 bp and 5Y +37 bp vs 30Y +13 bp now classify as `bear_flattening` (rising yields with narrower long-minus-short spreads). Separate Current Stress rapid-bull-steepening logic was untouched.
+- Added deterministic 5 bp parallel tolerance and sanity cases for bull/bear steepening, bull/bear flattening, parallel up/down, and mixed; tests PASS. Shape rule is explicit: `steep` requires 10Y–3M >= 100 bp and an upward 30Y–5Y slope; otherwise a positive upward curve is `normal_upward`.
+- Historical overlay labeling now states `lowest 2s10s spread within recession window`. Coverage: Today 11/11, 2020 11/11 (2020-02-21), 2008 11/11 (2007-12-14), 2001 10/11 (2001-03-01); missing 2001 tenor is preserved as missing, with no interpolation or zero fill.
+- Real-key pipeline PASS; current curve shape `steep`, movement `bear_flattening`; 11 tenors, spreads, and 1D/5D/20D dynamics generated. Frontend build PASS; model v2, 24 visible, 12 scored, denominator 24, score `9/24`; Current Stress remains six signals. Root/frontend JSON synchronized.
+- Files changed: `scripts/treasury_curve.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/TreasuryCurvePanel.tsx`, `frontend/src/components/IndicatorGrid.tsx`, `frontend/src/styles/presentation-refresh.css`, root/frontend generated current/history JSON, and this handoff. NOT COMMITTED / NOT PUSHED.
+
+
+## Treasury Curve Expansion — local review
+
+- Added the context-only full U.S. Treasury curve using `DGS1MO`, `DGS3MO`, `DGS6MO`, `DGS1`, `DGS2`, `DGS3`, `DGS5`, `DGS7`, `DGS10`, `DGS20`, and `DGS30`. The existing scored `T10Y2Y` indicator and Current Stress logic are unchanged.
+- Current snapshot as of 2026-09-10, aligned across all 11 tenors (`mixed_dates: false`): 1M 3.91%, 3M 4.00%, 6M 4.07%, 1Y 4.28%, 2Y 4.56%, 3Y 4.63%, 5Y 4.75%, 7Y 4.84%, 10Y 4.95%, 20Y 5.39%, 30Y 5.37%.
+- Spreads (long minus short): 10Y–3M +95 bp, 10Y–2Y +39 bp, 30Y–5Y +62 bp, 30Y–2Y +81 bp, 30Y–10Y +42 bp. Shape: `steep`; movement: `bull_steepening`.
+- 20D changes: 1M +13, 3M +13, 6M +10, 1Y +28, 2Y +36, 3Y +38, 5Y +37, 7Y +32, 10Y +27, 20Y +15, 30Y +13 bp. 1D/5D changes are also stored for every tenor.
+- Historical curve overlays use the lowest 2s10s spread date in each approved window: 2020-02-21, 2007-12-14, and 2001-03-01; each tenor uses the nearest prior valid observation and retains its date.
+- Added `scripts/treasury_curve.py`, `frontend/src/components/TreasuryCurvePanel.tsx`, and updated `scripts/build_dashboard_data.py`, `frontend/src/components/IndicatorGrid.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `frontend/src/data/current.json`, and this handoff.
+- Validation: real-key pipeline PASS; frontend build PASS; model v2, 24 visible, 12 scored, denominator 24; Hires scored, Quits context-only, Sahm confirmation/context-only; Current Stress six signals; root/frontend current JSON synchronized. NOT COMMITTED / NOT PUSHED.
+
+
 ## Dashboard Presentation & UX Refresh — non-scored clarity cleanup
 
 - Updated `frontend/src/components/IndicatorCard.tsx` and `frontend/src/styles/presentation-refresh.css`.

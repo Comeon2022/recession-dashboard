@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-13T18:58:38Z",
+  "generated_at": "2026-09-14T08:36:47Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -26,6 +26,389 @@
       "DGS5": 4.75,
       "DGS10": 4.95,
       "DGS30": 5.37
+    }
+  },
+  "treasury_curve": {
+    "as_of": "2026-09-10",
+    "mixed_dates": false,
+    "tenors": [
+      {
+        "label": "1M",
+        "series_id": "DGS1MO",
+        "yield": 3.91,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "3M",
+        "series_id": "DGS3MO",
+        "yield": 4.0,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "6M",
+        "series_id": "DGS6MO",
+        "yield": 4.07,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "1Y",
+        "series_id": "DGS1",
+        "yield": 4.28,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "2Y",
+        "series_id": "DGS2",
+        "yield": 4.56,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "3Y",
+        "series_id": "DGS3",
+        "yield": 4.63,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "5Y",
+        "series_id": "DGS5",
+        "yield": 4.75,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "7Y",
+        "series_id": "DGS7",
+        "yield": 4.84,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "10Y",
+        "series_id": "DGS10",
+        "yield": 4.95,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "20Y",
+        "series_id": "DGS20",
+        "yield": 5.39,
+        "observation_date": "2026-09-10"
+      },
+      {
+        "label": "30Y",
+        "series_id": "DGS30",
+        "yield": 5.37,
+        "observation_date": "2026-09-10"
+      }
+    ],
+    "spreads": [
+      {
+        "id": "10Y_3M",
+        "label": "10Y - 3M",
+        "percentage_points": 0.95,
+        "basis_points": 95.0
+      },
+      {
+        "id": "10Y_2Y",
+        "label": "10Y - 2Y",
+        "percentage_points": 0.39,
+        "basis_points": 39.0
+      },
+      {
+        "id": "30Y_5Y",
+        "label": "30Y - 5Y",
+        "percentage_points": 0.62,
+        "basis_points": 62.0
+      },
+      {
+        "id": "30Y_2Y",
+        "label": "30Y - 2Y",
+        "percentage_points": 0.81,
+        "basis_points": 81.0
+      },
+      {
+        "id": "30Y_10Y",
+        "label": "30Y - 10Y",
+        "percentage_points": 0.42,
+        "basis_points": 42.0
+      }
+    ],
+    "shape": "normal_upward",
+    "shape_rule": "steep requires 10Y-3M >= 100 bp plus upward 30Y-5Y slope; otherwise positive upward curves are normal_upward",
+    "dynamics": {
+      "1M": {
+        "1D": 10.0,
+        "5D": 8.0,
+        "20D": 13.0
+      },
+      "3M": {
+        "1D": 5.0,
+        "5D": 8.0,
+        "20D": 13.0
+      },
+      "6M": {
+        "1D": 6.0,
+        "5D": 7.0,
+        "20D": 10.0
+      },
+      "1Y": {
+        "1D": 11.0,
+        "5D": 12.0,
+        "20D": 28.0
+      },
+      "2Y": {
+        "1D": 13.0,
+        "5D": 17.0,
+        "20D": 36.0
+      },
+      "3Y": {
+        "1D": 14.0,
+        "5D": 18.0,
+        "20D": 38.0
+      },
+      "5Y": {
+        "1D": 14.0,
+        "5D": 21.0,
+        "20D": 37.0
+      },
+      "7Y": {
+        "1D": 13.0,
+        "5D": 18.0,
+        "20D": 32.0
+      },
+      "10Y": {
+        "1D": 12.0,
+        "5D": 16.0,
+        "20D": 27.0
+      },
+      "20Y": {
+        "1D": 11.0,
+        "5D": 12.0,
+        "20D": 15.0
+      },
+      "30Y": {
+        "1D": 9.0,
+        "5D": 10.0,
+        "20D": 13.0
+      }
+    },
+    "movement": "bear_flattening",
+    "movement_tolerance_bp": 5,
+    "historical": {
+      "2020": {
+        "representative_date": "2020-02-21",
+        "coverage": "11/11",
+        "tenors": [
+          {
+            "label": "1M",
+            "series_id": "DGS1MO",
+            "yield": 1.6,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "3M",
+            "series_id": "DGS3MO",
+            "yield": 1.56,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "6M",
+            "series_id": "DGS6MO",
+            "yield": 1.53,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "1Y",
+            "series_id": "DGS1",
+            "yield": 1.43,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "2Y",
+            "series_id": "DGS2",
+            "yield": 1.34,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "3Y",
+            "series_id": "DGS3",
+            "yield": 1.3,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "5Y",
+            "series_id": "DGS5",
+            "yield": 1.3,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "7Y",
+            "series_id": "DGS7",
+            "yield": 1.39,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "10Y",
+            "series_id": "DGS10",
+            "yield": 1.46,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "20Y",
+            "series_id": "DGS20",
+            "yield": 1.75,
+            "observation_date": "2020-02-21"
+          },
+          {
+            "label": "30Y",
+            "series_id": "DGS30",
+            "yield": 1.9,
+            "observation_date": "2020-02-21"
+          }
+        ]
+      },
+      "2008": {
+        "representative_date": "2007-12-14",
+        "coverage": "11/11",
+        "tenors": [
+          {
+            "label": "1M",
+            "series_id": "DGS1MO",
+            "yield": 2.61,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "3M",
+            "series_id": "DGS3MO",
+            "yield": 2.88,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "6M",
+            "series_id": "DGS6MO",
+            "yield": 3.26,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "1Y",
+            "series_id": "DGS1",
+            "yield": 3.28,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "2Y",
+            "series_id": "DGS2",
+            "yield": 3.31,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "3Y",
+            "series_id": "DGS3",
+            "yield": 3.32,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "5Y",
+            "series_id": "DGS5",
+            "yield": 3.63,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "7Y",
+            "series_id": "DGS7",
+            "yield": 3.88,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "10Y",
+            "series_id": "DGS10",
+            "yield": 4.24,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "20Y",
+            "series_id": "DGS20",
+            "yield": 4.71,
+            "observation_date": "2007-12-14"
+          },
+          {
+            "label": "30Y",
+            "series_id": "DGS30",
+            "yield": 4.66,
+            "observation_date": "2007-12-14"
+          }
+        ]
+      },
+      "2001": {
+        "representative_date": "2001-03-01",
+        "coverage": "10/11",
+        "tenors": [
+          {
+            "label": "1M",
+            "series_id": "DGS1MO",
+            "yield": null,
+            "observation_date": null
+          },
+          {
+            "label": "3M",
+            "series_id": "DGS3MO",
+            "yield": 4.84,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "6M",
+            "series_id": "DGS6MO",
+            "yield": 4.68,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "1Y",
+            "series_id": "DGS1",
+            "yield": 4.45,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "2Y",
+            "series_id": "DGS2",
+            "yield": 4.41,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "3Y",
+            "series_id": "DGS3",
+            "yield": 4.48,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "5Y",
+            "series_id": "DGS5",
+            "yield": 4.67,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "7Y",
+            "series_id": "DGS7",
+            "yield": 4.88,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "10Y",
+            "series_id": "DGS10",
+            "yield": 4.87,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "20Y",
+            "series_id": "DGS20",
+            "yield": 5.45,
+            "observation_date": "2001-03-01"
+          },
+          {
+            "label": "30Y",
+            "series_id": "DGS30",
+            "yield": 5.29,
+            "observation_date": "2001-03-01"
+          }
+        ]
+      }
     }
   },
   "current_stress": {
@@ -553,6 +936,389 @@
           "DGS5": 4.75,
           "DGS10": 4.95,
           "DGS30": 5.37
+        }
+      },
+      "treasury_curve": {
+        "as_of": "2026-09-10",
+        "mixed_dates": false,
+        "tenors": [
+          {
+            "label": "1M",
+            "series_id": "DGS1MO",
+            "yield": 3.91,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "3M",
+            "series_id": "DGS3MO",
+            "yield": 4.0,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "6M",
+            "series_id": "DGS6MO",
+            "yield": 4.07,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "1Y",
+            "series_id": "DGS1",
+            "yield": 4.28,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "2Y",
+            "series_id": "DGS2",
+            "yield": 4.56,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "3Y",
+            "series_id": "DGS3",
+            "yield": 4.63,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "5Y",
+            "series_id": "DGS5",
+            "yield": 4.75,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "7Y",
+            "series_id": "DGS7",
+            "yield": 4.84,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "10Y",
+            "series_id": "DGS10",
+            "yield": 4.95,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "20Y",
+            "series_id": "DGS20",
+            "yield": 5.39,
+            "observation_date": "2026-09-10"
+          },
+          {
+            "label": "30Y",
+            "series_id": "DGS30",
+            "yield": 5.37,
+            "observation_date": "2026-09-10"
+          }
+        ],
+        "spreads": [
+          {
+            "id": "10Y_3M",
+            "label": "10Y - 3M",
+            "percentage_points": 0.95,
+            "basis_points": 95.0
+          },
+          {
+            "id": "10Y_2Y",
+            "label": "10Y - 2Y",
+            "percentage_points": 0.39,
+            "basis_points": 39.0
+          },
+          {
+            "id": "30Y_5Y",
+            "label": "30Y - 5Y",
+            "percentage_points": 0.62,
+            "basis_points": 62.0
+          },
+          {
+            "id": "30Y_2Y",
+            "label": "30Y - 2Y",
+            "percentage_points": 0.81,
+            "basis_points": 81.0
+          },
+          {
+            "id": "30Y_10Y",
+            "label": "30Y - 10Y",
+            "percentage_points": 0.42,
+            "basis_points": 42.0
+          }
+        ],
+        "shape": "normal_upward",
+        "shape_rule": "steep requires 10Y-3M >= 100 bp plus upward 30Y-5Y slope; otherwise positive upward curves are normal_upward",
+        "dynamics": {
+          "1M": {
+            "1D": 10.0,
+            "5D": 8.0,
+            "20D": 13.0
+          },
+          "3M": {
+            "1D": 5.0,
+            "5D": 8.0,
+            "20D": 13.0
+          },
+          "6M": {
+            "1D": 6.0,
+            "5D": 7.0,
+            "20D": 10.0
+          },
+          "1Y": {
+            "1D": 11.0,
+            "5D": 12.0,
+            "20D": 28.0
+          },
+          "2Y": {
+            "1D": 13.0,
+            "5D": 17.0,
+            "20D": 36.0
+          },
+          "3Y": {
+            "1D": 14.0,
+            "5D": 18.0,
+            "20D": 38.0
+          },
+          "5Y": {
+            "1D": 14.0,
+            "5D": 21.0,
+            "20D": 37.0
+          },
+          "7Y": {
+            "1D": 13.0,
+            "5D": 18.0,
+            "20D": 32.0
+          },
+          "10Y": {
+            "1D": 12.0,
+            "5D": 16.0,
+            "20D": 27.0
+          },
+          "20Y": {
+            "1D": 11.0,
+            "5D": 12.0,
+            "20D": 15.0
+          },
+          "30Y": {
+            "1D": 9.0,
+            "5D": 10.0,
+            "20D": 13.0
+          }
+        },
+        "movement": "bear_flattening",
+        "movement_tolerance_bp": 5,
+        "historical": {
+          "2020": {
+            "representative_date": "2020-02-21",
+            "coverage": "11/11",
+            "tenors": [
+              {
+                "label": "1M",
+                "series_id": "DGS1MO",
+                "yield": 1.6,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "3M",
+                "series_id": "DGS3MO",
+                "yield": 1.56,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "6M",
+                "series_id": "DGS6MO",
+                "yield": 1.53,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "1Y",
+                "series_id": "DGS1",
+                "yield": 1.43,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "2Y",
+                "series_id": "DGS2",
+                "yield": 1.34,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "3Y",
+                "series_id": "DGS3",
+                "yield": 1.3,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "5Y",
+                "series_id": "DGS5",
+                "yield": 1.3,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "7Y",
+                "series_id": "DGS7",
+                "yield": 1.39,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "10Y",
+                "series_id": "DGS10",
+                "yield": 1.46,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "20Y",
+                "series_id": "DGS20",
+                "yield": 1.75,
+                "observation_date": "2020-02-21"
+              },
+              {
+                "label": "30Y",
+                "series_id": "DGS30",
+                "yield": 1.9,
+                "observation_date": "2020-02-21"
+              }
+            ]
+          },
+          "2008": {
+            "representative_date": "2007-12-14",
+            "coverage": "11/11",
+            "tenors": [
+              {
+                "label": "1M",
+                "series_id": "DGS1MO",
+                "yield": 2.61,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "3M",
+                "series_id": "DGS3MO",
+                "yield": 2.88,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "6M",
+                "series_id": "DGS6MO",
+                "yield": 3.26,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "1Y",
+                "series_id": "DGS1",
+                "yield": 3.28,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "2Y",
+                "series_id": "DGS2",
+                "yield": 3.31,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "3Y",
+                "series_id": "DGS3",
+                "yield": 3.32,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "5Y",
+                "series_id": "DGS5",
+                "yield": 3.63,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "7Y",
+                "series_id": "DGS7",
+                "yield": 3.88,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "10Y",
+                "series_id": "DGS10",
+                "yield": 4.24,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "20Y",
+                "series_id": "DGS20",
+                "yield": 4.71,
+                "observation_date": "2007-12-14"
+              },
+              {
+                "label": "30Y",
+                "series_id": "DGS30",
+                "yield": 4.66,
+                "observation_date": "2007-12-14"
+              }
+            ]
+          },
+          "2001": {
+            "representative_date": "2001-03-01",
+            "coverage": "10/11",
+            "tenors": [
+              {
+                "label": "1M",
+                "series_id": "DGS1MO",
+                "yield": null,
+                "observation_date": null
+              },
+              {
+                "label": "3M",
+                "series_id": "DGS3MO",
+                "yield": 4.84,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "6M",
+                "series_id": "DGS6MO",
+                "yield": 4.68,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "1Y",
+                "series_id": "DGS1",
+                "yield": 4.45,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "2Y",
+                "series_id": "DGS2",
+                "yield": 4.41,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "3Y",
+                "series_id": "DGS3",
+                "yield": 4.48,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "5Y",
+                "series_id": "DGS5",
+                "yield": 4.67,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "7Y",
+                "series_id": "DGS7",
+                "yield": 4.88,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "10Y",
+                "series_id": "DGS10",
+                "yield": 4.87,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "20Y",
+                "series_id": "DGS20",
+                "yield": 5.45,
+                "observation_date": "2001-03-01"
+              },
+              {
+                "label": "30Y",
+                "series_id": "DGS30",
+                "yield": 5.29,
+                "observation_date": "2001-03-01"
+              }
+            ]
+          }
         }
       },
       "score": 1,
