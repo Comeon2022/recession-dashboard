@@ -46,6 +46,15 @@
 - Published files: `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/CpiPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `frontend/src/data/current.json`, and `CHATGPT_HANDOFF.md`.
 - Commit: `990b36e8a6ef254ced5659023114a3d78aa361c7` — `Add CPI release analyzer`; push to `origin/main`: PASS.
 
+## CPI Release Analyzer — visual redesign
+
+- Reworked `frontend/src/components/CpiPanel.tsx` from compressed text into a reader-first dashboard module: title/source, bold conclusion, three KPI cards, aligned trend grid, ranked standalone W1 contributor bars, side-by-side Energy/Shelter cards, unusual-move rows, breadth strip, compact nowcast, Why it matters callout, and muted methodology.
+- Added responsive presentation rules in `frontend/src/styles/presentation-refresh.css` for desktop, tablet wrapping, and single-column mobile layouts. Labels and values now occupy explicit cells with spacing; nested W1 categories are clearly non-additive.
+- Existing Python/data logic, generated payload semantics, scoring, Current Stress, sources, history, workflows, infrastructure, and SEC state were untouched.
+- Validation: frontend production build PASS; CPI panel uses the existing populated payload; model v2 remains 24 visible / 12 scored / denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress remains six signals. Desktop/tablet/mobile CSS paths were reviewed for responsive wrapping and no horizontal overflow rules.
+- Published files: `frontend/src/components/CpiPanel.tsx`, `frontend/src/styles/presentation-refresh.css`, and `CHATGPT_HANDOFF.md`. Commit/push pending.
+- Review URL: https://recession-dashboard-45c.pages.dev
+
 ## CPI Release Analyzer — seasonal-series mapping review
 
 - Corrected release-comparable mappings: Communication is now SA `CUSR0000SAE2`; Telephone Services is NSA `CUUR0000SEED`. The manifest now records explicit SA/NSA policy and monthly-change policy for all 21 entries; no prefix-only inference is used for the corrected pair.
