@@ -1,5 +1,14 @@
 # ChatGPT Project Handoff
 
+## Dashboard Presentation & UX Refresh — reader-friendly Treasury curve
+
+- Updated `frontend/src/components/TreasuryCurvePanel.tsx` and `frontend/src/styles/presentation-refresh.css` only.
+- Added three plain-English summary cards for curve shape, 20D move, and 2s10s spread; Today is the dominant curve and 2020/2008/2001 overlays are muted. Historical copy now explains the recession-window selection without jargon-first wording.
+- Removed repeated tenor dates when aligned; each tenor now shows current yield plus signed 20D movement. Visible spreads are simplified to 2Y → 10Y, 3M → 10Y, and 5Y → 30Y. Added deterministic bold takeaway and compact “Why it matters” explanation.
+- Responsive behavior: summary cards stack on mobile, chart scrolls safely, and tenor details wrap without clipping. Production logic, generated data, scoring, history, Current Stress, workflows, infrastructure, and SEC state were unchanged.
+- Validation: frontend build PASS; 24 indicators preserved; commit/push pending. Review URL: https://recession-dashboard-45c.pages.dev
+
+
 ## Treasury Curve Expansion — published
 
 - Final consistency correction: shape now uses the documented `10Y - 3M >= 100 bp` threshold plus positive long-end slope for `steep`; with `10Y - 3M = 95 bp`, the current shape is correctly `normal_upward`. Current 20D movement remains `bear_flattening`.
