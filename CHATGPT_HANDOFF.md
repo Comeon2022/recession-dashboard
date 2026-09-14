@@ -5,7 +5,7 @@
 - Final consistency correction: shape now uses the documented `10Y - 3M >= 100 bp` threshold plus positive long-end slope for `steep`; with `10Y - 3M = 95 bp`, the current shape is correctly `normal_upward`. Current 20D movement remains `bear_flattening`.
 - Final validation: 11/11 current tenors, spreads PASS; historical overlays 2020 11/11, 2008 11/11, 2001 10/11; model v2, 24 visible, 12 scored, denominator 24, score `9/24`; Current Stress six signals; root/frontend JSON synchronization PASS; frontend build PASS.
 - Files published: `scripts/treasury_curve.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/TreasuryCurvePanel.tsx`, `frontend/src/components/IndicatorGrid.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, and `CHATGPT_HANDOFF.md`.
-- Commit and push pending final publication. Review URL: https://recession-dashboard-45c.pages.dev
+- Commit: `7a15b816cff0d2effc541de89fd4dca1431a98c3` (`Publish full Treasury curve context`); push to `origin/main`: PASS. Review URL: https://recession-dashboard-45c.pages.dev
 
 
 ## Treasury Curve Expansion — review corrections
