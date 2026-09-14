@@ -44,6 +44,7 @@
 - Breadth/outliers: 18 eligible, 16 rising, 13 above 0.2%, 8 above 0.4%, 2 declining; outlier flags remain medical care, communication, telephone services, and education.
 - Dashboard invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress six signals including Sahm Confirmation; root/frontend JSON synchronized; frontend build PASS. Cleveland Fed numeric nowcast remains unavailable but does not block publication.
 - Published files: `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/CpiPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `frontend/src/data/current.json`, and `CHATGPT_HANDOFF.md`.
+- Commit: `990b36e8a6ef254ced5659023114a3d78aa361c7` — `Add CPI release analyzer`; push to `origin/main`: PASS.
 
 ## CPI Release Analyzer — seasonal-series mapping review
 
