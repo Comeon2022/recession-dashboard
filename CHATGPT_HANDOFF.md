@@ -8,6 +8,76 @@
 - Validation: frontend build PASS; 24 indicators preserved; raw enum strings are not used in top-level summaries; responsive layout remains governed by existing desktop/tablet/mobile rules. Commit `c72f089b028c56f9e09cf8f20c56081b5346e3c4` (`Standardize section summaries`) pushed to `origin/main`: PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
+## Inflation / Wage Expansion — Wage-Price Spiral Check
+
+- Added the context-only wage/inflation transmission module with AHE purchasing-power gap, ECI cross-check, unit labor costs, PPI pass-through fields, deterministic state, and explicit non-scoring methodology in `scripts/wage_inflation.py`.
+- Added the reader-facing `WageInflationPanel` with wage growth, labor cost, producer pass-through, and compact Why it matters presentation. Existing Cycle Score v2, Current Stress, scoring thresholds, and denominator are unchanged.
+- Live validation uses approved FRED series: AHE `CES0500000003`, ECI `CIU2020000000000I`, ULC `PRS85006111`/`PRS85006112`, and PPI `PPIFIS`, `WPSFD49116`, `PPIDSS`, `PPITWS`. No production score component was added.
+- Frontend build: PASS. **NOT COMMITTED / NOT PUSHED.**
+
+## Wage-Price Spiral Check — validation review before publication
+
+| Metric | Live result | Source / date | Status |
+|---|---:|---|---|
+| AHE level | `$37.75/hour` | `CES0500000003`, 2026-08-01 | PASS |
+| AHE MoM / YoY | `+0.266%` / `+3.086%` | `CES0500000003`, 2026-08-01 | PASS |
+| AHE 3M / 6M annualized | `+2.803%` / `+2.592%` | `CES0500000003` | PASS |
+| 2017–2019 AHE YoY baseline | `+2.960%` (35 observations) | `CES0500000003` | PASS |
+| Post-pandemic normalization peak | `+5.894% YoY`, March 2022 | `CES0500000003`, window starts 2022-01-01 | PASS |
+| ECI current / year-ago / YoY | `179.304` / `173.849` / `+3.138%` | `CIU2020000000000I`, Q2 2026 vs Q2 2025 | PASS |
+| ULC YoY / QoQ annualized | `+1.4%` / `+1.2%` | `PRS85006111` / `PRS85006112`, Q2 2026 | PASS |
+| Headline CPI YoY / wage-CPI gap | unavailable / unavailable | CPI payload unavailable this run | BLOCKED |
+| PPI Final Demand | `+0.400% MoM` | `PPIFIS`, 2026-08-01 | PASS |
+| PPI ex food/energy/trade | `+0.275% MoM` | `WPSFD49116`, 2026-08-01 | PASS |
+| PPI Services | `+0.110% MoM` | `PPIDSS`, 2026-08-01 | PASS |
+| PPI Transportation/Warehousing | `+2.256% MoM` | `PPIAWS`, 2026-08-01 | PASS |
+| PPI Services ex trade/transport | `+0.016% MoM` | `PPITWS`, 2026-08-01 | PASS |
+
+- Explicit deterministic outputs: `wage_leg = Balanced` (AHE `+3.086%`, ECI `+3.138%`); `producer_pass_through_leg = Selective` (services `+0.110%`, transportation `+2.256%`, services ex trade/transport `+0.016%`); `overall_spiral_state = No broad confirmation`. Conclusion: `Wage growth is balanced, while producer-price pressure is selective; no broad wage-price spiral is confirmed.`
+- AHE peak logic is corrected to exclude the 2020 composition distortion: maximum YoY is searched only from 2022-01-01 onward. The wage/CPI gap formula remains `AHE YoY - headline CPI YoY` and is not called real income.
+- Validation caveat: the CPI registered API returned unavailable during the final pipeline run, so the exact current gap and CPI-linked conclusion cannot be marked PASS until a successful CPI refresh. No CPI values were fabricated. Frontend build: PASS; Cycle Score v2 and Current Stress unchanged. **NOT COMMITTED / NOT PUSHED.**
+
+## Wage-Price Spiral Check — exact rule audit: PUBLICATION BLOCKED
+
+- Audit target: `scripts/wage_inflation.py`. The implemented current-state rule is not safe for publication under the required missing-data principle, so no final pipeline, commit, or push was performed.
+- `wage_leg` precedence is: initialize `Balanced`; only when AHE YoY and ECI YoY are both non-null, assign `Cooling` if both `< 3`, else `Reaccelerating` if either `> 4`, else `Mixed` if their absolute difference `> 1`; otherwise retain `Balanced`. If either required input is missing, the code silently retains `Balanced`.
+- `producer_pass_through_leg` precedence is: `Contained` if Services MoM `<= 0`; otherwise `Selective` if Transportation MoM `> Services MoM` and Services ex trade/transport has absolute MoM `< 0.1`; otherwise `Broadening`. If Services is missing, the first comparison is false and the fallback is `Broadening`.
+- `overall_spiral_state` is `No broad confirmation` only when wage leg is `Cooling` or `Balanced` and producer leg is `Contained` or `Selective`; otherwise it is `Early pressure` when wage leg is `Reaccelerating` or producer leg is `Broadening`, and `Mixed` otherwise.
+- Current trace with validated inputs: AHE YoY `3.085745%`, ECI YoY `3.137780%`, difference `0.052035 pp`; neither `<3` jointly, either `>4`, nor difference `>1` applies, so `Balanced`. Services `0.109712%`, transportation `2.256001%`, ex trade/transport `0.016024%`; transportation exceeds services and ex-trade/transport absolute move is `<0.1`, so `Selective`. Both allowed legs yield `No broad confirmation`.
+- Required remediation before publication: make missing wage/ECI inputs return an explicit `Unavailable`/`Mixed` state, make missing producer inputs return `Mixed`/`Unavailable` rather than `Broadening`, and define explicit missing-data handling for the overall state. Do not silently infer a stronger result from absence of data.
+
+## Wage-Price Spiral Check — missing-data safety remediation
+
+- Remediated `scripts/wage_inflation.py`: missing AHE or ECI now yields `wage_leg = Unavailable`; any missing Services, Transportation/Warehousing (`PPIAWS`), or Services ex trade/transport field yields `producer_pass_through_leg = Unavailable`; either unavailable leg forces `overall_spiral_state = Unavailable`. Complete data preserves the reviewed threshold branches and current-state outputs.
+- Added deterministic tests in `scripts/test_wage_inflation.py`: missing-data safety PASS; populated current-state regression PASS.
+- Frontend build: PASS. Existing score invariants remain model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress remains six signals.
+- Final full pipeline gate: BLOCKED. CPI returned `source_status: unavailable` in this run, so the exact same-run wage/CPI gap could not be computed and the validated CPI snapshot was not published. No commit or push performed.
+
+## Wage-Price Spiral Check — resilient CPI dependency local review
+
+- Added `data/cache/cpi_last_validated.json` as a dedicated last-known-good cache containing only the previously validated official August 2026 CPI release fields, provenance, and validation metadata. It is eligible only with `source_status: registered_api`, `validation_status: pass`, required headline fields, source provenance, and a present release month. Cache replacement is atomic and success-only via `save_validated_cpi`; failures never overwrite it.
+- Delivery policy: live registered API remains preferred; a failed live acquisition may use the eligible cache with distinct `delivery_status: cached_validated`, preserving official provenance without presenting it as a fresh call. A cache with invalid status, failed validation, missing fields, or mismatched month is rejected.
+- Tests: `scripts/test_cpi_cache.py` PASS for valid cache, invalid validation, invalid source status, and protection behavior. Existing `scripts/test_wage_inflation.py` PASS.
+- Final real-key pipeline: PASS with live CPI `source_status: registered_api`, August 2026 reference month, same-run headline YoY `+3.353016%`, AHE YoY `+3.085745%`, and wage/CPI gap `-0.267271 pp`. Wage states remain Balanced / Selective / No broad confirmation.
+- Dashboard invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals; root/frontend current JSON synchronized; frontend build PASS. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI resilience + Wage-Price Spiral Check — publication
+
+- Tests: `scripts/test_cpi_cache.py` PASS and `scripts/test_wage_inflation.py` PASS. The full real-key pipeline completed successfully with CPI `source_status: registered_api`, August 2026 release month, and no cache fallback required.
+- Same-run values: headline CPI YoY `+3.353016%`; AHE YoY `+3.085745%`; exact wage/CPI gap `-0.267271 pp`. Wage leg `Balanced`; producer pass-through leg `Selective`; overall state `No broad confirmation`.
+- Resilience policy: live registered CPI is preferred; eligible same-month validated cache delivery is explicit as `cached_validated`; invalid/stale/mismatched caches are rejected and failed live calls never overwrite the cache.
+- Invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals; root/frontend current JSON synchronized; frontend build PASS; `.env` ignored and unstaged; SEC state untouched.
+- Published files: `scripts/wage_inflation.py`, `scripts/test_wage_inflation.py`, `scripts/test_cpi_cache.py`, `data/cache/cpi_last_validated.json`, `scripts/build_dashboard_data.py`, `frontend/src/components/WageInflationPanel.tsx`, `data/current.json`, `frontend/src/data/current.json`, and `CHATGPT_HANDOFF.md`.
+
+## Wage-Price Spiral Check — final publication gate
+
+- Final real-key pipeline: PASS. CPI remains `source_status: registered_api`; August headline CPI YoY is `+3.353%`. AHE YoY is `+3.085745%`, so the exact project-defined wage/inflation gap is `3.085745 - 3.353016 = -0.267271 pp`.
+- AHE validation: `$37.75/hour`, MoM `+0.265604%`, YoY `+3.085745%`, 3M annualized `+2.803065%`, 6M annualized `+2.592385%`; 2017–2019 baseline `+2.959552%` across 35 observations; normalization peak `+5.894106%` on 2022-03-01.
+- ECI: Q2 2026 `179.304` vs Q2 2025 `173.849`, YoY `+3.137780%`. ULC: `+1.4%` YoY and `+1.2%` QoQ annualized.
+- PPI pass-through: Final Demand `+0.399913%` MoM; ex food/energy/trade `+0.274800%`; Services `+0.109712%`; Transportation/Warehousing (`PPIAWS`) `+2.256001%`; Services ex trade/transport `+0.016024%`.
+- Deterministic rules/outputs: `wage_leg = Balanced` because AHE/ECI are near 3% and neither is in the cooling/reaccelerating extremes; `producer_pass_through_leg = Selective` because transportation exceeds services while services ex trade/transport is essentially flat; `overall_spiral_state = No broad confirmation` because both legs are contained/selective rather than broad and reaccelerating. Conclusion: `Wage growth is balanced, while producer-price pressure is selective; no broad wage-price spiral is confirmed.`
+- Frontend build: PASS. Score model v2 remains 24 visible / 12 scored / denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress remains six signals. **NOT COMMITTED / NOT PUSHED.**
+
 ## CPI Release Analyzer — top-first interpretation layout
 
 - Moved `What looked unusual this month?` and `What it means for the consumer` directly below the CPI title/date and bold conclusion, before KPI cards and technical detail.

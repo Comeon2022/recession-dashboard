@@ -19,6 +19,7 @@ from derived_metrics import derive_claims_metrics, derive_jolts_metrics, derive_
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
 from historical_comparisons import build_historical_comparisons, coverage_markdown
 from cpi_analyzer import build_cpi_release
+from wage_inflation import build_wage_inflation
 
 try:
     from dotenv import load_dotenv
@@ -299,6 +300,12 @@ def main() -> None:
     except (OSError, ValueError, requests.RequestException) as error:
         warnings.append(f"inflation-release: BLS CPI analyzer unavailable ({error.__class__.__name__})")
         current["inflation_release"] = {"source": "BLS", "source_status": "fallback", "warnings": ["CPI release analyzer unavailable; no CPI context generated."]}
+    try:
+        ahe_rows = fetch_fred_series("CES0500000003", api_key)
+        current["wage_inflation"] = build_wage_inflation(lambda series_id: fetch_fred_series(series_id, api_key), ahe_rows, current.get("inflation_release", {}).get("headline", {}))
+    except (OSError, ValueError, requests.RequestException) as error:
+        warnings.append(f"wage-inflation: FRED transmission context unavailable ({error.__class__.__name__})")
+        current["wage_inflation"] = {"source": "FRED / BLS", "source_status": "fallback", "state": "Mixed", "warnings": ["Wage/inflation transmission context unavailable; existing wage indicator unchanged."]}
     current["indicators"], comparison_warnings = build_historical_comparisons(current["indicators"], fetch_fred_series, api_key)
     warnings.extend(comparison_warnings)
     current["warnings"] = warnings

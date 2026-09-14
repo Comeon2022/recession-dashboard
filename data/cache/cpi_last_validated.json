@@ -1,0 +1,27 @@
+{
+  "release_month": "2026-08",
+  "release_date": "2026-09-11",
+  "source": "BLS Public Data API v2",
+  "source_status": "registered_api",
+  "delivery_status": "validated_snapshot",
+  "source_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+  "validation": {"validation_status": "pass", "validated_at": "2026-09-14T09:00:00Z", "method": "registered_api_aggregates_and_corrected_mappings"},
+  "headline": {"mom": 0.3960181843858157, "yoy": 3.353016322755642, "mom_3m_ann": 0.18217169162264568, "mom_6m_ann": 4.1158924155549, "date": "2026-08-01"},
+  "core": {"mom": 0.2897956881014574, "yoy": 2.4461631786472537, "mom_3m_ann": 0.0, "mom_6m_ann": 0.0, "date": "2026-08-01"},
+  "contributors": [
+    {"category":"energy","mom":2.096626005792346,"w1":"0.150","date":"2026-08-01"},
+    {"category":"gasoline","mom":3.8992820914167003,"w1":"0.140","date":"2026-08-01"},
+    {"category":"shelter","mom":0.26381104417434464,"w1":"0.093","date":"2026-08-01"},
+    {"category":"communication","mom":2.257245522274176,"w1":"0.072","date":"2026-08-01"},
+    {"category":"medical_care","mom":-0.24848891873739953,"w1":"-0.017","date":"2026-08-01"}
+  ],
+  "breadth": {"eligible_components":18,"rising_mom":16,"rising_above_0_2":13,"rising_above_0_4":8,"declining_mom":2},
+  "outliers": [],
+  "trend_buckets": {},
+  "shelter": {},
+  "energy": {},
+  "nowcast": {"source_status":"live_page_retrieved","headline_mom":null,"core_mom":null,"note":"Model-based estimate; numeric values were not reliably exposed."},
+  "validation_targets": {"headline_mom_expected":0.4,"headline_yoy_expected":3.4,"core_mom_expected":0.3,"core_yoy_expected":2.4,"energy_mom_expected":2.1,"gasoline_mom_expected":3.9,"shelter_mom_expected":0.3,"communication_mom_expected":2.3,"medical_care_mom_expected":-0.2,"telephone_services_mom_expected":5.4},
+  "takeaway": {"text":"Inflation broadened across selected CPI components, but gasoline and several unusually large moves disproportionately lifted the headline."},
+  "warnings": ["Cached from a previously validated registered BLS API release; not a fresh live call."]
+}
