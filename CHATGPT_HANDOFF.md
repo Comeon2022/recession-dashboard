@@ -8,6 +8,69 @@
 - Validation: frontend build PASS; 24 indicators preserved; raw enum strings are not used in top-level summaries; responsive layout remains governed by existing desktop/tablet/mobile rules. Commit `c72f089b028c56f9e09cf8f20c56081b5346e3c4` (`Standardize section summaries`) pushed to `origin/main`: PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
+## CPI Release Analyzer — source remediation local review
+
+- Replaced the fragile BLS Public Data API dependency with the official BLS CPI flat-file endpoint `https://download.bls.gov/pub/time.series/cu/cu.data.1.AllItems`, with defensive release-page fallback and explicit source-status warnings.
+- The reader-first CPI panel remains context-only and is wired through `scripts/build_dashboard_data.py`, `frontend/src/components/CpiPanel.tsx`, `frontend/src/components/MacroHero.tsx`, and `frontend/src/styles/presentation-refresh.css`.
+- Final real-key pipeline: PASS for the existing dashboard. Model v2, 24 visible indicators, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals including Sahm Confirmation; root/frontend current JSON synchronized. Frontend build: PASS.
+- CPI source validation: BLOCKED in this runtime. The official flat-file host returned HTTP 403 and the release page remained inaccessible, so the generated `inflation_release` is explicitly `source_status: unavailable`; no August 2026 values were fabricated. Expected August validation targets remain documented, but headline/core decomposition, Table 6 effects, category contributors, breadth, and outliers are not claimed PASS until the flat file is reachable.
+- Cleveland Fed nowcast page was reachable, but numeric rendered values were not exposed reliably; it remains labeled model-based and not official BLS data.
+- Files changed in this local remediation: `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/CpiPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/presentation-refresh.css`, generated current JSON files, and this handoff. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI Release Analyzer — registered BLS API local review
+
+- Added safe runtime support for `BLS_API_KEY` loaded from local `.env`. The key is never logged, serialized, or included in this handoff. Requests use the official BLS Public Data API v2 with `catalog`, `calculations`, `annualaverage: false`, and `aspects: true`, with a deterministic 21-series CPI manifest and one-series batched requests.
+- Local secret status: `BLS_API_KEY` not present in this runtime. Per instructions, CPI acquisition exits cleanly with `source_status: unavailable` and warning: `Registered BLS API key required for CPI release analyzer validation`. No flat-file, unofficial mirror, or fabricated release fallback is used.
+- August 2026 validation: NOT RUN / BLOCKED pending the registered key. Required targets remain review targets only: headline `+0.4% MoM / +3.4% YoY`, core `+0.3% / +2.4%`, energy `+2.1%`, gasoline `+3.9%`, shelter `+0.3%`, communication `+2.3%`, medical care `-0.2%`, telephone services `+5.4%`. W1 effects and gasoline share cannot be validated without the registered API response.
+- Pipeline: PASS for the existing dashboard; frontend build: PASS. Model v2 invariants remain 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress remains six signals including Sahm Confirmation; root/frontend current JSON synchronized.
+- CPI panel remains reader-first and context-only; exact Core CPI contributions/counterfactuals remain disabled. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI Release Analyzer — registered BLS live validation
+
+- Authentication: PASS. A secret-safe one-series health check succeeded, followed by one combined registered BLS API v2 request for all 21 manifest series (`2023`–`2026`, `catalog`, `calculations`, `annualaverage: false`, `aspects: true`). The key was not printed, hashed, serialized, or recorded.
+- Response: 21 series returned; no targeted retries. The CPI payload is `source_status: registered_api` for August 2026.
+- August aggregate validation: PASS within normal index-calculation rounding — All Items `0.396%` MoM / `3.353%` YoY (targets `+0.4% / +3.4%`); All Items Less Food and Energy `0.290%` / `2.446%` (targets `+0.3% / +2.4%`); Energy `2.097%`; Gasoline `3.899%`; Shelter `0.264%`; Medical Care `-0.248%`.
+- Communication returned `-0.323%`, not the review target `+2.3%`; Telephone Services had no August observation in the returned API series, so the required `+5.4%` target was not validated. This is a material series/coverage discrepancy and remains **REVIEW REQUIRED**; no value was forced.
+- Aspects: 16 manifest series returned W1; no manifest series returned a relative-importance `I` aspect in the response. W1 was `Energy 0.150`, `Gasoline 0.140`, `Shelter 0.093`, `Food 0.017`, `Medical Care -0.017`, `Communication -0.005`; top rankings are retained in generated JSON. Missing W1: headline, telephone services, recreation, apparel, and motor vehicle insurance. W1 is not treated as Core CPI contribution.
+- Gasoline W1 share: `0.140 / 0.396018 = 35.35%`, supporting the “more than one-third” statement within rounding, although the parent/child decomposition still requires a final mutually-exclusive reconciliation review. Exact core counterfactuals remain disabled.
+- Trends, breadth, outlier, shelter and energy blocks populated from returned official series; Cleveland Fed page retrieved but numeric nowcast values remain unavailable.
+- Existing invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals including Sahm Confirmation; root/frontend JSON synchronized; frontend build PASS. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI Release Analyzer — published
+
+- Final validation PASS: registered BLS API v2, one combined 21-series request, August 2026 aggregates validated, corrected Communication/Telephone mappings retained, W1 contributors shown as ranked standalone effects, and overlapping parent/child categories are explicitly not summed.
+- Published reader-first panel includes headline/core trends, official W1 effects, energy/shelter context, breadth, outliers, and deterministic plain-English conclusion. Core contribution and strip-out counterfactuals remain disabled.
+- Final values: headline `+0.396% MoM / +3.353% YoY`; core `+0.290% / +2.446%`; energy `+2.097%`; gasoline `+3.899%`; shelter `+0.264%`; communication `+2.257%`; telephone services `+5.373%`. Gasoline W1 `+0.140 pp` equals `35.35%` of headline MoM; energy `+0.150 pp`, shelter `+0.093 pp`, communication `+0.072 pp`.
+- Breadth/outliers: 18 eligible, 16 rising, 13 above 0.2%, 8 above 0.4%, 2 declining; outlier flags remain medical care, communication, telephone services, and education.
+- Dashboard invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress six signals including Sahm Confirmation; root/frontend JSON synchronized; frontend build PASS. Cleveland Fed numeric nowcast remains unavailable but does not block publication.
+- Published files: `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/CpiPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/presentation-refresh.css`, `data/current.json`, `frontend/src/data/current.json`, and `CHATGPT_HANDOFF.md`.
+
+## CPI Release Analyzer — seasonal-series mapping review
+
+- Corrected release-comparable mappings: Communication is now SA `CUSR0000SAE2`; Telephone Services is NSA `CUUR0000SEED`. The manifest now records explicit SA/NSA policy and monthly-change policy for all 21 entries; no prefix-only inference is used for the corrected pair.
+- August 2026 mapping validation: Communication `72.079 -> 73.706`, `+2.257%` (published `+2.3%`), W1 `+0.072`; Telephone Services `91.347 -> 96.255`, `+5.373%` (published `+5.4%`), with no API W1 returned. The official release effect exists but API aspect is unavailable for Telephone Services; it is not treated as zero.
+- W1 re-audit: 16/21 manifest series returned W1; relative-importance `I` was not returned by this API response. Energy `+0.150`, gasoline `+0.140`, shelter `+0.093`, communication `+0.072`; top positive/negative effects are retained in the generated payload. Missing W1 remains explicit.
+- Breadth: 18 eligible components; 16 rising, 13 above 0.2%, 8 above 0.4%, 2 declining. Outliers: medical care negative extreme, communication extreme, telephone services extreme, and education extreme; these are cautious volatility flags, not causal claims. Shelter/energy blocks and multi-month trends populated.
+- Reader conclusion: updated CPI panel now uses the corrected communication/telephone release metrics and official W1 where available; exact Core CPI contributions and strip-out counterfactuals remain disabled.
+- Existing invariants: PASS — model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals including Sahm Confirmation; root/frontend JSON synchronized; frontend build PASS. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI Release Analyzer — registered BLS live validation
+
+- Registered API key present locally: yes (not printed or recorded). The official BLS API v2 request path was exercised with the 21-series manifest and `aspects: true`, but the API returned `REQUEST_NOT_PROCESSED` because the configured credential was rejected as invalid. The response contained zero series; no key material is retained here.
+- API validation: FAIL / blocked pending a valid registered key. August 2026 aggregate targets and W1 effects were therefore not validated: headline `+0.4% / +3.4%`, core `+0.3% / +2.4%`, energy `+2.1%`, gasoline `+3.9%`, shelter `+0.3%`, communication `+2.3%`, medical care `-0.2%`, telephone services `+5.4%`. No W1 coverage, contributor ranking, gasoline share, or decomposition reconciliation is claimed.
+- Request design: one API request per manifest series is currently used by the existing analyzer; the required production optimization to one combined 21-series request remains a follow-up before publication. The analyzer fails closed and does not fall back to flat files, third-party data, or fabricated observations.
+- Cleveland Fed: public page retrieved, but numeric nowcast fields were not reliably exposed; shown as unavailable/model-based context, not official BLS data.
+- Existing dashboard validation: pipeline PASS; frontend build PASS; model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals including Sahm Confirmation; root/frontend JSON synchronized. **NOT COMMITTED / NOT PUSHED.**
+
+## CPI Release Analyzer — local review
+
+- Implemented context-only CPI release analysis in `scripts/cpi_analyzer.py`, wired into `scripts/build_dashboard_data.py`, and added the reader-first `CpiPanel` in `frontend/src/components/CpiPanel.tsx`, mounted by `frontend/src/components/MacroHero.tsx`, with scoped styling in `frontend/src/styles/presentation-refresh.css`.
+- The analyzer uses official BLS CPI series/release inputs and records headline/core trends, category moves, breadth, outliers, shelter/energy context, explicit validation targets, and a clearly labeled Cleveland Fed model-based nowcast context. It does not affect Cycle scoring, thresholds, Current Stress, or history semantics.
+- August 2026 validation targets are documented as `headline +0.4% MoM / +3.4% YoY`, `core +0.3% / +2.4%`, energy `+2.1%`, gasoline `+3.9%`, shelter `+0.3%`, communication `+2.3%`, medical care `-0.2%`, and telephone services `+5.4%`. They were not hard-coded as production observations.
+- Live validation: pipeline PASS, but BLS returned an anonymous API quota/error response and the release page returned HTTP 403 in this environment. CPI payload status is explicitly `unavailable` with warning; no unsupported August values or Table 6 contribution effects were published. Cleveland Fed page was reachable, but numeric rendered nowcast values were not reliably exposed.
+- Production invariants: PASS — model v2, 24 visible indicators, 12 scored, denominator 24, raw score `9/24`, normalized risk `38/100`, `Slowdown`; JOLTS Hires scored, Quits context-only, Sahm confirmation/context-only; Current Stress retains six signals including Sahm Confirmation. Existing generated current/history outputs were refreshed and root/frontend data synchronized.
+- Frontend production build: PASS. Changes are local only: **NOT COMMITTED / NOT PUSHED**. Retry the CPI analyzer after BLS access/quota is restored to complete official August release validation.
+
 
 ## Dashboard Presentation & UX Refresh — reader-friendly Treasury curve
 

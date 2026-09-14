@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-14T08:36:47Z",
+  "generated_at": "2026-09-14T11:29:39Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -1877,6 +1877,288 @@
       }
     }
   ],
+  "inflation_release": {
+    "release_month": "2026-08",
+    "release_date": "2026-09-11",
+    "source": "BLS Public Data API v2",
+    "source_status": "registered_api",
+    "source_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+    "manifest": {
+      "headline": {
+        "series_id": "CUSR0000SA0",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "core": {
+        "series_id": "CUSR0000SA0L1E",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "food": {
+        "series_id": "CUSR0000SAF1",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "energy": {
+        "series_id": "CUSR0000SA0E",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "gasoline": {
+        "series_id": "CUSR0000SETB01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "shelter": {
+        "series_id": "CUSR0000SAH1",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "rent_primary": {
+        "series_id": "CUSR0000SEHA",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "oer": {
+        "series_id": "CUSR0000SEHC",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "lodging": {
+        "series_id": "CUSR0000SEHB",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "medical_care": {
+        "series_id": "CUSR0000SAM2",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "communication": {
+        "series_id": "CUSR0000SAE2",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "telephone_services": {
+        "series_id": "CUUR0000SEED",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "transportation_services": {
+        "series_id": "CUSR0000SETD",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "recreation": {
+        "series_id": "CUSR0000SER",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "education": {
+        "series_id": "CUSR0000SEEB",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "household_operations": {
+        "series_id": "CUSR0000SEGD",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "apparel": {
+        "series_id": "CUUR0000SECA",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "new_vehicles": {
+        "series_id": "CUSR0000SETA01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "used_cars": {
+        "series_id": "CUSR0000SETA02",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "motor_vehicle_insurance": {
+        "series_id": "CUUR0000SETE02",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "airline_fares": {
+        "series_id": "CUSR0000SETG01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      }
+    },
+    "headline": {
+      "mom": 0.3960181843858157,
+      "yoy": 3.353016322755642,
+      "mom_3m_ann": 0.18217169162264568,
+      "mom_6m_ann": 4.1158924155549,
+      "date": "2026-08-01"
+    },
+    "core": {
+      "mom": 0.2897956881014574,
+      "yoy": 2.4461631786472537,
+      "mom_3m_ann": 1.9708388578664415,
+      "mom_6m_ann": 2.566694738738917,
+      "date": "2026-08-01"
+    },
+    "contributors": [
+      {
+        "category": "food",
+        "mom": 0.12232730556962501,
+        "yoy": 2.633598968709716,
+        "date": "2026-08-01",
+        "w1": "0.017"
+      },
+      {
+        "category": "energy",
+        "mom": 2.096626005792346,
+        "yoy": 16.049347026386364,
+        "date": "2026-08-01",
+        "w1": "0.150"
+      },
+      {
+        "category": "shelter",
+        "mom": 0.26381104417434464,
+        "yoy": 3.034809785537229,
+        "date": "2026-08-01",
+        "w1": "0.093"
+      },
+      {
+        "category": "gasoline",
+        "mom": 3.8992820914167003,
+        "yoy": 27.405304847889788,
+        "date": "2026-08-01",
+        "w1": "0.140"
+      },
+      {
+        "category": "communication",
+        "mom": 2.257245522274176,
+        "yoy": 1.1458604932003347,
+        "date": "2026-08-01",
+        "w1": "0.072"
+      },
+      {
+        "category": "medical_care",
+        "mom": -0.24848891873739953,
+        "yoy": 2.4780118200677714,
+        "date": "2026-08-01",
+        "w1": "-0.017"
+      },
+      {
+        "category": "telephone_services",
+        "mom": 5.3729186508588045,
+        "yoy": 3.254631467158675,
+        "date": "2026-08-01",
+        "w1": null
+      }
+    ],
+    "core_contributors": [],
+    "outliers": [
+      {
+        "category": "medical_care",
+        "current_mom": -0.24848891873739953,
+        "prior_mom": 0.5566870749447839,
+        "z_score": -2.13,
+        "label": "extreme"
+      },
+      {
+        "category": "communication",
+        "current_mom": 2.257245522274176,
+        "prior_mom": 0.6127861529871437,
+        "z_score": 4.23,
+        "label": "extreme"
+      },
+      {
+        "category": "telephone_services",
+        "current_mom": 5.3729186508588045,
+        "prior_mom": 0.586913911951914,
+        "z_score": 6.84,
+        "label": "extreme"
+      },
+      {
+        "category": "education",
+        "current_mom": 0.826104150348117,
+        "prior_mom": 0.5416340809964781,
+        "z_score": 4.92,
+        "label": "extreme"
+      }
+    ],
+    "trend_buckets": {
+      "breadth": {
+        "eligible_components": 18,
+        "rising_mom": 16,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 8,
+        "declining_mom": 2
+      }
+    },
+    "breadth": {
+      "eligible_components": 18,
+      "rising_mom": 16,
+      "rising_above_0_2": 13,
+      "rising_above_0_4": 8,
+      "declining_mom": 2
+    },
+    "shelter": {
+      "shelter": {
+        "mom": 0.26381104417434464,
+        "yoy": 3.034809785537229,
+        "mom_3m_ann": 2.099517640377302,
+        "mom_6m_ann": 3.4745854264495835,
+        "date": "2026-08-01"
+      }
+    },
+    "energy": {
+      "energy": {
+        "mom": 2.096626005792346,
+        "yoy": 16.049347026386364,
+        "mom_3m_ann": -19.114067828444014,
+        "mom_6m_ann": 28.574074267801166,
+        "date": "2026-08-01"
+      },
+      "gasoline": {
+        "mom": 3.8992820914167003,
+        "yoy": 27.405304847889788,
+        "mom_3m_ann": -30.955448141336174,
+        "mom_6m_ann": 55.55205592541959,
+        "date": "2026-08-01"
+      }
+    },
+    "nowcast": {
+      "source": "Cleveland Fed Inflation Nowcasting",
+      "source_url": "https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting",
+      "source_status": "live_page_retrieved",
+      "updated": "not reliably exposed in page text",
+      "headline_mom": null,
+      "core_mom": null,
+      "headline_yoy": null,
+      "core_yoy": null,
+      "note": "Public model-based estimate; values require the Cleveland Fed's rendered data view."
+    },
+    "validation_targets": {
+      "release_month": "2026-08",
+      "headline_mom_expected": 0.4,
+      "headline_yoy_expected": 3.4,
+      "core_mom_expected": 0.3,
+      "core_yoy_expected": 2.4,
+      "energy_mom_expected": 2.1,
+      "gasoline_mom_expected": 3.9,
+      "shelter_mom_expected": 0.3,
+      "communication_mom_expected": 2.3,
+      "medical_care_mom_expected": -0.2,
+      "telephone_services_mom_expected": 5.4,
+      "note": "Official August 2026 validation targets from PROJECT_INSTRUCTIONS; release-page/table parser results are retained separately."
+    },
+    "takeaway": {
+      "text": "Headline and core inflation are shown with official category moves and BLS W1 effects; core-specific contribution remains disabled until validated."
+    },
+    "warnings": [
+      "W1 effects are official BLS aspect fields and are not Core CPI contributions."
+    ]
+  },
   "historical_comparison_methodology": {
     "method": "recession_stress_extreme",
     "windows": {

@@ -18,6 +18,7 @@ from current_stress import build_current_stress
 from derived_metrics import derive_claims_metrics, derive_jolts_metrics, derive_payroll_metrics, derive_vix_metrics, derive_wage_metrics
 from valuation import cape_reference_month, fetch_yale_cape, historical_percentile, percentile_label, build_public_equity_gdp_history
 from historical_comparisons import build_historical_comparisons, coverage_markdown
+from cpi_analyzer import build_cpi_release
 
 try:
     from dotenv import load_dotenv
@@ -293,6 +294,11 @@ def main() -> None:
     raw, live_ids, warnings = apply_fred_data(read_json(RAW_PATH, {}), api_key)
     status = "sample" if not api_key else ("ok" if not warnings else "partial")
     current = build_current(raw, status, warnings)
+    try:
+        current["inflation_release"] = build_cpi_release()
+    except (OSError, ValueError, requests.RequestException) as error:
+        warnings.append(f"inflation-release: BLS CPI analyzer unavailable ({error.__class__.__name__})")
+        current["inflation_release"] = {"source": "BLS", "source_status": "fallback", "warnings": ["CPI release analyzer unavailable; no CPI context generated."]}
     current["indicators"], comparison_warnings = build_historical_comparisons(current["indicators"], fetch_fred_series, api_key)
     warnings.extend(comparison_warnings)
     current["warnings"] = warnings
