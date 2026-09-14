@@ -1,5 +1,14 @@
 # ChatGPT Project Handoff
 
+## Dashboard Presentation & UX Refresh — global section summary hierarchy
+
+- Updated `frontend/src/styles/presentation-refresh.css` only. Major sections now follow title → concise bold plain-English conclusion → supporting details; the existing indicator-card hierarchy remains title → value → details → bold takeaway.
+- Treasury’s existing deterministic takeaway is visually relocated directly beneath `Full Treasury curve` via scoped layout ordering, with no duplicate lower takeaway. Section summaries cover Labor, Housing, Bond Market / Rates, Market Fragility, Consumer Condition, Valuation, Current Stress, and Positioning.
+- No generated JSON, Python/data logic, scoring, thresholds, historical methodology, Current Stress logic, history, workflows, infrastructure, or SEC state changed.
+- Validation: frontend build PASS; 24 indicators preserved; raw enum strings are not used in top-level summaries; responsive layout remains governed by existing desktop/tablet/mobile rules. Commit/push pending.
+- Review URL: https://recession-dashboard-45c.pages.dev
+
+
 ## Dashboard Presentation & UX Refresh — reader-friendly Treasury curve
 
 - Updated `frontend/src/components/TreasuryCurvePanel.tsx` and `frontend/src/styles/presentation-refresh.css` only.
