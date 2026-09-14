@@ -6,7 +6,7 @@
 - Ordinary context-only cards now show the muted `Not scored` badge with the required tooltip/ARIA explanation; Sahm remains `Confirmation · Context` and scored badges are unchanged.
 - Added subtle section helper copy for context-containing Market Fragility and Valuation sections. Converted the leverage reference into a bordered `Reference metric` callout without duplicating Margin Debt / GDP.
 - Bold takeaways and historical comparison values/dates remain intact. Production logic, generated data, scoring, thresholds, roles, Current Stress, history, workflows, infrastructure, `.env`, and SEC state were untouched.
-- Validation: frontend build PASS; 24 indicators preserved; responsive card layout remains intact. Commit/push pending.
+- Validation: frontend build PASS; 24 indicators preserved; responsive card layout remains intact. Commit `a5f691aae7949306d031820bab931fea0d46c303` (`Clarify non-scored indicators`) pushed to `origin/main`: PASS.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
 
