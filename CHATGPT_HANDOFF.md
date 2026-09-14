@@ -1,5 +1,13 @@
 # ChatGPT Project Handoff
 
+## UI Iteration 11 — historical comparison dates — published
+
+- Updated `frontend/src/components/IndicatorCard.tsx` and `frontend/src/styles/presentation-refresh.css` only. Existing `Today | 2020 | 2008 | 2001` values are unchanged; each populated cell now shows its payload observation month/year, and N/A cells show `—` without fabricated dates.
+- Dates are formatted from `historical_comparison.*.date` only; React does not derive dates from `generated_at` or calculate recession windows. Takeaways remain bold and the compact card layout is preserved.
+- Validation: frontend build PASS; 24 indicators preserved; desktop/tablet/mobile comparison rows remain responsive; generated JSON, scoring, thresholds, roles, Current Stress, history, sources, workflows, infrastructure, `.env`, and SEC state untouched.
+- Commit: pending; push status: pending. Review URL: https://recession-dashboard-45c.pages.dev
+
+
 ## CURRENT AUTHORITATIVE PHASE
 Score v2 Monitoring & Stability
 

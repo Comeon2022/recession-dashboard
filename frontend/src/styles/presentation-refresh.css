@@ -13,3 +13,4 @@ body { background: #f5f7fa; }
 .topic-section .topic-score { font-size:0; }.topic-section .topic-score::before { content:'Risk points '; font-size:12px; }
 @media(max-width:980px){.indicator-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.trend-metrics{grid-template-columns:1fr}.recession-comparison > div{gap:5px}.recession-comparison strong{font-size:11px}.indicator-card footer{align-items:flex-start;flex-direction:column;gap:4px}.indicator-grid{grid-template-columns:1fr}}
+.recession-comparison em { color:#94a5b3; font-size:10px; font-style:normal; }
