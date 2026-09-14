@@ -68,7 +68,7 @@
 - Final publication verification: `scripts/test_cpi_cache.py` PASS; `scripts/test_wage_inflation.py` PASS; full real-key pipeline PASS with live CPI `source_status = registered_api` (August 2026), and frontend production build PASS.
 - Same-run values: CPI YoY `+3.353016%`, AHE YoY `+3.085745%`, wage/CPI gap `-0.267271 pp`; states `Balanced / Selective / No broad confirmation`.
 - Model invariants: v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress has six signals; root/frontend JSON synchronized; `.env` ignored and unstaged; SEC state untouched.
-- Published in commit `PENDING_FINAL_COMMIT_HASH` (`Add resilient wage price spiral context`); push status: pending final commit. This publication supersedes earlier local entries that said `NOT COMMITTED / NOT PUSHED` for this same implementation; those entries remain historical audit notes only.
+- Published in commit `ed9dc5f7beeda41aa63bed560fcc8975ec8a145a` (`Add resilient wage price spiral context`); push status: PASS (`origin/main`). Published files: `CHATGPT_HANDOFF.md`, `data/current.json`, `frontend/src/data/current.json`. This publication supersedes earlier local entries that said `NOT COMMITTED / NOT PUSHED` for this same implementation; those entries remain historical audit notes only.
 - Review URL: https://recession-dashboard-45c.pages.dev
 
 - Tests: `scripts/test_cpi_cache.py` PASS and `scripts/test_wage_inflation.py` PASS. The full real-key pipeline completed successfully with CPI `source_status: registered_api`, August 2026 release month, and no cache fallback required.
