@@ -13,4 +13,11 @@ body { background: #f5f7fa; }
 .topic-section .topic-score { font-size:0; }.topic-section .topic-score::before { content:'Risk points '; font-size:12px; }
 @media(max-width:980px){.indicator-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:760px){.trend-metrics{grid-template-columns:1fr}.recession-comparison > div{gap:5px}.recession-comparison strong{font-size:11px}.indicator-card footer{align-items:flex-start;flex-direction:column;gap:4px}.indicator-grid{grid-template-columns:1fr}}
+.badge.context { padding:5px 9px; color:#718395; background:#f4f6f8; border-color:#e2e7eb; font-size:10px; }
+.section-helper { margin:-7px 0 13px 62px; color:#8797a5; font-size:11px; }
+.valuation-reference { display:grid; gap:5px; margin-top:14px; padding:13px 16px; border:1px solid #dce8f2; border-radius:12px; background:#f7fbfe; color:#5f7890; font-size:12px; line-height:1.5; }
+.valuation-reference b { color:#214f73; font-size:12px; }
+.valuation-reference small { color:#8092a1; font-size:10px; }
+.fragility-section .topic-title > div::after, .valuation-section .topic-title > div::after { content:'Some indicators are shown for context only and are not included in the main score.'; display:block; margin-top:5px; color:#8797a5; font-size:11px; }
+.valuation-reference b { font-size:0; }.valuation-reference b::before { content:'Reference metric'; font-size:12px; }
 .recession-comparison em { color:#94a5b3; font-size:10px; font-style:normal; }
