@@ -4,7 +4,7 @@
 
 - Frontend-only redesign of the published expectations panel. Added a plain-English CPI → market reaction → persistence story strip, meaning-first card titles, smaller `Context only` badge, and a compact Recharts two-line chart for `T5YIE` / `T5YIFR` with CPI release marker and reader-friendly legend.
 - Preserved all values and logic: release-day `T5YIE -6 bp`, `T5Y5Y -2 bp`; 5D/20D context `+3/+19 bp` and `-1/+5 bp`; state `Expectations falling`; divergence `Market doubts persistence`; 2Y omitted.
-- Validation: `npm run build` PASS. Data, Python, scoring, Current Stress, wage-price, Treasury, workflows, and infrastructure unchanged. Files: `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/styles/expectations.css`, and this handoff. **NOT COMMITTED / NOT PUSHED.**
+- Validation: `npm run build` PASS. Data, Python, scoring, Current Stress, wage-price, Treasury, workflows, and infrastructure unchanged. Published in commit `6b4e7bf2ea0ae0c89a4d22e9e85303606c51eeb8` (`Clarify inflation expectations panel`), pushed to `origin/main`. Files: `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/styles/expectations.css`, and this handoff.
 
 
 ## Market Inflation Expectations — published (2026-09-15)
