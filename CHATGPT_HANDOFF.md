@@ -5,7 +5,7 @@
 - UI-only refinement: renamed the panel `What did markets think about the CPI report?`, led with the plain-English conclusion, simplified the three-step story, and replaced jargon-first card titles with `Near-term inflation expectations` and `Long-term inflation expectations`.
 - Added a one-time `bp` explanation, sparse human-readable chart dates, a non-overlapping CPI release marker, a plain-English chart takeaway preserving the higher 20-day trend nuance, and three compact `Why it matters` bullets. Methodology is now visually secondary; the badge reads `Context indicator · Not part of the Cycle Score`.
 - Existing values/states are unchanged: T5YIE release-day `-6 bp`, 5D `+3 bp`, 20D `+19 bp`; T5Y5Y `-2/-1/+5 bp`; `Expectations falling`; `Market doubts persistence`; 2Y omitted.
-- Frontend build: PASS (existing Recharts bundle-size advisory only). Data, Python, scoring, thresholds, CPI logic, Current Stress, wage-price, Treasury, workflows, and infrastructure unchanged. Published files: `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/styles/expectations.css`, and this handoff. Publication status: pending commit.
+- Frontend build: PASS (existing Recharts bundle-size advisory only). Data, Python, scoring, thresholds, CPI logic, Current Stress, wage-price, Treasury, workflows, and infrastructure unchanged. Published in commit `9f07426461d4f28e90e2355e52ec7844ead31909` (`Simplify inflation expectations for readers`), pushed to `origin/main`. Published files: `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/styles/expectations.css`, and this handoff.
 
 
 ## Market Inflation Expectations — reader-clarity visual redesign (2026-09-15)
