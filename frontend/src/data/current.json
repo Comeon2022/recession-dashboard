@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-15T04:05:58Z",
+  "generated_at": "2026-09-15T08:38:31Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -2161,7 +2161,7 @@
     ],
     "validation": {
       "validation_status": "pass",
-      "validated_at": "2026-09-15T04:06:00.978167Z",
+      "validated_at": "2026-09-15T08:38:34.954709Z",
       "method": "registered_api_aggregates_and_corrected_mappings"
     }
   },
@@ -2247,6 +2247,299 @@
       }
     },
     "methodology": "Context-only. Wage/CPI gap equals AHE YoY minus headline CPI YoY; it is not official real income. Project-defined descriptive thresholds: wage Cooling requires AHE and ECI YoY <3; Reaccelerating requires either >4; Mixed requires absolute difference >1; otherwise Balanced. Producer Contained requires Services MoM <=0; Selective requires Transportation > Services and absolute Services ex trade/transport <0.1; otherwise Broadening. Missing required fields produce Unavailable.",
+    "warnings": []
+  },
+  "inflation_expectations": {
+    "source": "FRED / Federal Reserve",
+    "source_status": "live",
+    "release_date": "2026-09-11",
+    "cpi_reference_month": "2026-09",
+    "state": "Expectations falling",
+    "divergence": "Market doubts persistence",
+    "cpi_context": {
+      "headline_mom": 0.3960181843858157,
+      "headline_yoy": 3.353016322755642,
+      "core_mom": 0.2897956881014574,
+      "breadth": {
+        "eligible_components": 18,
+        "rising_mom": 16,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 8,
+        "declining_mom": 2
+      },
+      "firm_broad": true
+    },
+    "series": {
+      "five_year_breakeven": {
+        "series_id": "T5YIE",
+        "value": 2.4,
+        "date": "2026-09-11",
+        "change_1d_bp": -6.0,
+        "change_5d_bp": 3.0,
+        "change_20d_bp": 19.0,
+        "release_day_marker": true,
+        "state": "Expectations falling",
+        "history": [
+          {
+            "date": "2026-08-03",
+            "value": 2.23
+          },
+          {
+            "date": "2026-08-04",
+            "value": 2.19
+          },
+          {
+            "date": "2026-08-05",
+            "value": 2.18
+          },
+          {
+            "date": "2026-08-06",
+            "value": 2.23
+          },
+          {
+            "date": "2026-08-07",
+            "value": 2.22
+          },
+          {
+            "date": "2026-08-10",
+            "value": 2.25
+          },
+          {
+            "date": "2026-08-11",
+            "value": 2.23
+          },
+          {
+            "date": "2026-08-12",
+            "value": 2.24
+          },
+          {
+            "date": "2026-08-13",
+            "value": 2.21
+          },
+          {
+            "date": "2026-08-14",
+            "value": 2.24
+          },
+          {
+            "date": "2026-08-17",
+            "value": 2.25
+          },
+          {
+            "date": "2026-08-18",
+            "value": 2.27
+          },
+          {
+            "date": "2026-08-19",
+            "value": 2.28
+          },
+          {
+            "date": "2026-08-20",
+            "value": 2.34
+          },
+          {
+            "date": "2026-08-21",
+            "value": 2.34
+          },
+          {
+            "date": "2026-08-24",
+            "value": 2.32
+          },
+          {
+            "date": "2026-08-25",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-26",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-27",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-28",
+            "value": 2.3
+          },
+          {
+            "date": "2026-08-31",
+            "value": 2.31
+          },
+          {
+            "date": "2026-09-01",
+            "value": 2.37
+          },
+          {
+            "date": "2026-09-02",
+            "value": 2.35
+          },
+          {
+            "date": "2026-09-03",
+            "value": 2.37
+          },
+          {
+            "date": "2026-09-04",
+            "value": 2.37
+          },
+          {
+            "date": "2026-09-08",
+            "value": 2.4
+          },
+          {
+            "date": "2026-09-09",
+            "value": 2.41
+          },
+          {
+            "date": "2026-09-10",
+            "value": 2.46
+          },
+          {
+            "date": "2026-09-11",
+            "value": 2.4
+          },
+          {
+            "date": "2026-09-14",
+            "value": 2.4
+          }
+        ]
+      },
+      "five_year_forward": {
+        "series_id": "T5YIFR",
+        "value": 2.32,
+        "date": "2026-09-11",
+        "change_1d_bp": -2.0,
+        "change_5d_bp": -1.0,
+        "change_20d_bp": 5.0,
+        "release_day_marker": true,
+        "state": "Stable",
+        "history": [
+          {
+            "date": "2026-08-03",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-04",
+            "value": 2.27
+          },
+          {
+            "date": "2026-08-05",
+            "value": 2.26
+          },
+          {
+            "date": "2026-08-06",
+            "value": 2.29
+          },
+          {
+            "date": "2026-08-07",
+            "value": 2.28
+          },
+          {
+            "date": "2026-08-10",
+            "value": 2.33
+          },
+          {
+            "date": "2026-08-11",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-12",
+            "value": 2.28
+          },
+          {
+            "date": "2026-08-13",
+            "value": 2.27
+          },
+          {
+            "date": "2026-08-14",
+            "value": 2.3
+          },
+          {
+            "date": "2026-08-17",
+            "value": 2.31
+          },
+          {
+            "date": "2026-08-18",
+            "value": 2.33
+          },
+          {
+            "date": "2026-08-19",
+            "value": 2.32
+          },
+          {
+            "date": "2026-08-20",
+            "value": 2.34
+          },
+          {
+            "date": "2026-08-21",
+            "value": 2.34
+          },
+          {
+            "date": "2026-08-24",
+            "value": 2.32
+          },
+          {
+            "date": "2026-08-25",
+            "value": 2.33
+          },
+          {
+            "date": "2026-08-26",
+            "value": 2.33
+          },
+          {
+            "date": "2026-08-27",
+            "value": 2.35
+          },
+          {
+            "date": "2026-08-28",
+            "value": 2.32
+          },
+          {
+            "date": "2026-08-31",
+            "value": 2.31
+          },
+          {
+            "date": "2026-09-01",
+            "value": 2.33
+          },
+          {
+            "date": "2026-09-02",
+            "value": 2.33
+          },
+          {
+            "date": "2026-09-03",
+            "value": 2.33
+          },
+          {
+            "date": "2026-09-04",
+            "value": 2.33
+          },
+          {
+            "date": "2026-09-08",
+            "value": 2.34
+          },
+          {
+            "date": "2026-09-09",
+            "value": 2.33
+          },
+          {
+            "date": "2026-09-10",
+            "value": 2.34
+          },
+          {
+            "date": "2026-09-11",
+            "value": 2.32
+          },
+          {
+            "date": "2026-09-14",
+            "value": 2.34
+          }
+        ]
+      }
+    },
+    "methodology": "Breakevens are market-implied inflation pricing, not a pure forecast. 1D/5D/20D changes use valid observations, not calendar days. Project-defined primary threshold: 5Y 1D change >= +5 bp is rising, <= -5 bp is falling, otherwise stable. Mixed overrides the primary state only when the primary is threshold-qualified rising/falling and 5Y5Y moves at least 5 bp in the opposite direction. 5Y5Y remains a separate long-run persistence qualifier.",
+    "two_year_series": {
+      "status": "omitted",
+      "reason": "No suitable approved official/public daily 2-year breakeven series identified; no proprietary screenshot or unsupported synthesis used."
+    },
     "warnings": []
   },
   "historical_comparison_methodology": {

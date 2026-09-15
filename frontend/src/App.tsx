@@ -3,6 +3,7 @@ import type { DashboardData, Indicator } from './types/dashboard';
 import { MacroHero } from './components/MacroHero';
 import { IndicatorGrid } from './components/IndicatorGrid';
 import './styles/dashboard.css';
+import './styles/expectations.css';
 import './styles/current-stress.css';
 import './styles/positioning.css';
 import './styles/presentation-refresh.css';

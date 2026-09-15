@@ -20,6 +20,7 @@ from valuation import cape_reference_month, fetch_yale_cape, historical_percenti
 from historical_comparisons import build_historical_comparisons, coverage_markdown
 from cpi_analyzer import build_cpi_release
 from wage_inflation import build_wage_inflation
+from inflation_expectations import build_inflation_expectations
 
 try:
     from dotenv import load_dotenv
@@ -307,6 +308,11 @@ def main() -> None:
     except (OSError, ValueError, requests.RequestException) as error:
         warnings.append(f"wage-inflation: FRED transmission context unavailable ({error.__class__.__name__})")
         current["wage_inflation"] = {"source": "FRED / BLS", "source_status": "fallback", "state": "Mixed", "warnings": ["Wage/inflation transmission context unavailable; existing wage indicator unchanged."]}
+    try:
+        current["inflation_expectations"] = build_inflation_expectations(lambda series_id: fetch_fred_series(series_id, api_key), current.get("inflation_release", {}))
+    except (OSError, ValueError, requests.RequestException) as error:
+        warnings.append(f"inflation-expectations: FRED unavailable ({error.__class__.__name__})")
+        current["inflation_expectations"] = {"source": "FRED / Federal Reserve", "source_status": "unavailable", "state": "Unavailable", "series": {}, "warnings": ["Market inflation expectations unavailable; no unsupported values shown."]}
     current["indicators"], comparison_warnings = build_historical_comparisons(current["indicators"], fetch_fred_series, api_key)
     warnings.extend(comparison_warnings)
     current["warnings"] = warnings

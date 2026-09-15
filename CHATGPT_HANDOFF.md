@@ -1,5 +1,49 @@
 # ChatGPT Project Handoff
 
+## Market Inflation Expectations — published (2026-09-15)
+
+- Publication record: commit hash pending final commit; message `Add market inflation expectations context`; push pending. Series: `T5YIE` and `T5YIFR` from FRED/Federal Reserve.
+- Validated release-day values: T5YIE `2.40%`, 1D `-6 bp`, 5D `+3 bp`, 20D `+19 bp`; T5YIFR `2.32%`, 1D `-2 bp`, 5D `-1 bp`, 20D `+5 bp`. State `Expectations falling`; long-run qualifier `Stable`; CPI divergence `Market doubts persistence`.
+- CPI rule: headline MoM `>= 0.3%` and rising components `> 50%` of eligible components; current values `0.396018%`, `16/18`. 2Y omitted; breakevens explicitly labeled market-implied pricing, not a pure forecast.
+- Dedicated tests, full live pipeline, and frontend build PASS. Score remains `9/24`, `38/100`, `Slowdown`; Current Stress unchanged. History files excluded as incidental churn. Review URL: https://recession-dashboard-45c.pages.dev
+
+
+## Market Inflation Expectations — publication review (2026-09-15)
+
+- Final approved rule remains validated: 5Y is primary (`>= +5 bp` rising, `<= -5 bp` falling, otherwise stable); `Mixed` requires threshold-qualified 5Y movement and a 5Y5Y move of at least 5 bp in the opposite direction. Same-direction magnitude gaps do not create Mixed.
+- Current release-day trace: `T5YIE` `2.40%`, `-6 bp`; `T5YIFR` `2.32%`, `-2 bp`. Therefore primary state is `Expectations falling`; the separate long-run qualifier is `Stable` because 5Y5Y is between -5 and +5 bp. 5D/20D: 5Y `+3/+19 bp`; 5Y5Y `-1/+5 bp`.
+- CPI fields used: headline MoM `0.396018%`, headline YoY `3.353016%`, core MoM `0.289796%`, breadth `16/18` rising. Firm/broad is exactly headline MoM `>= 0.3%` and rising components `> 50%` of eligible components; this plus falling 5Y gives `Market doubts persistence`. No consensus surprise or hidden score.
+- Dedicated tests, full real-key pipeline, and frontend build: PASS. Score remains `9/24`, `38/100`, `Slowdown`; Current Stress and Treasury invariants unchanged; JSON synchronized. 2Y remains omitted. **NOT COMMITTED / NOT PUSHED.**
+
+
+## Market Inflation Expectations — final local review (2026-09-15)
+
+- Corrected `Mixed`: 5Y remains primary with `>= +5 bp` = rising, `<= -5 bp` = falling, otherwise stable. Override to `Mixed` only when the primary is threshold-qualified and 5Y5Y moves `>= 5 bp` in the opposite direction. Raw sign disagreement below that threshold does not qualify. 5Y5Y remains a separate long-run qualifier.
+- Current trace: 5Y release-day move `-6 bp` -> `Expectations falling`; 5Y5Y `-2 bp` is not an opposite threshold-qualified move, so state is not Mixed. Horizon context remains 5Y `+3 bp` / `+19 bp` over 5D/20D and 5Y5Y `-1 bp` / `+5 bp`.
+- CPI fields: headline MoM `0.396018%`, headline YoY `3.353016%`, core MoM `0.289796%`, breadth `16/18` rising. The deterministic firm/broad rule is headline MoM `>= 0.3%` and rising components `> 50%` of eligible components; this yields `firm_broad = true`, and with falling 5Y expectations yields `Market doubts persistence`. No consensus-surprise language or hidden score is used.
+- Validation: dedicated expectation tests PASS; full real-key pipeline PASS; frontend build PASS; model v2 and Cycle Score unchanged at `9/24`, `38/100`, `Slowdown`; Current Stress and CPI/wage/Treasury invariants PASS; root/frontend JSON synchronized. 2Y remains omitted. **NOT COMMITTED / NOT PUSHED.**
+
+
+## Market Inflation Expectations — corrected rule audit (2026-09-15)
+
+- Corrected `Mixed` semantics in `scripts/inflation_expectations.py`: same-direction magnitude differences no longer create `Mixed`; `Mixed` now requires genuine directional conflict (`5Y >= 0` while `5Y5Y < 0`, or the reverse). The 5Y series remains primary; 5Y5Y is the long-run persistence cross-check.
+- Final release-day values for CPI publication date `2026-09-11`: `T5YIE` `2.40%`, 1D `-6 bp`, 5D `+3 bp`, 20D `+19 bp`; `T5YIFR` `2.32%`, 1D `-2 bp`, 5D `-1 bp`, 20D `+5 bp`. Changes use valid observations and `(current - prior) * 100`.
+- Rule trace: 5Y 1D `-6 bp <= -5 bp`, so state is `Expectations falling`; 5Y5Y is also negative (`-2 bp`), so there is no directional conflict and state is not `Mixed`. CPI fields used for divergence: headline MoM `0.396018%` and breadth `16 / 18` components rising, which satisfies the existing firm/broad descriptive condition; firm/broad CPI plus falling 5Y expectations yields `Market doubts persistence`. No consensus-surprise measure is used.
+- Validation: full real-key pipeline PASS; frontend build PASS; score model v2, 24 visible / 12 scored / denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress unchanged; root/frontend JSON synchronized. 2Y remains omitted because no approved official/public daily source was found. **NOT COMMITTED / NOT PUSHED.**
+- Files changed: `scripts/inflation_expectations.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/expectations.css`, `frontend/src/App.tsx`, generated current/history outputs, and this handoff.
+
+
+## Market Inflation Expectations — local review (2026-09-15)
+
+- Added context-only FRED/Federal Reserve forward-inflation module using `T5YIE` and `T5YIFR`; it does not affect Cycle Score v2, Current Stress, CPI, wage-price, Treasury scoring, or historical comparisons.
+- Release-day alignment: CPI release `2026-09-11`; `T5YIE` = `2.40%`, prior valid observation `2.46%` on `2026-09-10`, 1D `-6 bp`; `T5YIFR` = `2.32%`, prior `2.34%`, 1D `-2 bp`. Valid-observation changes also calculate 5D and 20D basis-point moves and retain a release-day chart marker.
+- Rules: primary 1D move `>= +5 bp` = `Expectations rising`, `<= -5 bp` = `Expectations falling`, otherwise `Stable`; missing primary = `Unavailable`; opposite directions or an absolute 5Y/5Y5Y 1D gap `>= 5 bp` = `Mixed`. Current state: `Expectations falling`.
+- CPI comparison uses existing headline/breadth context only. The current firm/broad August print plus falling primary expectations yields `Market doubts persistence`. Breakevens are market-implied pricing, not a pure forecast.
+- 2-year breakeven was researched but omitted: no suitable approved official/public daily series was identified; no screenshot, proprietary source, Yahoo, or TradingView data used.
+- Validation: full real-key pipeline PASS; frontend build PASS; 24 visible / 12 scored / denominator 24; `9/24`, `38/100`, `Slowdown`; Current Stress unchanged; root/frontend JSON synchronized. **NOT COMMITTED / NOT PUSHED.**
+- Files changed: `scripts/inflation_expectations.py`, `scripts/build_dashboard_data.py`, `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/components/MacroHero.tsx`, `frontend/src/styles/expectations.css`, `frontend/src/App.tsx`, generated current JSON files, and this handoff.
+
+
 ## CPI production regression — remediated and published (2026-09-15)
 
 - Repository secret `BLS_API_KEY`: **confirmed YES by user-provided GitHub screenshot**; its value was never exposed.
