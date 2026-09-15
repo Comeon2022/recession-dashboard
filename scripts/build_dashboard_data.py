@@ -296,12 +296,13 @@ def main() -> None:
     status = "sample" if not api_key else ("ok" if not warnings else "partial")
     current = build_current(raw, status, warnings)
     try:
-        current["inflation_release"] = build_cpi_release()
+        ahe_rows = fetch_fred_series("CES0500000003", api_key)
+        required_cpi_month = ahe_rows[-1]["date"][:7] if ahe_rows else None
+        current["inflation_release"] = build_cpi_release(required_cpi_month)
     except (OSError, ValueError, requests.RequestException) as error:
         warnings.append(f"inflation-release: BLS CPI analyzer unavailable ({error.__class__.__name__})")
         current["inflation_release"] = {"source": "BLS", "source_status": "fallback", "warnings": ["CPI release analyzer unavailable; no CPI context generated."]}
     try:
-        ahe_rows = fetch_fred_series("CES0500000003", api_key)
         current["wage_inflation"] = build_wage_inflation(lambda series_id: fetch_fred_series(series_id, api_key), ahe_rows, current.get("inflation_release", {}).get("headline", {}))
     except (OSError, ValueError, requests.RequestException) as error:
         warnings.append(f"wage-inflation: FRED transmission context unavailable ({error.__class__.__name__})")

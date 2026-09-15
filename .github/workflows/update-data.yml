@@ -13,6 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+      BLS_API_KEY: ${{ secrets.BLS_API_KEY }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4

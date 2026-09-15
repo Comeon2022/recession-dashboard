@@ -10,5 +10,10 @@ def test_cache_rules():
         path.write_text(json.dumps(valid)); assert c._cached_cpi()["delivery_status"]=="cached_validated"
         path.write_text(json.dumps({**valid,"validation":{"validation_status":"fail"}})); assert c._cached_cpi() is None
         path.write_text(json.dumps({**valid,"source_status":"unavailable"})); assert c._cached_cpi() is None
+        path.write_text(json.dumps(valid)); assert c._cached_cpi("2026-08")["delivery_status"] == "cached_validated"
+        assert c._cached_cpi("2026-09") is None
+        original = path.read_text()
+        assert c.save_validated_cpi({"source_status":"unavailable"}) is False
+        assert path.read_text() == original
         c.CPI_CACHE=old
 if __name__=="__main__": test_cache_rules(); print("cpi cache tests: PASS")

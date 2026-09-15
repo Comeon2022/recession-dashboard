@@ -1,5 +1,35 @@
 # ChatGPT Project Handoff
 
+## CPI production regression — remediated and published (2026-09-15)
+
+- Repository secret `BLS_API_KEY`: **confirmed YES by user-provided GitHub screenshot**; its value was never exposed.
+- Final validation: CPI-cache tests PASS; wage-price tests PASS; exact BLS-unavailable + valid same-month cache scenario PASS (`source_status = registered_api`, `delivery_status = cached_validated`, populated August 2026 headline, cache protected); live-key pipeline PASS; frontend build PASS.
+- Live payload: `source_status = registered_api`, `delivery_status = live_registered_api`, August 2026, wage/CPI gap `-0.267271 pp`; wage states `Balanced / Selective / No broad confirmation`.
+- Invariants: Cycle Score v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress six signals; root/frontend current JSON synchronized; `.env` ignored; no secret value in the diff; SEC state untouched.
+- Workflow remediation: existing `update-data.yml` now passes `BLS_API_KEY` alongside `FRED_API_KEY`; generated-data auto-commit behavior remains unchanged. Manual `workflow_dispatch` was not run because GitHub CLI is unavailable; Cloudflare verification is therefore pending the pushed deployment.
+- Published files: `.github/workflows/update-data.yml`, `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `scripts/test_cpi_cache.py`, `data/cache/cpi_last_validated.json`, `data/current.json`, `frontend/src/data/current.json`, and this handoff. Generated history churn was excluded as incidental.
+- Publication status: pending commit/push in this task. Review URL: https://recession-dashboard-45c.pages.dev
+
+
+## CPI resilience + Wage-Price Spiral Check — remediation local review (2026-09-15)
+
+- Implemented the approved production-path fallback: live registered BLS API remains preferred; successful validated live payloads atomically update `data/cache/cpi_last_validated.json`; failed live calls never overwrite the cache; eligible fallback is same-month gated and reports `delivery_status = cached_validated` while retaining `source_status = registered_api` and provenance separately.
+- Updated `.github/workflows/update-data.yml` with `BLS_API_KEY: ${{ secrets.BLS_API_KEY }}` alongside `FRED_API_KEY`. The secret name is referenced without logging or exposing its value. GitHub CLI is unavailable locally, so repository-secret existence could not be independently queried.
+- Tests: `python scripts/test_cpi_cache.py` PASS (live/cache, stale or invalid rejection, month alignment, cache protection); `python scripts/test_wage_inflation.py` PASS. Full real-key pipeline PASS; frontend production build PASS.
+- Fresh payload: CPI `registered_api`, `live_registered_api`, August 2026; CPI YoY `3.353016%`; AHE YoY `3.085745%`; exact gap `-0.267271 pp`; `Balanced / Selective / No broad confirmation`.
+- Invariants: score model v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress six signals; root/frontend current and history JSON synchronized. `.env` remains ignored; SEC state untouched.
+- Files changed: `.github/workflows/update-data.yml`, `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `scripts/test_cpi_cache.py`, `data/cache/cpi_last_validated.json`, `data/current.json`, `data/history.json`, `frontend/src/data/current.json`, `frontend/src/data/history.json`, and this handoff. **NOT COMMITTED / NOT PUSHED.**
+
+
+## CPI production regression — root-cause audit (2026-09-15)
+
+- **ROOT CAUSE CONFIRMED.** The published CPI resilience implementation was not included in commit `ed9dc5f`: that commit contained only the handoff and generated current JSON files. The later automated refresh commit `2a03fdcff57a80df8bd4f53f05c78b4a1dae24b3` ran on 2026-09-14 19:05 UTC and changed both `data/current.json` and `frontend/src/data/current.json` from the published August 2026 `registered_api` payload to `inflation_release.source_status = unavailable`, with null release month and empty headline/core fields.
+- Evidence: `ed9dc5f:data/current.json` contains August 2026, `registered_api`, while `2a03fdc:data/current.json` contains `unavailable`. The current local pipeline can still produce `registered_api` with the configured local key. The cache exists in Git history, but the deployed `2a03fdc:scripts/cpi_analyzer.py` has only the key-required/release-page path and no `CPI_CACHE`, `_cached_cpi`, `cached_validated`, or success-only cache fallback wiring.
+- Workflow evidence: `.github/workflows/update-data.yml` exposes only `FRED_API_KEY` in the job environment; it does not expose `BLS_API_KEY`. It validates JSON, builds the frontend, and auto-commits generated files with `chore(data): refresh macro dashboard`. No GitHub CLI was available locally to correlate a workflow run ID; the bot commit and timestamps provide the repository-side workflow correlation.
+- Timeline (UTC): 2026-09-14 18:04:46 — local real-key validation generated live CPI; 2026-09-14 18:07:16 — `ed9dc5f` published the validated handoff/generated snapshot; 2026-09-14 19:05:13 — automated bot commit `2a03fdc` generated the fail-closed unavailable payload; 2026-09-15 — audit confirmed the deployed regression. Cloudflare deployment execution timestamp was not available from the local repository/CLI evidence.
+- Minimal safe fix: add the repository `BLS_API_KEY` secret to the existing workflow and publish the approved CPI fallback wiring/cache as an explicit reviewed change. Keep live registered API preferred; on failure use only a validated same-month `cpi_last_validated.json` payload with explicit `cached_validated` status; never overwrite the cache on failure. Do not treat the current generated unavailable snapshot as a valid release.
+- Audit status: no code, generated data, workflow, or infrastructure files changed in this audit. **NOT COMMITTED / NOT PUSHED** (documentation-only audit update pending review).
+
 ## Dashboard Presentation & UX Refresh — global section summary hierarchy
 
 - Updated `frontend/src/styles/presentation-refresh.css` only. Major sections now follow title → concise bold plain-English conclusion → supporting details; the existing indicator-card hierarchy remains title → value → details → bold takeaway.
