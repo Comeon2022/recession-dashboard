@@ -2,7 +2,7 @@
 
 ## Market Inflation Expectations — published (2026-09-15)
 
-- Publication record: commit hash pending final commit; message `Add market inflation expectations context`; push pending. Series: `T5YIE` and `T5YIFR` from FRED/Federal Reserve.
+- Publication record: commit `ad16bb650e085e44a4a068c9b45c01bca745a19b`; message `Add market inflation expectations context`; push PASS to `origin/main`. Series: `T5YIE` and `T5YIFR` from FRED/Federal Reserve.
 - Validated release-day values: T5YIE `2.40%`, 1D `-6 bp`, 5D `+3 bp`, 20D `+19 bp`; T5YIFR `2.32%`, 1D `-2 bp`, 5D `-1 bp`, 20D `+5 bp`. State `Expectations falling`; long-run qualifier `Stable`; CPI divergence `Market doubts persistence`.
 - CPI rule: headline MoM `>= 0.3%` and rising components `> 50%` of eligible components; current values `0.396018%`, `16/18`. 2Y omitted; breakevens explicitly labeled market-implied pricing, not a pure forecast.
 - Dedicated tests, full live pipeline, and frontend build PASS. Score remains `9/24`, `38/100`, `Slowdown`; Current Stress unchanged. History files excluded as incidental churn. Review URL: https://recession-dashboard-45c.pages.dev
