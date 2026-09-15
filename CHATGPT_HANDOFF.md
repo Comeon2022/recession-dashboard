@@ -8,7 +8,7 @@
 - Invariants: Cycle Score v2, 24 visible, 12 scored, denominator 24, `9/24`, `38/100`, `Slowdown`; Current Stress six signals; root/frontend current JSON synchronized; `.env` ignored; no secret value in the diff; SEC state untouched.
 - Workflow remediation: existing `update-data.yml` now passes `BLS_API_KEY` alongside `FRED_API_KEY`; generated-data auto-commit behavior remains unchanged. Manual `workflow_dispatch` was not run because GitHub CLI is unavailable; Cloudflare verification is therefore pending the pushed deployment.
 - Published files: `.github/workflows/update-data.yml`, `scripts/cpi_analyzer.py`, `scripts/build_dashboard_data.py`, `scripts/test_cpi_cache.py`, `data/cache/cpi_last_validated.json`, `data/current.json`, `frontend/src/data/current.json`, and this handoff. Generated history churn was excluded as incidental.
-- Publication status: pending commit/push in this task. Review URL: https://recession-dashboard-45c.pages.dev
+- Published commit: `2928a8c51530002c0700dabecd8563279456aa6a` (`Fix CPI production refresh resilience`), pushed to `origin/main` successfully. Review URL: https://recession-dashboard-45c.pages.dev
 
 
 ## CPI resilience + Wage-Price Spiral Check — remediation local review (2026-09-15)
