@@ -1,5 +1,12 @@
 # ChatGPT Project Handoff
 
+## Market Inflation Expectations — reader-clarity visual redesign (2026-09-15)
+
+- Frontend-only redesign of the published expectations panel. Added a plain-English CPI → market reaction → persistence story strip, meaning-first card titles, smaller `Context only` badge, and a compact Recharts two-line chart for `T5YIE` / `T5YIFR` with CPI release marker and reader-friendly legend.
+- Preserved all values and logic: release-day `T5YIE -6 bp`, `T5Y5Y -2 bp`; 5D/20D context `+3/+19 bp` and `-1/+5 bp`; state `Expectations falling`; divergence `Market doubts persistence`; 2Y omitted.
+- Validation: `npm run build` PASS. Data, Python, scoring, Current Stress, wage-price, Treasury, workflows, and infrastructure unchanged. Files: `frontend/src/components/InflationExpectationsPanel.tsx`, `frontend/src/styles/expectations.css`, and this handoff. **NOT COMMITTED / NOT PUSHED.**
+
+
 ## Market Inflation Expectations — published (2026-09-15)
 
 - Publication record: commit `ad16bb650e085e44a4a068c9b45c01bca745a19b`; message `Add market inflation expectations context`; push PASS to `origin/main`. Series: `T5YIE` and `T5YIFR` from FRED/Federal Reserve.
