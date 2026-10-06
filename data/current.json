@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T21:23:19Z",
+  "generated_at": "2026-10-06T19:19:45Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -422,13 +422,13 @@
         "id": "volatility-release",
         "name": "Volatility Release",
         "state": "calm",
-        "value": 15.31,
-        "display_value": "15.31 | 20D avg 15.92 | 20D change +0.78",
+        "value": 15.52,
+        "display_value": "15.52 | 20D avg 15.93 | 20D change +0.22",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-10-02",
+        "observation_date": "2026-10-05",
         "market_confirmation": true,
-        "average20": 15.9185,
-        "change20": 0.7800000000000011
+        "average20": 15.929499999999999,
+        "change20": 0.21999999999999886
       },
       {
         "id": "financial-stress-confirmation",
@@ -1684,12 +1684,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 15.31,
-      "display_value": "15.31 close | 20D avg 15.92 | 20D change +0.78",
+      "value": 15.52,
+      "display_value": "15.52 close | 20D avg 15.93 | 20D change +0.22",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-10-02",
+      "observation_date": "2026-10-05",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1700,9 +1700,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 15.31,
-          "date": "2026-10-02",
-          "display": "15.31"
+          "value": 15.52,
+          "date": "2026-10-05",
+          "display": "15.52"
         },
         "recession_2020": {
           "value": 82.69,
