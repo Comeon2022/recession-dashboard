@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T21:59:40Z",
+  "generated_at": "2026-10-13T20:06:43Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -422,13 +422,13 @@
         "id": "volatility-release",
         "name": "Volatility Release",
         "state": "calm",
-        "value": 14.84,
-        "display_value": "14.84 | 20D avg 15.65 | 20D change -1.00",
+        "value": 15.21,
+        "display_value": "15.21 | 20D avg 15.56 | 20D change -1.89",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-10-09",
+        "observation_date": "2026-10-12",
         "market_confirmation": true,
-        "average20": 15.6535,
-        "change20": -1.0
+        "average20": 15.559000000000001,
+        "change20": -1.8900000000000006
       },
       {
         "id": "financial-stress-confirmation",
@@ -1684,12 +1684,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 14.84,
-      "display_value": "14.84 close | 20D avg 15.65 | 20D change -1.00",
+      "value": 15.21,
+      "display_value": "15.21 close | 20D avg 15.56 | 20D change -1.89",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-10-09",
+      "observation_date": "2026-10-12",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1700,9 +1700,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 14.84,
-          "date": "2026-10-09",
-          "display": "14.84"
+          "value": 15.21,
+          "date": "2026-10-12",
+          "display": "15.21"
         },
         "recession_2020": {
           "value": 82.69,
@@ -2161,7 +2161,7 @@
     ],
     "validation": {
       "validation_status": "pass",
-      "validated_at": "2026-10-12T21:59:42.831104Z",
+      "validated_at": "2026-10-13T20:06:45.482544Z",
       "method": "registered_api_aggregates_and_corrected_mappings"
     }
   },
