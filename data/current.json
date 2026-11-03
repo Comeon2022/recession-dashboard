@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T22:37:18Z",
+  "generated_at": "2026-11-03T20:26:07Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -421,14 +421,14 @@
       {
         "id": "volatility-release",
         "name": "Volatility Release",
-        "state": "calm",
-        "value": 19.42,
-        "display_value": "19.42 | 20D avg 17.00 | 20D change +4.11",
+        "state": "watch",
+        "value": 21.15,
+        "display_value": "21.15 | 20D avg 17.28 | 20D change +5.63",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-10-30",
+        "observation_date": "2026-11-02",
         "market_confirmation": true,
-        "average20": 17.0005,
-        "change20": 4.110000000000001
+        "average20": 17.282,
+        "change20": 5.629999999999999
       },
       {
         "id": "financial-stress-confirmation",
@@ -709,15 +709,15 @@
       "id": "jolts-hires",
       "name": "JOLTS Hires",
       "category": "Labor",
-      "value": 3.3,
-      "display_value": "3.3%",
+      "value": 3.4,
+      "display_value": "3.4%",
       "unit": "percent",
       "explanation": "Hiring is weak",
       "source": "FRED",
-      "observation_date": "2026-08-01",
+      "observation_date": "2026-09-01",
       "scored": true,
       "trend_metrics": {
-        "Latest": "3.3%",
+        "Latest": "3.4%",
         "3M average": "3.3%",
         "12M average": "3.3%",
         "Trend": "stable"
@@ -731,9 +731,9 @@
         "series_id": "JTSHIR",
         "history_start_date": "2000-12-01",
         "today": {
-          "value": 3.3,
-          "date": "2026-08-01",
-          "display": "3.3%"
+          "value": 3.4,
+          "date": "2026-09-01",
+          "display": "3.4%"
         },
         "recession_2020": {
           "value": 3.1,
@@ -756,17 +756,17 @@
       "id": "jolts-quits",
       "name": "JOLTS Quits",
       "category": "Labor",
-      "value": 1.9,
-      "display_value": "1.9%",
+      "value": 2.1,
+      "display_value": "2.1%",
       "unit": "percent",
       "explanation": "Workers are less confident about changing jobs",
       "source": "FRED",
-      "observation_date": "2026-08-01",
+      "observation_date": "2026-09-01",
       "scored": false,
       "trend_metrics": {
-        "Latest": "1.9%",
-        "3M average": "1.9%",
-        "12M average": "1.9%",
+        "Latest": "2.1%",
+        "3M average": "2.0%",
+        "12M average": "2.0%",
         "Trend": "stable"
       },
       "score": null,
@@ -778,9 +778,9 @@
         "series_id": "JTSQUR",
         "history_start_date": "2000-12-01",
         "today": {
-          "value": 1.9,
-          "date": "2026-08-01",
-          "display": "1.9%"
+          "value": 2.1,
+          "date": "2026-09-01",
+          "display": "2.1%"
         },
         "recession_2020": {
           "value": 1.5,
@@ -1684,12 +1684,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 19.42,
-      "display_value": "19.42 close | 20D avg 17.00 | 20D change +4.11",
+      "value": 21.15,
+      "display_value": "21.15 close | 20D avg 17.28 | 20D change +5.63",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-10-30",
+      "observation_date": "2026-11-02",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1700,9 +1700,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 19.42,
-          "date": "2026-10-30",
-          "display": "19.42"
+          "value": 21.15,
+          "date": "2026-11-02",
+          "display": "21.15"
         },
         "recession_2020": {
           "value": 82.69,
@@ -2140,7 +2140,7 @@
     ],
     "validation": {
       "validation_status": "pass",
-      "validated_at": "2026-11-02T22:37:19.595613Z",
+      "validated_at": "2026-11-03T20:26:08.976914Z",
       "method": "registered_api_aggregates_and_corrected_mappings"
     }
   },
