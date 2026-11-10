@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T23:17:39Z",
+  "generated_at": "2026-11-10T20:43:46Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -413,10 +413,9 @@
   },
   "current_stress": {
     "version": "v1",
-    "state": "Early Stress",
-    "active_confirmations": 2,
+    "state": "Calm / No Break",
+    "active_confirmations": 1,
     "active_signal_ids": [
-      "volatility-release",
       "credit-conditions-confirmation"
     ],
     "market_confirmation_active": true,
@@ -424,14 +423,14 @@
       {
         "id": "volatility-release",
         "name": "Volatility Release",
-        "state": "stress",
-        "value": 25.64,
-        "display_value": "25.64 | 20D avg 18.83 | 20D change +10.80",
+        "state": "calm",
+        "value": 19.92,
+        "display_value": "19.92 | 20D avg 19.06 | 20D change +4.71",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-11-06",
+        "observation_date": "2026-11-09",
         "market_confirmation": true,
-        "average20": 18.828,
-        "change20": 10.8
+        "average20": 19.063499999999998,
+        "change20": 4.710000000000001
       },
       {
         "id": "financial-stress-confirmation",
@@ -486,7 +485,7 @@
       }
     ],
     "thresholds_provisional": true,
-    "summary": "2 of 6 stress confirmations active."
+    "summary": "1 of 6 stress confirmations active."
   },
   "berkshire_positioning": {
     "source": "Berkshire Hathaway official Q2 2026 report",
@@ -1687,12 +1686,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 25.64,
-      "display_value": "25.64 close | 20D avg 18.83 | 20D change +10.80",
+      "value": 19.92,
+      "display_value": "19.92 close | 20D avg 19.06 | 20D change +4.71",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-11-06",
+      "observation_date": "2026-11-09",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1703,9 +1702,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 25.64,
-          "date": "2026-11-06",
-          "display": "25.64"
+          "value": 19.92,
+          "date": "2026-11-09",
+          "display": "19.92"
         },
         "recession_2020": {
           "value": 82.69,
@@ -1881,7 +1880,7 @@
     }
   ],
   "inflation_release": {
-    "release_month": "2026-09",
+    "release_month": "2026-10",
     "release_date": null,
     "source": "BLS Public Data API v2",
     "source_status": "registered_api",
@@ -1995,119 +1994,111 @@
       }
     },
     "headline": {
-      "mom": 0.6485480245771891,
-      "yoy": 3.7172508442689933,
-      "mom_3m_ann": 4.562342321211887,
-      "mom_6m_ann": 3.669219713434102,
-      "date": "2026-09-01"
+      "mom": 0.3502845690429357,
+      "yoy": null,
+      "mom_3m_ann": 5.723235103413082,
+      "mom_6m_ann": 3.0731299573087068,
+      "date": "2026-10-01"
     },
     "core": {
-      "mom": 0.3348481932704761,
-      "yoy": 2.565840844021827,
-      "mom_3m_ann": 3.4124037788220596,
-      "mom_6m_ann": 2.8515793000403633,
-      "date": "2026-09-01"
+      "mom": 0.2962560785609636,
+      "yoy": null,
+      "mom_3m_ann": 3.7464069586534032,
+      "mom_6m_ann": 2.6872802332521983,
+      "date": "2026-10-01"
     },
     "contributors": [
       {
         "category": "food",
-        "mom": 0.0479576602370857,
-        "yoy": 2.4528919628397317,
-        "date": "2026-09-01",
-        "w1": "0.006"
+        "mom": 0.4727842340581656,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.064"
       },
       {
         "category": "energy",
-        "mom": 5.195735299612636,
-        "yoy": 20.35411471321695,
-        "date": "2026-09-01",
-        "w1": "0.377"
+        "mom": 0.6994559458195493,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.053"
       },
       {
         "category": "shelter",
-        "mom": 0.39072396665016385,
-        "yoy": 3.2230618848913206,
-        "date": "2026-09-01",
-        "w1": "0.138"
+        "mom": 0.30469451827703775,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.108"
       },
       {
         "category": "gasoline",
-        "mom": 9.093806222459143,
-        "yoy": 34.169701202174885,
-        "date": "2026-09-01",
-        "w1": "0.337"
+        "mom": 1.0383526574923474,
+        "yoy": 37.357531472141716,
+        "date": "2026-10-01",
+        "w1": "0.042"
       },
       {
         "category": "communication",
-        "mom": -0.17501967275391772,
-        "yoy": 1.1284292704381693,
-        "date": "2026-09-01",
-        "w1": "-0.006"
+        "mom": -0.08698370414667034,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "-0.003"
       },
       {
         "category": "medical_care",
-        "mom": 0.2843013042972631,
-        "yoy": 2.527560373134685,
-        "date": "2026-09-01",
-        "w1": "0.019"
+        "mom": 0.30165245121225315,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.021"
       },
       {
         "category": "telephone_services",
-        "mom": -0.056100981767182034,
-        "yoy": 3.2288179242853543,
-        "date": "2026-09-01",
+        "mom": -0.16631843743827313,
+        "yoy": null,
+        "date": "2026-10-01",
         "w1": null
       }
     ],
     "core_contributors": [],
-    "outliers": [
-      {
-        "category": "education",
-        "current_mom": 0.58249217184978,
-        "prior_mom": 0.826104150348117,
-        "z_score": 2.07,
-        "label": "extreme"
-      }
-    ],
+    "outliers": [],
     "trend_buckets": {
       "breadth": {
         "eligible_components": 18,
-        "rising_mom": 16,
-        "rising_above_0_2": 14,
-        "rising_above_0_4": 8,
-        "declining_mom": 2
+        "rising_mom": 14,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 6,
+        "declining_mom": 4
       }
     },
     "breadth": {
       "eligible_components": 18,
-      "rising_mom": 16,
-      "rising_above_0_2": 14,
-      "rising_above_0_4": 8,
-      "declining_mom": 2
+      "rising_mom": 14,
+      "rising_above_0_2": 13,
+      "rising_above_0_4": 6,
+      "declining_mom": 4
     },
     "shelter": {
       "shelter": {
-        "mom": 0.39072396665016385,
-        "yoy": 3.2230618848913206,
-        "mom_3m_ann": 3.218521553697129,
-        "mom_6m_ann": 3.731210127985385,
-        "date": "2026-09-01"
+        "mom": 0.30469451827703775,
+        "yoy": null,
+        "mom_3m_ann": 3.9049447564422524,
+        "mom_6m_ann": 3.1092915148670075,
+        "date": "2026-10-01"
       }
     },
     "energy": {
       "energy": {
-        "mom": 5.195735299612636,
-        "yoy": 20.35411471321695,
-        "mom_3m_ann": 25.334938952432438,
-        "mom_6m_ann": 15.743032860853056,
-        "date": "2026-09-01"
+        "mom": 0.6994559458195493,
+        "yoy": null,
+        "mom_3m_ann": 36.81905667836085,
+        "mom_6m_ann": 8.914167761375236,
+        "date": "2026-10-01"
       },
       "gasoline": {
-        "mom": 9.093806222459143,
-        "yoy": 34.169701202174885,
-        "mom_3m_ann": 47.00248715643114,
-        "mom_6m_ann": 25.973358591509843,
-        "date": "2026-09-01"
+        "mom": 1.0383526574923474,
+        "yoy": 37.357531472141716,
+        "mom_3m_ann": 72.02659429356906,
+        "mom_6m_ann": 15.682569901095377,
+        "date": "2026-10-01"
       }
     },
     "nowcast": {
@@ -2122,7 +2113,7 @@
       "note": "Public model-based estimate; values require the Cleveland Fed's rendered data view."
     },
     "validation_targets": {
-      "release_month": "2026-09",
+      "release_month": "2026-10",
       "headline_mom_expected": 0.4,
       "headline_yoy_expected": 3.4,
       "core_mom_expected": 0.3,
@@ -2143,7 +2134,7 @@
     ],
     "validation": {
       "validation_status": "pass",
-      "validated_at": "2026-11-09T23:17:41.690318Z",
+      "validated_at": "2026-11-10T20:43:48.315733Z",
       "method": "registered_api_aggregates_and_corrected_mappings"
     }
   },
@@ -2174,7 +2165,7 @@
         "date": "2022-03-01",
         "value": 5.894105894105883
       },
-      "wage_cpi_gap_pp": -0.5964910070912488
+      "wage_cpi_gap_pp": null
     },
     "eci": {
       "value": 180.575,
@@ -2234,33 +2225,33 @@
   "inflation_expectations": {
     "source": "FRED / Federal Reserve",
     "source_status": "live",
-    "release_date": "2026-09-01",
-    "cpi_reference_month": "2026-09",
-    "state": "Expectations rising",
-    "divergence": "Market concern broadening",
+    "release_date": "2026-10-01",
+    "cpi_reference_month": "2026-10",
+    "state": "Stable",
+    "divergence": "Mixed market signal",
     "cpi_context": {
-      "headline_mom": 0.6485480245771891,
-      "headline_yoy": 3.7172508442689933,
-      "core_mom": 0.3348481932704761,
+      "headline_mom": 0.3502845690429357,
+      "headline_yoy": null,
+      "core_mom": 0.2962560785609636,
       "breadth": {
         "eligible_components": 18,
-        "rising_mom": 16,
-        "rising_above_0_2": 14,
-        "rising_above_0_4": 8,
-        "declining_mom": 2
+        "rising_mom": 14,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 6,
+        "declining_mom": 4
       },
       "firm_broad": true
     },
     "series": {
       "five_year_breakeven": {
         "series_id": "T5YIE",
-        "value": 2.37,
-        "date": "2026-09-01",
-        "change_1d_bp": 6.0,
-        "change_5d_bp": 6.0,
-        "change_20d_bp": 18.0,
+        "value": 2.36,
+        "date": "2026-10-01",
+        "change_1d_bp": 0.0,
+        "change_5d_bp": 3.0,
+        "change_20d_bp": 1.0,
         "release_day_marker": true,
-        "state": "Expectations rising",
+        "state": "Stable",
         "history": [
           {
             "date": "2026-09-28",
@@ -2386,11 +2377,11 @@
       },
       "five_year_forward": {
         "series_id": "T5YIFR",
-        "value": 2.33,
-        "date": "2026-09-01",
-        "change_1d_bp": 2.0,
-        "change_5d_bp": 0.0,
-        "change_20d_bp": 6.0,
+        "value": 2.36,
+        "date": "2026-10-01",
+        "change_1d_bp": 0.0,
+        "change_5d_bp": 3.0,
+        "change_20d_bp": 3.0,
         "release_day_marker": true,
         "state": "Stable",
         "history": [
