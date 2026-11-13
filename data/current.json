@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T21:19:51Z",
+  "generated_at": "2026-11-13T20:46:45Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -9,7 +9,7 @@
   "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
   "yield_curve_regime": {
     "spread_2s10s_bp": 25.0,
-    "spread_3m10y_bp": 68.0,
+    "spread_3m10y_bp": 78.0,
     "deepest_2s10s_inversion_bp": -241.0,
     "deepest_3m10y_inversion_bp": -189.0,
     "inversion_start_date": "2022-07-06",
@@ -422,13 +422,13 @@
         "id": "volatility-release",
         "name": "Volatility Release",
         "state": "calm",
-        "value": 17.49,
-        "display_value": "17.49 | 20D avg 19.30 | 20D change +0.62",
+        "value": 18.7,
+        "display_value": "18.70 | 20D avg 19.42 | 20D change +2.24",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-11-11",
+        "observation_date": "2026-11-12",
         "market_confirmation": true,
-        "average20": 19.304,
-        "change20": 0.6199999999999974
+        "average20": 19.416,
+        "change20": 2.2399999999999984
       },
       {
         "id": "financial-stress-confirmation",
@@ -910,16 +910,16 @@
       "id": "yield-curve",
       "name": "Yield Curve 2s10s",
       "category": "Rates",
-      "value": 25.0,
-      "display_value": "+25 bp · positive_no_recent_inversion / neutral_or_mixed",
+      "value": 24.0,
+      "display_value": "+24 bp · positive_no_recent_inversion / neutral_or_mixed",
       "unit": "basis points",
       "explanation": "Curve is positive, but partly because long yields remain elevated",
       "source": "FRED",
-      "observation_date": "2026-11-10",
+      "observation_date": "2026-11-12",
       "scored": true,
       "yield_curve_regime": {
         "spread_2s10s_bp": 25.0,
-        "spread_3m10y_bp": 68.0,
+        "spread_3m10y_bp": 78.0,
         "deepest_2s10s_inversion_bp": -241.0,
         "deepest_3m10y_inversion_bp": -189.0,
         "inversion_start_date": "2022-07-06",
@@ -1330,9 +1330,9 @@
         "series_id": "T10Y2Y",
         "history_start_date": "1976-06-01",
         "today": {
-          "value": 25.0,
-          "date": "2026-11-10",
-          "display": "+25 bp"
+          "value": 24.0,
+          "date": "2026-11-12",
+          "display": "+24 bp"
         },
         "recession_2020": {
           "value": 12.0,
@@ -1684,12 +1684,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 17.49,
-      "display_value": "17.49 close | 20D avg 19.30 | 20D change +0.62",
+      "value": 18.7,
+      "display_value": "18.70 close | 20D avg 19.42 | 20D change +2.24",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-11-11",
+      "observation_date": "2026-11-12",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1700,9 +1700,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 17.49,
-          "date": "2026-11-11",
-          "display": "17.49"
+          "value": 18.7,
+          "date": "2026-11-12",
+          "display": "18.70"
         },
         "recession_2020": {
           "value": 82.69,
@@ -1878,20 +1878,227 @@
     }
   ],
   "inflation_release": {
-    "release_month": null,
+    "release_month": "2026-10",
     "release_date": null,
     "source": "BLS Public Data API v2",
-    "source_status": "unavailable",
+    "source_status": "registered_api",
+    "delivery_status": "live_registered_api",
     "source_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
-    "headline": {},
-    "core": {},
-    "contributors": [],
+    "manifest": {
+      "headline": {
+        "series_id": "CUSR0000SA0",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "core": {
+        "series_id": "CUSR0000SA0L1E",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "food": {
+        "series_id": "CUSR0000SAF1",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "energy": {
+        "series_id": "CUSR0000SA0E",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "gasoline": {
+        "series_id": "CUSR0000SETB01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "shelter": {
+        "series_id": "CUSR0000SAH1",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "rent_primary": {
+        "series_id": "CUSR0000SEHA",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "oer": {
+        "series_id": "CUSR0000SEHC",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "lodging": {
+        "series_id": "CUSR0000SEHB",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "medical_care": {
+        "series_id": "CUSR0000SAM2",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "communication": {
+        "series_id": "CUSR0000SAE2",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "telephone_services": {
+        "series_id": "CUUR0000SEED",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "transportation_services": {
+        "series_id": "CUSR0000SETD",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "recreation": {
+        "series_id": "CUSR0000SER",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "education": {
+        "series_id": "CUSR0000SEEB",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "household_operations": {
+        "series_id": "CUSR0000SEGD",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "apparel": {
+        "series_id": "CUUR0000SECA",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "new_vehicles": {
+        "series_id": "CUSR0000SETA01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "used_cars": {
+        "series_id": "CUSR0000SETA02",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      },
+      "motor_vehicle_insurance": {
+        "series_id": "CUUR0000SETE02",
+        "seasonal_adjustment": "not_seasonally_adjusted",
+        "release_mom_policy": "NSA monthly change"
+      },
+      "airline_fares": {
+        "series_id": "CUSR0000SETG01",
+        "seasonal_adjustment": "seasonally_adjusted",
+        "release_mom_policy": "SA monthly change"
+      }
+    },
+    "headline": {
+      "mom": 0.3502845690429357,
+      "yoy": null,
+      "mom_3m_ann": 5.723235103413082,
+      "mom_6m_ann": 3.0731299573087068,
+      "date": "2026-10-01"
+    },
+    "core": {
+      "mom": 0.2962560785609636,
+      "yoy": null,
+      "mom_3m_ann": 3.7464069586534032,
+      "mom_6m_ann": 2.6872802332521983,
+      "date": "2026-10-01"
+    },
+    "contributors": [
+      {
+        "category": "food",
+        "mom": 0.4727842340581656,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.064"
+      },
+      {
+        "category": "energy",
+        "mom": 0.6994559458195493,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.053"
+      },
+      {
+        "category": "shelter",
+        "mom": 0.30469451827703775,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.108"
+      },
+      {
+        "category": "gasoline",
+        "mom": 1.0383526574923474,
+        "yoy": 37.357531472141716,
+        "date": "2026-10-01",
+        "w1": "0.042"
+      },
+      {
+        "category": "communication",
+        "mom": -0.08698370414667034,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "-0.003"
+      },
+      {
+        "category": "medical_care",
+        "mom": 0.30165245121225315,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": "0.021"
+      },
+      {
+        "category": "telephone_services",
+        "mom": -0.16631843743827313,
+        "yoy": null,
+        "date": "2026-10-01",
+        "w1": null
+      }
+    ],
     "core_contributors": [],
     "outliers": [],
-    "breadth": {},
-    "trend_buckets": {},
-    "shelter": {},
-    "energy": {},
+    "trend_buckets": {
+      "breadth": {
+        "eligible_components": 18,
+        "rising_mom": 14,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 6,
+        "declining_mom": 4
+      }
+    },
+    "breadth": {
+      "eligible_components": 18,
+      "rising_mom": 14,
+      "rising_above_0_2": 13,
+      "rising_above_0_4": 6,
+      "declining_mom": 4
+    },
+    "shelter": {
+      "shelter": {
+        "mom": 0.30469451827703775,
+        "yoy": null,
+        "mom_3m_ann": 3.9049447564422524,
+        "mom_6m_ann": 3.1092915148670075,
+        "date": "2026-10-01"
+      }
+    },
+    "energy": {
+      "energy": {
+        "mom": 0.6994559458195493,
+        "yoy": null,
+        "mom_3m_ann": 36.81905667836085,
+        "mom_6m_ann": 8.914167761375236,
+        "date": "2026-10-01"
+      },
+      "gasoline": {
+        "mom": 1.0383526574923474,
+        "yoy": 37.357531472141716,
+        "mom_3m_ann": 72.02659429356906,
+        "mom_6m_ann": 15.682569901095377,
+        "date": "2026-10-01"
+      }
+    },
     "nowcast": {
       "source": "Cleveland Fed Inflation Nowcasting",
       "source_url": "https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting",
@@ -1904,6 +2111,7 @@
       "note": "Public model-based estimate; values require the Cleveland Fed's rendered data view."
     },
     "validation_targets": {
+      "release_month": "2026-10",
       "headline_mom_expected": 0.4,
       "headline_yoy_expected": 3.4,
       "core_mom_expected": 0.3,
@@ -1913,14 +2121,20 @@
       "shelter_mom_expected": 0.3,
       "communication_mom_expected": 2.3,
       "medical_care_mom_expected": -0.2,
-      "telephone_services_mom_expected": 5.4
+      "telephone_services_mom_expected": 5.4,
+      "note": "Official August 2026 validation targets from PROJECT_INSTRUCTIONS; release-page/table parser results are retained separately."
     },
     "takeaway": {
-      "text": "The August CPI release could not be retrieved in this run; no unsupported CPI values are shown."
+      "text": "Headline and core inflation are shown with official category moves and BLS W1 effects; core-specific contribution remains disabled until validated."
     },
     "warnings": [
-      "Registered BLS API request failed and release-page access was unavailable (HTTPError); no CPI values published."
-    ]
+      "W1 effects are official BLS aspect fields and are not Core CPI contributions."
+    ],
+    "validation": {
+      "validation_status": "pass",
+      "validated_at": "2026-11-13T20:46:47.100445Z",
+      "method": "registered_api_aggregates_and_corrected_mappings"
+    }
   },
   "wage_inflation": {
     "source": "FRED / BLS",
@@ -1973,34 +2187,34 @@
     },
     "producer_prices": {
       "ppi_final": {
-        "value": 159.78,
-        "date": "2026-09-01",
-        "yoy": 6.346301041632008,
-        "mom": 1.3433801423297975
+        "value": 160.254,
+        "date": "2026-10-01",
+        "yoy": 6.5242390603500455,
+        "mom": 0.3475287885334133
       },
       "ppi_core": {
-        "value": 144.255,
-        "date": "2026-09-01",
-        "yoy": 5.0441279272981365,
-        "mom": 0.4876179861377006
+        "value": 144.911,
+        "date": "2026-10-01",
+        "yoy": 4.855247067676793,
+        "mom": 0.48609666458636624
       },
       "ppi_services": {
-        "value": 157.666,
-        "date": "2026-09-01",
-        "yoy": 4.919712789389985,
-        "mom": 0.8178429153318456
+        "value": 158.076,
+        "date": "2026-10-01",
+        "yoy": 4.973901956357141,
+        "mom": 0.2104675930621802
       },
       "ppi_transport": {
-        "value": 179.851,
-        "date": "2026-09-01",
-        "yoy": 15.875163487123967,
-        "mom": 3.4381416321108027
+        "value": 184.007,
+        "date": "2026-10-01",
+        "yoy": 18.503181431773097,
+        "mom": 2.0390395386236326
       },
       "ppi_services_ex_trade": {
-        "value": 150.44,
-        "date": "2026-09-01",
-        "yoy": 3.7882289632905186,
-        "mom": 0.2532320405171262
+        "value": 150.601,
+        "date": "2026-10-01",
+        "yoy": 3.159848754692174,
+        "mom": 0.18960057478911718
       }
     },
     "methodology": "Context-only. Wage/CPI gap equals AHE YoY minus headline CPI YoY; it is not official real income. Project-defined descriptive thresholds: wage Cooling requires AHE and ECI YoY <3; Reaccelerating requires either >4; Mixed requires absolute difference >1; otherwise Balanced. Producer Contained requires Services MoM <=0; Selective requires Transportation > Services and absolute Services ex trade/transport <0.1; otherwise Broadening. Missing required fields produce Unavailable.",
@@ -2008,10 +2222,296 @@
   },
   "inflation_expectations": {
     "source": "FRED / Federal Reserve",
-    "source_status": "unavailable",
-    "state": "Unavailable",
-    "release_date": null,
-    "series": {}
+    "source_status": "live",
+    "release_date": "2026-10-01",
+    "cpi_reference_month": "2026-10",
+    "state": "Stable",
+    "divergence": "Mixed market signal",
+    "cpi_context": {
+      "headline_mom": 0.3502845690429357,
+      "headline_yoy": null,
+      "core_mom": 0.2962560785609636,
+      "breadth": {
+        "eligible_components": 18,
+        "rising_mom": 14,
+        "rising_above_0_2": 13,
+        "rising_above_0_4": 6,
+        "declining_mom": 4
+      },
+      "firm_broad": true
+    },
+    "series": {
+      "five_year_breakeven": {
+        "series_id": "T5YIE",
+        "value": 2.36,
+        "date": "2026-10-01",
+        "change_1d_bp": 0.0,
+        "change_5d_bp": 3.0,
+        "change_20d_bp": 1.0,
+        "release_day_marker": true,
+        "state": "Stable",
+        "history": [
+          {
+            "date": "2026-09-30",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-01",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-02",
+            "value": 2.37
+          },
+          {
+            "date": "2026-10-05",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-06",
+            "value": 2.37
+          },
+          {
+            "date": "2026-10-07",
+            "value": 2.37
+          },
+          {
+            "date": "2026-10-08",
+            "value": 2.37
+          },
+          {
+            "date": "2026-10-09",
+            "value": 2.34
+          },
+          {
+            "date": "2026-10-13",
+            "value": 2.33
+          },
+          {
+            "date": "2026-10-14",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-15",
+            "value": 2.33
+          },
+          {
+            "date": "2026-10-16",
+            "value": 2.37
+          },
+          {
+            "date": "2026-10-19",
+            "value": 2.38
+          },
+          {
+            "date": "2026-10-20",
+            "value": 2.39
+          },
+          {
+            "date": "2026-10-21",
+            "value": 2.4
+          },
+          {
+            "date": "2026-10-22",
+            "value": 2.45
+          },
+          {
+            "date": "2026-10-23",
+            "value": 2.48
+          },
+          {
+            "date": "2026-10-26",
+            "value": 2.47
+          },
+          {
+            "date": "2026-10-27",
+            "value": 2.45
+          },
+          {
+            "date": "2026-10-28",
+            "value": 2.49
+          },
+          {
+            "date": "2026-10-29",
+            "value": 2.47
+          },
+          {
+            "date": "2026-10-30",
+            "value": 2.46
+          },
+          {
+            "date": "2026-11-02",
+            "value": 2.39
+          },
+          {
+            "date": "2026-11-03",
+            "value": 2.39
+          },
+          {
+            "date": "2026-11-04",
+            "value": 2.3
+          },
+          {
+            "date": "2026-11-05",
+            "value": 2.26
+          },
+          {
+            "date": "2026-11-06",
+            "value": 2.29
+          },
+          {
+            "date": "2026-11-09",
+            "value": 2.25
+          },
+          {
+            "date": "2026-11-10",
+            "value": 2.25
+          },
+          {
+            "date": "2026-11-12",
+            "value": 2.31
+          }
+        ]
+      },
+      "five_year_forward": {
+        "series_id": "T5YIFR",
+        "value": 2.36,
+        "date": "2026-10-01",
+        "change_1d_bp": 0.0,
+        "change_5d_bp": 3.0,
+        "change_20d_bp": 3.0,
+        "release_day_marker": true,
+        "state": "Stable",
+        "history": [
+          {
+            "date": "2026-09-30",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-01",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-02",
+            "value": 2.35
+          },
+          {
+            "date": "2026-10-05",
+            "value": 2.36
+          },
+          {
+            "date": "2026-10-06",
+            "value": 2.35
+          },
+          {
+            "date": "2026-10-07",
+            "value": 2.35
+          },
+          {
+            "date": "2026-10-08",
+            "value": 2.33
+          },
+          {
+            "date": "2026-10-09",
+            "value": 2.32
+          },
+          {
+            "date": "2026-10-13",
+            "value": 2.33
+          },
+          {
+            "date": "2026-10-14",
+            "value": 2.34
+          },
+          {
+            "date": "2026-10-15",
+            "value": 2.31
+          },
+          {
+            "date": "2026-10-16",
+            "value": 2.33
+          },
+          {
+            "date": "2026-10-19",
+            "value": 2.32
+          },
+          {
+            "date": "2026-10-20",
+            "value": 2.31
+          },
+          {
+            "date": "2026-10-21",
+            "value": 2.34
+          },
+          {
+            "date": "2026-10-22",
+            "value": 2.19
+          },
+          {
+            "date": "2026-10-23",
+            "value": 2.2
+          },
+          {
+            "date": "2026-10-26",
+            "value": 2.21
+          },
+          {
+            "date": "2026-10-27",
+            "value": 2.25
+          },
+          {
+            "date": "2026-10-28",
+            "value": 2.27
+          },
+          {
+            "date": "2026-10-29",
+            "value": 2.23
+          },
+          {
+            "date": "2026-10-30",
+            "value": 2.22
+          },
+          {
+            "date": "2026-11-02",
+            "value": 2.19
+          },
+          {
+            "date": "2026-11-03",
+            "value": 2.21
+          },
+          {
+            "date": "2026-11-04",
+            "value": 2.22
+          },
+          {
+            "date": "2026-11-05",
+            "value": 2.22
+          },
+          {
+            "date": "2026-11-06",
+            "value": 2.17
+          },
+          {
+            "date": "2026-11-09",
+            "value": 2.19
+          },
+          {
+            "date": "2026-11-10",
+            "value": 2.15
+          },
+          {
+            "date": "2026-11-12",
+            "value": 2.17
+          }
+        ]
+      }
+    },
+    "methodology": "Breakevens are market-implied inflation pricing, not a pure forecast. 1D/5D/20D changes use valid observations, not calendar days. Project-defined primary threshold: 5Y 1D change >= +5 bp is rising, <= -5 bp is falling, otherwise stable. Mixed overrides the primary state only when the primary is threshold-qualified rising/falling and 5Y5Y moves at least 5 bp in the opposite direction. 5Y5Y remains a separate long-run persistence qualifier.",
+    "two_year_series": {
+      "status": "omitted",
+      "reason": "No suitable approved official/public daily 2-year breakeven series identified; no proprietary screenshot or unsupported synthesis used."
+    },
+    "warnings": []
   },
   "historical_comparison_methodology": {
     "method": "recession_stress_extreme",
