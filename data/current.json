@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-20T21:41:40Z",
+  "generated_at": "2026-11-24T01:30:02Z",
   "score_model_version": 2,
   "country": "United States",
   "total_score": 9,
@@ -8,8 +8,8 @@
   "regime": "Slowdown",
   "summary": "Labor-market weakness is visible, while housing, credit, and market-fragility indicators add context to the cycle.",
   "yield_curve_regime": {
-    "spread_2s10s_bp": 28.0,
-    "spread_3m10y_bp": 70.0,
+    "spread_2s10s_bp": 29.0,
+    "spread_3m10y_bp": 55.0,
     "deepest_2s10s_inversion_bp": -241.0,
     "deepest_3m10y_inversion_bp": -189.0,
     "inversion_start_date": "2022-07-06",
@@ -17,177 +17,177 @@
     "months_since_uninversion": 26,
     "curve_phase": "positive_no_recent_inversion",
     "steepening_type": "neutral_or_mixed",
-    "delta_2y_20d_bp": -5.0,
-    "delta_10y_20d_bp": -9.0,
-    "spread_change_20d_bp": -4.0,
+    "delta_2y_20d_bp": -2.0,
+    "delta_10y_20d_bp": -4.0,
+    "spread_change_20d_bp": -2.0,
     "treasury_yields": {
-      "DGS1": 4.62,
-      "DGS2": 4.76,
-      "DGS5": 4.86,
-      "DGS10": 5.04,
-      "DGS30": 5.4
+      "DGS1": 4.51,
+      "DGS2": 4.63,
+      "DGS5": 4.71,
+      "DGS10": 4.92,
+      "DGS30": 5.31
     }
   },
   "treasury_curve": {
-    "as_of": "2026-11-19",
+    "as_of": "2026-11-20",
     "mixed_dates": false,
     "tenors": [
       {
         "label": "1M",
         "series_id": "DGS1MO",
-        "yield": 4.2,
-        "observation_date": "2026-11-19"
+        "yield": 4.19,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "3M",
         "series_id": "DGS3MO",
-        "yield": 4.34,
-        "observation_date": "2026-11-19"
+        "yield": 4.32,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "6M",
         "series_id": "DGS6MO",
-        "yield": 4.42,
-        "observation_date": "2026-11-19"
+        "yield": 4.38,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "1Y",
         "series_id": "DGS1",
-        "yield": 4.62,
-        "observation_date": "2026-11-19"
+        "yield": 4.51,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "2Y",
         "series_id": "DGS2",
-        "yield": 4.76,
-        "observation_date": "2026-11-19"
+        "yield": 4.63,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "3Y",
         "series_id": "DGS3",
-        "yield": 4.81,
-        "observation_date": "2026-11-19"
+        "yield": 4.65,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "5Y",
         "series_id": "DGS5",
-        "yield": 4.86,
-        "observation_date": "2026-11-19"
+        "yield": 4.71,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "7Y",
         "series_id": "DGS7",
-        "yield": 4.94,
-        "observation_date": "2026-11-19"
+        "yield": 4.8,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "10Y",
         "series_id": "DGS10",
-        "yield": 5.04,
-        "observation_date": "2026-11-19"
+        "yield": 4.92,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "20Y",
         "series_id": "DGS20",
-        "yield": 5.43,
-        "observation_date": "2026-11-19"
+        "yield": 5.34,
+        "observation_date": "2026-11-20"
       },
       {
         "label": "30Y",
         "series_id": "DGS30",
-        "yield": 5.4,
-        "observation_date": "2026-11-19"
+        "yield": 5.31,
+        "observation_date": "2026-11-20"
       }
     ],
     "spreads": [
       {
         "id": "10Y_3M",
         "label": "10Y - 3M",
-        "percentage_points": 0.7,
-        "basis_points": 70.0
+        "percentage_points": 0.6,
+        "basis_points": 60.0
       },
       {
         "id": "10Y_2Y",
         "label": "10Y - 2Y",
-        "percentage_points": 0.28,
-        "basis_points": 28.0
+        "percentage_points": 0.29,
+        "basis_points": 29.0
       },
       {
         "id": "30Y_5Y",
         "label": "30Y - 5Y",
-        "percentage_points": 0.54,
-        "basis_points": 54.0
+        "percentage_points": 0.6,
+        "basis_points": 60.0
       },
       {
         "id": "30Y_2Y",
         "label": "30Y - 2Y",
-        "percentage_points": 0.64,
-        "basis_points": 64.0
+        "percentage_points": 0.68,
+        "basis_points": 68.0
       },
       {
         "id": "30Y_10Y",
         "label": "30Y - 10Y",
-        "percentage_points": 0.36,
-        "basis_points": 36.0
+        "percentage_points": 0.39,
+        "basis_points": 39.0
       }
     ],
     "shape": "normal_upward",
     "shape_rule": "steep requires 10Y-3M >= 100 bp plus upward 30Y-5Y slope; otherwise positive upward curves are normal_upward",
     "dynamics": {
       "1M": {
-        "1D": 10.0,
-        "5D": 8.0,
-        "20D": 11.0
+        "1D": -1.0,
+        "5D": 9.0,
+        "20D": 8.0
       },
       "3M": {
-        "1D": 0.0,
-        "5D": 2.0,
-        "20D": 9.0
+        "1D": -2.0,
+        "5D": 0.0,
+        "20D": 10.0
       },
       "6M": {
-        "1D": -1.0,
-        "5D": 0.0,
-        "20D": 7.0
+        "1D": -4.0,
+        "5D": -4.0,
+        "20D": 9.0
       },
       "1Y": {
-        "1D": 0.0,
-        "5D": -3.0,
+        "1D": -11.0,
+        "5D": -14.0,
         "20D": 10.0
       },
       "2Y": {
-        "1D": -4.0,
-        "5D": -10.0,
-        "20D": -5.0
+        "1D": -13.0,
+        "5D": -25.0,
+        "20D": -2.0
       },
       "3Y": {
-        "1D": -3.0,
-        "5D": -9.0,
-        "20D": -8.0
+        "1D": -16.0,
+        "5D": -27.0,
+        "20D": -7.0
       },
       "5Y": {
-        "1D": -3.0,
-        "5D": -9.0,
-        "20D": -9.0
+        "1D": -15.0,
+        "5D": -27.0,
+        "20D": -7.0
       },
       "7Y": {
-        "1D": -2.0,
-        "5D": -8.0,
-        "20D": -9.0
+        "1D": -14.0,
+        "5D": -25.0,
+        "20D": -6.0
       },
       "10Y": {
-        "1D": -3.0,
-        "5D": -6.0,
-        "20D": -9.0
-      },
-      "20Y": {
-        "1D": -1.0,
-        "5D": -5.0,
+        "1D": -12.0,
+        "5D": -23.0,
         "20D": -4.0
       },
+      "20Y": {
+        "1D": -9.0,
+        "5D": -18.0,
+        "20D": 2.0
+      },
       "30Y": {
-        "1D": -1.0,
-        "5D": -3.0,
-        "20D": -2.0
+        "1D": -9.0,
+        "5D": -16.0,
+        "20D": 2.0
       }
     },
     "movement": "mixed",
@@ -423,14 +423,14 @@
       {
         "id": "volatility-release",
         "name": "Volatility Release",
-        "state": "stress",
-        "value": 28.44,
-        "display_value": "28.44 | 20D avg 20.88 | 20D change +9.41",
+        "state": "severe",
+        "value": 35.89,
+        "display_value": "35.89 | 20D avg 21.70 | 20D change +16.44",
         "explanation": "VIX release relative to its level and 20-day baseline.",
-        "observation_date": "2026-11-19",
+        "observation_date": "2026-11-20",
         "market_confirmation": true,
-        "average20": 20.877000000000002,
-        "change20": 9.41
+        "average20": 21.699,
+        "change20": 16.44
       },
       {
         "id": "financial-stress-confirmation",
@@ -477,7 +477,7 @@
         "name": "Rapid Bull Steepening",
         "state": "calm",
         "value": 0,
-        "display_value": "2Y 20D -5.0 bp | spread 20D -4.0 bp",
+        "display_value": "2Y 20D -2.0 bp | spread 20D -2.0 bp",
         "explanation": "Potential slowdown / Fed-response confirmation when short rates fall rapidly and the curve widens.",
         "observation_date": null,
         "rapid_bull_steepening": false,
@@ -563,8 +563,10 @@
       "regime": "Context"
     }
   ],
-  "data_status": "ok",
-  "warnings": [],
+  "data_status": "partial",
+  "warnings": [
+    "new-home-sales: historical comparison unavailable (RequestException)"
+  ],
   "indicators": [
     {
       "id": "payrolls",
@@ -912,16 +914,16 @@
       "id": "yield-curve",
       "name": "Yield Curve 2s10s",
       "category": "Rates",
-      "value": 28.000000000000004,
-      "display_value": "+28 bp · positive_no_recent_inversion / neutral_or_mixed",
+      "value": 28.999999999999996,
+      "display_value": "+29 bp · positive_no_recent_inversion / neutral_or_mixed",
       "unit": "basis points",
       "explanation": "Curve is positive, but partly because long yields remain elevated",
       "source": "FRED",
-      "observation_date": "2026-11-19",
+      "observation_date": "2026-11-23",
       "scored": true,
       "yield_curve_regime": {
-        "spread_2s10s_bp": 28.0,
-        "spread_3m10y_bp": 70.0,
+        "spread_2s10s_bp": 29.0,
+        "spread_3m10y_bp": 55.0,
         "deepest_2s10s_inversion_bp": -241.0,
         "deepest_3m10y_inversion_bp": -189.0,
         "inversion_start_date": "2022-07-06",
@@ -929,177 +931,177 @@
         "months_since_uninversion": 26,
         "curve_phase": "positive_no_recent_inversion",
         "steepening_type": "neutral_or_mixed",
-        "delta_2y_20d_bp": -5.0,
-        "delta_10y_20d_bp": -9.0,
-        "spread_change_20d_bp": -4.0,
+        "delta_2y_20d_bp": -2.0,
+        "delta_10y_20d_bp": -4.0,
+        "spread_change_20d_bp": -2.0,
         "treasury_yields": {
-          "DGS1": 4.62,
-          "DGS2": 4.76,
-          "DGS5": 4.86,
-          "DGS10": 5.04,
-          "DGS30": 5.4
+          "DGS1": 4.51,
+          "DGS2": 4.63,
+          "DGS5": 4.71,
+          "DGS10": 4.92,
+          "DGS30": 5.31
         }
       },
       "treasury_curve": {
-        "as_of": "2026-11-19",
+        "as_of": "2026-11-20",
         "mixed_dates": false,
         "tenors": [
           {
             "label": "1M",
             "series_id": "DGS1MO",
-            "yield": 4.2,
-            "observation_date": "2026-11-19"
+            "yield": 4.19,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "3M",
             "series_id": "DGS3MO",
-            "yield": 4.34,
-            "observation_date": "2026-11-19"
+            "yield": 4.32,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "6M",
             "series_id": "DGS6MO",
-            "yield": 4.42,
-            "observation_date": "2026-11-19"
+            "yield": 4.38,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "1Y",
             "series_id": "DGS1",
-            "yield": 4.62,
-            "observation_date": "2026-11-19"
+            "yield": 4.51,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "2Y",
             "series_id": "DGS2",
-            "yield": 4.76,
-            "observation_date": "2026-11-19"
+            "yield": 4.63,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "3Y",
             "series_id": "DGS3",
-            "yield": 4.81,
-            "observation_date": "2026-11-19"
+            "yield": 4.65,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "5Y",
             "series_id": "DGS5",
-            "yield": 4.86,
-            "observation_date": "2026-11-19"
+            "yield": 4.71,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "7Y",
             "series_id": "DGS7",
-            "yield": 4.94,
-            "observation_date": "2026-11-19"
+            "yield": 4.8,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "10Y",
             "series_id": "DGS10",
-            "yield": 5.04,
-            "observation_date": "2026-11-19"
+            "yield": 4.92,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "20Y",
             "series_id": "DGS20",
-            "yield": 5.43,
-            "observation_date": "2026-11-19"
+            "yield": 5.34,
+            "observation_date": "2026-11-20"
           },
           {
             "label": "30Y",
             "series_id": "DGS30",
-            "yield": 5.4,
-            "observation_date": "2026-11-19"
+            "yield": 5.31,
+            "observation_date": "2026-11-20"
           }
         ],
         "spreads": [
           {
             "id": "10Y_3M",
             "label": "10Y - 3M",
-            "percentage_points": 0.7,
-            "basis_points": 70.0
+            "percentage_points": 0.6,
+            "basis_points": 60.0
           },
           {
             "id": "10Y_2Y",
             "label": "10Y - 2Y",
-            "percentage_points": 0.28,
-            "basis_points": 28.0
+            "percentage_points": 0.29,
+            "basis_points": 29.0
           },
           {
             "id": "30Y_5Y",
             "label": "30Y - 5Y",
-            "percentage_points": 0.54,
-            "basis_points": 54.0
+            "percentage_points": 0.6,
+            "basis_points": 60.0
           },
           {
             "id": "30Y_2Y",
             "label": "30Y - 2Y",
-            "percentage_points": 0.64,
-            "basis_points": 64.0
+            "percentage_points": 0.68,
+            "basis_points": 68.0
           },
           {
             "id": "30Y_10Y",
             "label": "30Y - 10Y",
-            "percentage_points": 0.36,
-            "basis_points": 36.0
+            "percentage_points": 0.39,
+            "basis_points": 39.0
           }
         ],
         "shape": "normal_upward",
         "shape_rule": "steep requires 10Y-3M >= 100 bp plus upward 30Y-5Y slope; otherwise positive upward curves are normal_upward",
         "dynamics": {
           "1M": {
-            "1D": 10.0,
-            "5D": 8.0,
-            "20D": 11.0
+            "1D": -1.0,
+            "5D": 9.0,
+            "20D": 8.0
           },
           "3M": {
-            "1D": 0.0,
-            "5D": 2.0,
-            "20D": 9.0
+            "1D": -2.0,
+            "5D": 0.0,
+            "20D": 10.0
           },
           "6M": {
-            "1D": -1.0,
-            "5D": 0.0,
-            "20D": 7.0
+            "1D": -4.0,
+            "5D": -4.0,
+            "20D": 9.0
           },
           "1Y": {
-            "1D": 0.0,
-            "5D": -3.0,
+            "1D": -11.0,
+            "5D": -14.0,
             "20D": 10.0
           },
           "2Y": {
-            "1D": -4.0,
-            "5D": -10.0,
-            "20D": -5.0
+            "1D": -13.0,
+            "5D": -25.0,
+            "20D": -2.0
           },
           "3Y": {
-            "1D": -3.0,
-            "5D": -9.0,
-            "20D": -8.0
+            "1D": -16.0,
+            "5D": -27.0,
+            "20D": -7.0
           },
           "5Y": {
-            "1D": -3.0,
-            "5D": -9.0,
-            "20D": -9.0
+            "1D": -15.0,
+            "5D": -27.0,
+            "20D": -7.0
           },
           "7Y": {
-            "1D": -2.0,
-            "5D": -8.0,
-            "20D": -9.0
+            "1D": -14.0,
+            "5D": -25.0,
+            "20D": -6.0
           },
           "10Y": {
-            "1D": -3.0,
-            "5D": -6.0,
-            "20D": -9.0
-          },
-          "20Y": {
-            "1D": -1.0,
-            "5D": -5.0,
+            "1D": -12.0,
+            "5D": -23.0,
             "20D": -4.0
           },
+          "20Y": {
+            "1D": -9.0,
+            "5D": -18.0,
+            "20D": 2.0
+          },
           "30Y": {
-            "1D": -1.0,
-            "5D": -3.0,
-            "20D": -2.0
+            "1D": -9.0,
+            "5D": -16.0,
+            "20D": 2.0
           }
         },
         "movement": "mixed",
@@ -1332,9 +1334,9 @@
         "series_id": "T10Y2Y",
         "history_start_date": "1976-06-01",
         "today": {
-          "value": 28.000000000000004,
-          "date": "2026-11-19",
-          "display": "+28 bp"
+          "value": 28.999999999999996,
+          "date": "2026-11-23",
+          "display": "+29 bp"
         },
         "recession_2020": {
           "value": 12.0,
@@ -1449,31 +1451,11 @@
       "score": 1,
       "risk_score": 50,
       "historical_comparison": {
-        "method": "recession_stress_extreme",
+        "method": "unavailable",
         "metric": "level",
         "direction": "lower_is_worse",
         "series_id": "HSN1F",
-        "history_start_date": "1963-01-01",
-        "today": {
-          "value": 676.0,
-          "date": "2026-09-01",
-          "display": "0.68M"
-        },
-        "recession_2020": {
-          "value": 576.0,
-          "date": "2020-04-01",
-          "display": "0.58M"
-        },
-        "recession_2008": {
-          "value": 336.0,
-          "date": "2009-01-01",
-          "display": "0.34M"
-        },
-        "recession_2001": {
-          "value": 853.0,
-          "date": "2001-09-01",
-          "display": "0.85M"
-        }
+        "reason": "N/A — historical fetch failed for HSN1F"
       }
     },
     {
@@ -1686,12 +1668,12 @@
       "id": "vix",
       "name": "VIX",
       "category": "Market Fragility / Stress",
-      "value": 28.44,
-      "display_value": "28.44 close | 20D avg 20.88 | 20D change +9.41",
+      "value": 35.89,
+      "display_value": "35.89 close | 20D avg 21.70 | 20D change +16.44",
       "unit": "index",
       "explanation": "Market-volatility context",
       "source": "FRED",
-      "observation_date": "2026-11-19",
+      "observation_date": "2026-11-20",
       "scored": false,
       "score": null,
       "risk_score": null,
@@ -1702,9 +1684,9 @@
         "series_id": "VIXCLS",
         "history_start_date": "1990-01-02",
         "today": {
-          "value": 28.44,
-          "date": "2026-11-19",
-          "display": "28.44"
+          "value": 35.89,
+          "date": "2026-11-20",
+          "display": "35.89"
         },
         "recession_2020": {
           "value": 82.69,
@@ -1880,227 +1862,20 @@
     }
   ],
   "inflation_release": {
-    "release_month": "2026-10",
+    "release_month": null,
     "release_date": null,
     "source": "BLS Public Data API v2",
-    "source_status": "registered_api",
-    "delivery_status": "live_registered_api",
+    "source_status": "unavailable",
     "source_url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
-    "manifest": {
-      "headline": {
-        "series_id": "CUSR0000SA0",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "core": {
-        "series_id": "CUSR0000SA0L1E",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "food": {
-        "series_id": "CUSR0000SAF1",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "energy": {
-        "series_id": "CUSR0000SA0E",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "gasoline": {
-        "series_id": "CUSR0000SETB01",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "shelter": {
-        "series_id": "CUSR0000SAH1",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "rent_primary": {
-        "series_id": "CUSR0000SEHA",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "oer": {
-        "series_id": "CUSR0000SEHC",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "lodging": {
-        "series_id": "CUSR0000SEHB",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "medical_care": {
-        "series_id": "CUSR0000SAM2",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "communication": {
-        "series_id": "CUSR0000SAE2",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "telephone_services": {
-        "series_id": "CUUR0000SEED",
-        "seasonal_adjustment": "not_seasonally_adjusted",
-        "release_mom_policy": "NSA monthly change"
-      },
-      "transportation_services": {
-        "series_id": "CUSR0000SETD",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "recreation": {
-        "series_id": "CUSR0000SER",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "education": {
-        "series_id": "CUSR0000SEEB",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "household_operations": {
-        "series_id": "CUSR0000SEGD",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "apparel": {
-        "series_id": "CUUR0000SECA",
-        "seasonal_adjustment": "not_seasonally_adjusted",
-        "release_mom_policy": "NSA monthly change"
-      },
-      "new_vehicles": {
-        "series_id": "CUSR0000SETA01",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "used_cars": {
-        "series_id": "CUSR0000SETA02",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      },
-      "motor_vehicle_insurance": {
-        "series_id": "CUUR0000SETE02",
-        "seasonal_adjustment": "not_seasonally_adjusted",
-        "release_mom_policy": "NSA monthly change"
-      },
-      "airline_fares": {
-        "series_id": "CUSR0000SETG01",
-        "seasonal_adjustment": "seasonally_adjusted",
-        "release_mom_policy": "SA monthly change"
-      }
-    },
-    "headline": {
-      "mom": 0.3502845690429357,
-      "yoy": null,
-      "mom_3m_ann": 5.723235103413082,
-      "mom_6m_ann": 3.0731299573087068,
-      "date": "2026-10-01"
-    },
-    "core": {
-      "mom": 0.2962560785609636,
-      "yoy": null,
-      "mom_3m_ann": 3.7464069586534032,
-      "mom_6m_ann": 2.6872802332521983,
-      "date": "2026-10-01"
-    },
-    "contributors": [
-      {
-        "category": "food",
-        "mom": 0.4727842340581656,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": "0.064"
-      },
-      {
-        "category": "energy",
-        "mom": 0.6994559458195493,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": "0.053"
-      },
-      {
-        "category": "shelter",
-        "mom": 0.30469451827703775,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": "0.108"
-      },
-      {
-        "category": "gasoline",
-        "mom": 1.0383526574923474,
-        "yoy": 37.357531472141716,
-        "date": "2026-10-01",
-        "w1": "0.042"
-      },
-      {
-        "category": "communication",
-        "mom": -0.08698370414667034,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": "-0.003"
-      },
-      {
-        "category": "medical_care",
-        "mom": 0.30165245121225315,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": "0.021"
-      },
-      {
-        "category": "telephone_services",
-        "mom": -0.16631843743827313,
-        "yoy": null,
-        "date": "2026-10-01",
-        "w1": null
-      }
-    ],
+    "headline": {},
+    "core": {},
+    "contributors": [],
     "core_contributors": [],
     "outliers": [],
-    "trend_buckets": {
-      "breadth": {
-        "eligible_components": 18,
-        "rising_mom": 14,
-        "rising_above_0_2": 13,
-        "rising_above_0_4": 6,
-        "declining_mom": 4
-      }
-    },
-    "breadth": {
-      "eligible_components": 18,
-      "rising_mom": 14,
-      "rising_above_0_2": 13,
-      "rising_above_0_4": 6,
-      "declining_mom": 4
-    },
-    "shelter": {
-      "shelter": {
-        "mom": 0.30469451827703775,
-        "yoy": null,
-        "mom_3m_ann": 3.9049447564422524,
-        "mom_6m_ann": 3.1092915148670075,
-        "date": "2026-10-01"
-      }
-    },
-    "energy": {
-      "energy": {
-        "mom": 0.6994559458195493,
-        "yoy": null,
-        "mom_3m_ann": 36.81905667836085,
-        "mom_6m_ann": 8.914167761375236,
-        "date": "2026-10-01"
-      },
-      "gasoline": {
-        "mom": 1.0383526574923474,
-        "yoy": 37.357531472141716,
-        "mom_3m_ann": 72.02659429356906,
-        "mom_6m_ann": 15.682569901095377,
-        "date": "2026-10-01"
-      }
-    },
+    "breadth": {},
+    "trend_buckets": {},
+    "shelter": {},
+    "energy": {},
     "nowcast": {
       "source": "Cleveland Fed Inflation Nowcasting",
       "source_url": "https://www.clevelandfed.org/indicators-and-data/inflation-nowcasting",
@@ -2113,7 +1888,6 @@
       "note": "Public model-based estimate; values require the Cleveland Fed's rendered data view."
     },
     "validation_targets": {
-      "release_month": "2026-10",
       "headline_mom_expected": 0.4,
       "headline_yoy_expected": 3.4,
       "core_mom_expected": 0.3,
@@ -2123,20 +1897,14 @@
       "shelter_mom_expected": 0.3,
       "communication_mom_expected": 2.3,
       "medical_care_mom_expected": -0.2,
-      "telephone_services_mom_expected": 5.4,
-      "note": "Official August 2026 validation targets from PROJECT_INSTRUCTIONS; release-page/table parser results are retained separately."
+      "telephone_services_mom_expected": 5.4
     },
     "takeaway": {
-      "text": "Headline and core inflation are shown with official category moves and BLS W1 effects; core-specific contribution remains disabled until validated."
+      "text": "The August CPI release could not be retrieved in this run; no unsupported CPI values are shown."
     },
     "warnings": [
-      "W1 effects are official BLS aspect fields and are not Core CPI contributions."
-    ],
-    "validation": {
-      "validation_status": "pass",
-      "validated_at": "2026-11-20T21:41:42.218473Z",
-      "method": "registered_api_aggregates_and_corrected_mappings"
-    }
+      "Registered BLS API request failed and release-page access was unavailable (HTTPError); no CPI values published."
+    ]
   },
   "wage_inflation": {
     "source": "FRED / BLS",
@@ -2224,296 +1992,10 @@
   },
   "inflation_expectations": {
     "source": "FRED / Federal Reserve",
-    "source_status": "live",
-    "release_date": "2026-10-01",
-    "cpi_reference_month": "2026-10",
-    "state": "Stable",
-    "divergence": "Mixed market signal",
-    "cpi_context": {
-      "headline_mom": 0.3502845690429357,
-      "headline_yoy": null,
-      "core_mom": 0.2962560785609636,
-      "breadth": {
-        "eligible_components": 18,
-        "rising_mom": 14,
-        "rising_above_0_2": 13,
-        "rising_above_0_4": 6,
-        "declining_mom": 4
-      },
-      "firm_broad": true
-    },
-    "series": {
-      "five_year_breakeven": {
-        "series_id": "T5YIE",
-        "value": 2.36,
-        "date": "2026-10-01",
-        "change_1d_bp": 0.0,
-        "change_5d_bp": 3.0,
-        "change_20d_bp": 1.0,
-        "release_day_marker": true,
-        "state": "Stable",
-        "history": [
-          {
-            "date": "2026-10-07",
-            "value": 2.37
-          },
-          {
-            "date": "2026-10-08",
-            "value": 2.37
-          },
-          {
-            "date": "2026-10-09",
-            "value": 2.34
-          },
-          {
-            "date": "2026-10-13",
-            "value": 2.33
-          },
-          {
-            "date": "2026-10-14",
-            "value": 2.36
-          },
-          {
-            "date": "2026-10-15",
-            "value": 2.33
-          },
-          {
-            "date": "2026-10-16",
-            "value": 2.37
-          },
-          {
-            "date": "2026-10-19",
-            "value": 2.38
-          },
-          {
-            "date": "2026-10-20",
-            "value": 2.39
-          },
-          {
-            "date": "2026-10-21",
-            "value": 2.4
-          },
-          {
-            "date": "2026-10-22",
-            "value": 2.45
-          },
-          {
-            "date": "2026-10-23",
-            "value": 2.48
-          },
-          {
-            "date": "2026-10-26",
-            "value": 2.47
-          },
-          {
-            "date": "2026-10-27",
-            "value": 2.45
-          },
-          {
-            "date": "2026-10-28",
-            "value": 2.49
-          },
-          {
-            "date": "2026-10-29",
-            "value": 2.47
-          },
-          {
-            "date": "2026-10-30",
-            "value": 2.46
-          },
-          {
-            "date": "2026-11-02",
-            "value": 2.39
-          },
-          {
-            "date": "2026-11-03",
-            "value": 2.39
-          },
-          {
-            "date": "2026-11-04",
-            "value": 2.3
-          },
-          {
-            "date": "2026-11-05",
-            "value": 2.26
-          },
-          {
-            "date": "2026-11-06",
-            "value": 2.29
-          },
-          {
-            "date": "2026-11-09",
-            "value": 2.25
-          },
-          {
-            "date": "2026-11-10",
-            "value": 2.25
-          },
-          {
-            "date": "2026-11-12",
-            "value": 2.31
-          },
-          {
-            "date": "2026-11-13",
-            "value": 2.3
-          },
-          {
-            "date": "2026-11-16",
-            "value": 2.25
-          },
-          {
-            "date": "2026-11-17",
-            "value": 2.26
-          },
-          {
-            "date": "2026-11-18",
-            "value": 2.23
-          },
-          {
-            "date": "2026-11-19",
-            "value": 2.22
-          }
-        ]
-      },
-      "five_year_forward": {
-        "series_id": "T5YIFR",
-        "value": 2.36,
-        "date": "2026-10-01",
-        "change_1d_bp": 0.0,
-        "change_5d_bp": 3.0,
-        "change_20d_bp": 3.0,
-        "release_day_marker": true,
-        "state": "Stable",
-        "history": [
-          {
-            "date": "2026-10-07",
-            "value": 2.35
-          },
-          {
-            "date": "2026-10-08",
-            "value": 2.33
-          },
-          {
-            "date": "2026-10-09",
-            "value": 2.32
-          },
-          {
-            "date": "2026-10-13",
-            "value": 2.33
-          },
-          {
-            "date": "2026-10-14",
-            "value": 2.34
-          },
-          {
-            "date": "2026-10-15",
-            "value": 2.31
-          },
-          {
-            "date": "2026-10-16",
-            "value": 2.33
-          },
-          {
-            "date": "2026-10-19",
-            "value": 2.32
-          },
-          {
-            "date": "2026-10-20",
-            "value": 2.31
-          },
-          {
-            "date": "2026-10-21",
-            "value": 2.34
-          },
-          {
-            "date": "2026-10-22",
-            "value": 2.19
-          },
-          {
-            "date": "2026-10-23",
-            "value": 2.2
-          },
-          {
-            "date": "2026-10-26",
-            "value": 2.21
-          },
-          {
-            "date": "2026-10-27",
-            "value": 2.25
-          },
-          {
-            "date": "2026-10-28",
-            "value": 2.27
-          },
-          {
-            "date": "2026-10-29",
-            "value": 2.23
-          },
-          {
-            "date": "2026-10-30",
-            "value": 2.22
-          },
-          {
-            "date": "2026-11-02",
-            "value": 2.19
-          },
-          {
-            "date": "2026-11-03",
-            "value": 2.21
-          },
-          {
-            "date": "2026-11-04",
-            "value": 2.22
-          },
-          {
-            "date": "2026-11-05",
-            "value": 2.22
-          },
-          {
-            "date": "2026-11-06",
-            "value": 2.17
-          },
-          {
-            "date": "2026-11-09",
-            "value": 2.19
-          },
-          {
-            "date": "2026-11-10",
-            "value": 2.15
-          },
-          {
-            "date": "2026-11-12",
-            "value": 2.17
-          },
-          {
-            "date": "2026-11-13",
-            "value": 2.18
-          },
-          {
-            "date": "2026-11-16",
-            "value": 2.15
-          },
-          {
-            "date": "2026-11-17",
-            "value": 2.16
-          },
-          {
-            "date": "2026-11-18",
-            "value": 2.15
-          },
-          {
-            "date": "2026-11-19",
-            "value": 2.1
-          }
-        ]
-      }
-    },
-    "methodology": "Breakevens are market-implied inflation pricing, not a pure forecast. 1D/5D/20D changes use valid observations, not calendar days. Project-defined primary threshold: 5Y 1D change >= +5 bp is rising, <= -5 bp is falling, otherwise stable. Mixed overrides the primary state only when the primary is threshold-qualified rising/falling and 5Y5Y moves at least 5 bp in the opposite direction. 5Y5Y remains a separate long-run persistence qualifier.",
-    "two_year_series": {
-      "status": "omitted",
-      "reason": "No suitable approved official/public daily 2-year breakeven series identified; no proprietary screenshot or unsupported synthesis used."
-    },
-    "warnings": []
+    "source_status": "unavailable",
+    "state": "Unavailable",
+    "release_date": null,
+    "series": {}
   },
   "historical_comparison_methodology": {
     "method": "recession_stress_extreme",
